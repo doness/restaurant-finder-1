@@ -40,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         //Calls a method which populates the map based on user input passed from MainActivity
-        //and data retreived from the API.
+        //and data retrieved from the API.
         populateMap();
 
         // Add a marker in Sydney and move the camera
