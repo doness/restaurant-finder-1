@@ -7,8 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tvRating) TextView tvRating;
     @BindView(R.id.btnFindNearby) Button btnFindNearby;
     @BindView(R.id.toolbarMain) Toolbar toolbarMain;
+    @BindView(R.id.spCuisine) Spinner spCuisine;
+    @BindView(R.id.spCategory) Spinner spCategory;
+    @BindView(R.id.spPrice) Spinner spPrice;
+    @BindView(R.id.spRating) Spinner spRating;
 
 
     @Override
@@ -43,28 +49,22 @@ public class MainActivity extends AppCompatActivity {
         //Bind Butterknife to the view
         unbinder = ButterKnife.bind(this);
         language_type = true;
-        setupViews();
+
         setupToolbar();
+        setupViews();
+        setupButton();
 
         /**
          * TODO: Create and implement views that let the user provide input for the API and a way
          * to get to the MapsActivity
          */
+    }
 
-        //Set a click listener on the button
-        //when pressed, check if all inputs are correct
-        //if they are, pass relevant data and start MapsActivity
-        btnFindNearby.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-                //Testing the map activity
-                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
+        unbinder.unbind();
     }
 
     @Override
@@ -122,6 +122,19 @@ public class MainActivity extends AppCompatActivity {
             tvRating.setText(Constants.EN_RATING);
             btnFindNearby.setText(Constants.EN_BUTTON);
             toolbarMain.setTitle(Constants.EN_MAIN_TOOLBAR_TITLE);
+            ArrayAdapter<String> cuisine_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_CUISINE_LIST);
+            spCuisine.setAdapter(cuisine_adapter);
+            ArrayAdapter<String> category_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_CATEGORY_LIST);
+            spCategory.setAdapter(category_adapter);
+            ArrayAdapter<String> price_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_PRICE_LIST);
+            spPrice.setAdapter(price_adapter);
+
+            ArrayAdapter<String> rating_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_RATING_LIST);
+            spRating.setAdapter(rating_adapter);
         }
         else {
 
@@ -135,6 +148,19 @@ public class MainActivity extends AppCompatActivity {
             tvRating.setText(Constants.BG_RATING);
             btnFindNearby.setText(Constants.BG_BUTTON);
             toolbarMain.setTitle(Constants.BG_MAIN_TOOLBAR_TITLE);
+            ArrayAdapter<String> cuisine_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_CUISINE_LIST);
+            spCuisine.setAdapter(cuisine_adapter);
+            ArrayAdapter<String> category_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_CATEGORY_LIST);
+            spCategory.setAdapter(category_adapter);
+            ArrayAdapter<String> price_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_PRICE_LIST);
+            spPrice.setAdapter(price_adapter);
+
+            ArrayAdapter<String> rating_adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_RATING_LIST);
+            spRating.setAdapter(rating_adapter);
         }
     }
 
@@ -142,5 +168,22 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbarMain);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    private void setupButton() {
+
+        //Set a click listener on the button
+        //when pressed, check if all inputs are correct
+        //if they are, pass relevant data and start MapsActivity
+
+        btnFindNearby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Testing the map activity
+                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

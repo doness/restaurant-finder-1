@@ -86,8 +86,7 @@
             android:layout_toEndOf="@id/tvCuisine"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/tvFilters"/>
+            android:layout_alignBaseline="@id/tvCuisine" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,8 +107,7 @@
             android:layout_toEndOf="@id/tvCategory"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/spCuisine"/>
+            android:layout_alignBaseline="@id/tvCategory"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,8 +128,7 @@
             android:layout_toEndOf="@id/tvPrice"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/spCategory" />
+            android:layout_alignBaseline="@id/tvPrice" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -152,8 +149,7 @@
             android:layout_toEndOf="@id/tvRating"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/spPrice"/>
+            android:layout_alignBaseline="@id/tvRating"/>
 
         <Button
             android:layout_width="wrap_content"
