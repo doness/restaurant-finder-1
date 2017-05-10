@@ -7,23 +7,40 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.laptop.finalproject.constants.Constants;
+import com.example.laptop.finalproject.contracts.MainContract;
+import com.example.laptop.finalproject.injection.MyApp;
+import com.example.laptop.finalproject.presenters.MainPresenter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.IMainView {
+    //initialise the variables
+    @Inject MainPresenter presenter;
 
     Unbinder unbinder;
     boolean language_type;
+    boolean location_check;
+    boolean input_validity;
+    String target_location;
+    String target_cuisine;
+    String target_category;
+    String target_price;
+    String target_rating;
 
     @BindView(R.id.etPostcode) EditText etPostcode;
     @BindView(R.id.tvOr) TextView tvOr;
@@ -40,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.spPrice) Spinner spPrice;
     @BindView(R.id.spRating) Spinner spRating;
 
-
+    //Initialise the Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,24 +65,32 @@ public class MainActivity extends AppCompatActivity {
 
         //Bind Butterknife to the view
         unbinder = ButterKnife.bind(this);
-        language_type = true;
+        //Inject and bind the presenter to the view
+        ((MyApp)getApplication()).getRestaurants_component().inject(this);
+        presenter.bind(this);
 
+        //sets default values to gloval variables
+        initDefaultValues();
+        //initialise the toolbar
         setupToolbar();
+        //assign the views with the correct language option (EN by default)
         setupViews();
+        //assign listeners
+        setupListeners();
+        //assign the button
         setupButton();
-
-        /**
-         * TODO: Create and implement views that let the user provide input for the API and a way
-         * to get to the MapsActivity
-         */
     }
 
+    //Clean up after the Activity ends
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
         unbinder.unbind();
+        presenter.unbind();
     }
+
+    //View logic below
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
+
+        //check which language has been selected and setup the views accordingly
 
         if (language_type) {
 
@@ -173,17 +200,156 @@ public class MainActivity extends AppCompatActivity {
     private void setupButton() {
 
         //Set a click listener on the button
-        //when pressed, check if all inputs are correct
-        //if they are, pass relevant data and start MapsActivity
+        //when pressed, collect all user inputs
+        //and pass to presenter
 
         btnFindNearby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //Testing the map activity
-                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-                startActivity(intent);
+                checkLocation();
+
+                if (input_validity) {
+
+                    presenter.getUserInputs(getApplicationContext(), target_location, target_cuisine, target_category,
+                            target_price, target_rating);
+                }
+
+                else {
+                    if (language_type) {
+
+                        Toast.makeText(getApplicationContext(), Constants.EN_TOAST_ONLY_ONE_INPUT,
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else {
+
+                        Toast.makeText(getApplicationContext(), Constants.BG_TOAST_ONLY_ONE_INPUT,
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
             }
         });
+    }
+
+    private void checkLocation() {
+        //check if the user wants to use GPS location or postcode
+
+        if (location_check) {
+
+            if ((etPostcode.getText().toString()).equals("")) {
+
+                this.input_validity = true;
+                this.target_location = Constants.USE_MY_LOCATION;
+            }
+            else {
+
+                this.input_validity = false;
+            }
+        }
+        else {
+
+            this.target_location = etPostcode.getText().toString();
+            this.input_validity = true;
+        }
+    }
+
+    private void setupListeners(){
+        //assign listeners to all the views that require user input
+        //store the selected data so it can be passed to the presenter
+
+        swUseMyLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                location_check = isChecked;
+            }
+        });
+
+        spCuisine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                target_cuisine = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                target_category = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                target_price = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spRating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                target_rating = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void confirmData(boolean dataState) {
+
+        //confirm the user inputs are all valid
+        //if not, inform the user
+        //otherwise, start MapsActivity
+
+        if (!dataState){
+            if (language_type) {
+
+                Toast.makeText(this, Constants.EN_TOAST_INVALID_POSTCODE, Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(this, Constants.BG_TOAST_INVALID_POSTCODE, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        else {
+            //Start the map activity
+            Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void initDefaultValues() {
+
+        //assign the default values to the global variables
+
+        this.location_check = false;
+        this.language_type = true;
+        this.target_location = "";
+        this.target_cuisine = "";
+        this.target_category = "";
+        this.target_price = "";
+        this.target_rating = "";
+        this.input_validity = false;
     }
 }

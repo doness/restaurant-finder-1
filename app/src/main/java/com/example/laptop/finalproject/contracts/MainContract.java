@@ -1,16 +1,20 @@
 package com.example.laptop.finalproject.contracts;
 
 
+import android.content.Context;
+
 public interface MainContract {
 
     interface IMainPresenter{
 
-        void getUserInputs(String location, String cuisine, String category, String price, String reviews);
+        void bind(IMainView view);
+        void getUserInputs(Context context, String location, String cuisine, String category, String price, String reviews);
+        void unbind();
     }
 
     interface IMainView{
 
-        void confirmData(String dataState);
+        void confirmData(boolean dataState);
     }
 }
 
