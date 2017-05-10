@@ -12,6 +12,8 @@ import com.example.laptop.finalproject.interacters.MainInteracter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -65,11 +67,21 @@ public class MainPresenter implements MainContract.IMainPresenter{
 
         else {
 
+            inputValidity = false;
+
+            String regex = "^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$";
+
+            Pattern pattern = Pattern.compile(regex);
+
+            Matcher matcher = pattern.matcher(location);
+
             maps_location = false;
             Geocoder geoCoder = new Geocoder(context ,Locale.getDefault());
             List<Address> address = null;
 
-            if (geoCoder != null) {
+            Log.i("Debugging", "Matcher is: " + String.valueOf(matcher.matches()));
+
+            if (matcher.matches()) {
                 boolean b = true;
                 try {
                     address = geoCoder.getFromLocationName(location, 10);
