@@ -8,10 +8,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 import rx.Observable;
 
-/**
- * Created by laptop on 10/05/2017.
- */
-
 public interface IRestaurantsAPI {
 
     @Headers({

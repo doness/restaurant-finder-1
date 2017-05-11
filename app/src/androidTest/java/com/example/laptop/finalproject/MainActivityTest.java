@@ -14,10 +14,14 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Test class for MainActivity, implementation testing with Espresso
@@ -62,5 +66,46 @@ public class MainActivityTest {
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         onView(withText(R.string.english)).perform(click());
         onView(withId(R.id.tvOr)).check(matches(withText(Constants.EN_OR)));
+    }
+    //Test if the location checker works
+    @Test
+    public void testLocationVerification() throws Exception {
+
+        onView(withId(R.id.btnFindNearby)).perform(click());
+        onView(withText(Constants.EN_TOAST_INVALID_POSTCODE)).inRoot(withDecorView(not(activityTestRule
+                .getActivity()
+                .getWindow()
+                .getDecorView()))).check(matches(isDisplayed()));
+
+        Thread.sleep(5000);
+
+        onView(withId(R.id.etPostcode)).perform(typeText("ashfbidsb"), closeSoftKeyboard());
+        onView(withId(R.id.btnFindNearby)).perform(click());
+        onView(withText(Constants.EN_TOAST_INVALID_POSTCODE)).inRoot(withDecorView(not(activityTestRule
+                .getActivity()
+                .getWindow()
+                .getDecorView()))).check(matches(isDisplayed()));
+
+        Thread.sleep(5000);
+
+        onView(withId(R.id.swUseMyLocation)).perform(click());
+        onView(withId(R.id.btnFindNearby)).perform(click());
+        onView(withText(Constants.EN_TOAST_ONLY_ONE_INPUT)).inRoot(withDecorView(not(activityTestRule
+                .getActivity()
+                .getWindow()
+                .getDecorView()))).check(matches(isDisplayed()));
+
+    }
+
+    //Test if starting the next activity works
+    @Test
+    public void testActivityTransition() throws Exception {
+
+        onView(withId(R.id.etPostcode)).perform(typeText("BR1 5AE"), closeSoftKeyboard());
+        onView(withId(R.id.btnFindNearby)).perform(click());
+
+        Thread.sleep(1000);
+
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 }

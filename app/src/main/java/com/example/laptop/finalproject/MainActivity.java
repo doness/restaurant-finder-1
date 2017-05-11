@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.injection.MyApp;
+import com.example.laptop.finalproject.models.MarkerDataParcel;
 import com.example.laptop.finalproject.presenters.MainPresenter;
 
 import javax.inject.Inject;
@@ -333,10 +334,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         }
 
         else {
-            //Start the map activity
-            Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-            startActivity(intent);
+            //Prepare the data so it can be sent to the map activity
+            presenter.fetchMarkerData();
         }
+    }
+
+    @Override
+    public void startMapActivity(MarkerDataParcel markerDataParcel) {
+
+        Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+        intent.putExtra("markerData", markerDataParcel);
+        startActivity(intent);
     }
 
     public void initDefaultValues() {

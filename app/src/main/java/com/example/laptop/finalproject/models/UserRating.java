@@ -7,7 +7,7 @@ public class UserRating {
 
     @SerializedName("aggregate_rating")
     @Expose
-    private Integer aggregateRating;
+    private double aggregateRating;
     @SerializedName("rating_text")
     @Expose
     private String ratingText;
@@ -18,11 +18,11 @@ public class UserRating {
     @Expose
     private Integer votes;
 
-    public Integer getAggregateRating() {
+    public double getAggregateRating() {
         return aggregateRating;
     }
 
-    public void setAggregateRating(Integer aggregateRating) {
+    public void setAggregateRating(double aggregateRating) {
         this.aggregateRating = aggregateRating;
     }
 

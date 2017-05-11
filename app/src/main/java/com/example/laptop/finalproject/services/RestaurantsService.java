@@ -11,10 +11,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
-/**
- * Created by laptop on 10/05/2017.
- */
-
 public class RestaurantsService implements MainInteracter {
 
     public RestaurantsService() {

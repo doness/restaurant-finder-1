@@ -138,7 +138,7 @@ public class Constants {
     public static final String EN_TOAST_INVALID_POSTCODE = "Error: Invalid Postcode";
 
     //Bulgarian strings
-    public static final String BG_POSTCODE_HINT = "Въведете пощенския код";
+    public static final String BG_POSTCODE_HINT = "Въведете пощенски код";
     public static final String BG_OR = "ИЛИ";
     public static final String BG_USE_LOCATION = "Използвай моето местоположение";
     public static final String BG_CUISINE = "Вид на кухнята: ";
@@ -151,7 +151,7 @@ public class Constants {
     public static final String [] BG_CUISINE_LIST = {"Изберете вид кухня", "Американска", "Британска", "Бургер",
             "Китайска", "Десерти", "Бързо хранене", "Риба с чипс", "Грил", "Здравословна храна", "Индийска",
             "Интернационална", "Италианска", "Кебап", "Пица", "Суши"};
-    public static final String [] BG_CATEGORY_LIST = {"Изберета категория", "Доставка", "Ресторант", "Нощен", "За Среща",
+    public static final String [] BG_CATEGORY_LIST = {"Изберете категория", "Доставка", "Ресторант", "Нощен", "За Среща",
             "За Вкъщи", "Кафенета", "Дневни Менюта", "Закуска", "Обяд", "Вечеря", "Кръчми и Барове",
             "Евтина Доставка", "Клубове и Салони"};
     public static final String [] BG_PRICE_LIST = {"Изберете максимална цена", "£", "££", "£££", "££££"};
