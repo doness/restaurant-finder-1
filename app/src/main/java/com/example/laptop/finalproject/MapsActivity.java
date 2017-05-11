@@ -2,14 +2,17 @@ package com.example.laptop.finalproject;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
+import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.models.MarkerData;
 import com.example.laptop.finalproject.models.MarkerDataParcel;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, MainContract.IMapView {
 
     private GoogleMap mMap;
-    List<MarkerData> markerDataList1;
+    private List<MarkerData> markerData;
 
 
 
@@ -29,16 +32,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        //fetch data to display the markers
         MarkerDataParcel markerDataParcel = getIntent().getParcelableExtra("markerData");
-        markerDataList1 = markerDataParcel.markerDataList;
-
-        if (markerDataParcel != null) {
-
-            Log.i("Debugging", "Got the data in the Map Activity");
-            //Log.i("Debugging", "List is of size" + markerDataList1.size());
-            Log.i("Debugging", "1 and 2 name are: " + markerDataList1.get(0).restaurant_name + ", " +
-                    markerDataList1.get(1).restaurant_name);
-        }
+        markerData = markerDataParcel.markerDataList;
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -73,9 +69,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void populateMap() {
 
-        /**
-         * TODO: Implement the method which populates he map with markers based on user input
-         */
+        mMap.setMinZoomPreference(17);
+        for (int i = 0; i < markerData.size(); i++) {
+
+            LatLng mapLatLng = new LatLng(markerData.get(i).restaurant_lat,
+                    markerData.get(i).restaurant_lon);
+
+           // mMap.setOnInfoWindowClickListener(this);
+            mMap.addMarker(new MarkerOptions()
+                    .position(mapLatLng)
+                    .title(String.valueOf(markerData.get(i).restaurant_name))
+                    .snippet("Offers: " + markerData.get(i).restaurant_cuisines + "; Price: "  +
+                            Constants.EN_PRICE_LIST[(markerData.get(i).restaurant_price)]
+                            + ", User Rating: " + String.valueOf(markerData.get(i).restaurant_rating) ));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mapLatLng));
+
+        }
+
     }
 
     public void getMarkerData() {

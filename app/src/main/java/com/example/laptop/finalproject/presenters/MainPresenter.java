@@ -208,15 +208,12 @@ public class MainPresenter implements MainContract.IMainPresenter{
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.i("Debugging", "error");
                         e.printStackTrace();
 
                     }
 
                     @Override
                     public void onNext(Results results) {
-
-                        Log.i("Debugging", "About to send the results");
 
                         getResults(results);
 
@@ -230,13 +227,8 @@ public class MainPresenter implements MainContract.IMainPresenter{
 
         restaurantList = results.getRestaurants();
 
-        Log.i("Debugging", "Got the results");
-
-        if (rating_min == 5) {
-            rating_min = 4.5;
-        }
         if (price_max == 0) {
-            price_max = 6;
+            price_max = 5;
         }
 
         for (Restaurant restaurant : restaurantList){
@@ -245,7 +237,7 @@ public class MainPresenter implements MainContract.IMainPresenter{
             if (temp_restaurant.getPriceRange() > price_max) {
                 continue;
             }
-            else if (temp_rating.getAggregateRating() < rating_min) {
+            else if (temp_rating.getAggregateRating() < (rating_min - 0.5)) {
                 continue;
             }
 
@@ -283,9 +275,6 @@ public class MainPresenter implements MainContract.IMainPresenter{
             markerDataList.add(temp_markerData);
 
         }
-
-        Log.i("Debugging", "Inside presenter, first item in listi is " + markerDataList.get(0).restaurant_name);
-
         MarkerDataParcel markerDataParcel = new MarkerDataParcel(markerDataList);
 
         mainView.startMapActivity(markerDataParcel);

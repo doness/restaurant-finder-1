@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
     @Override
     public void startMapActivity(MarkerDataParcel markerDataParcel) {
-
+        //pass the required data to the map activity and start it
         Intent intent = new Intent(getBaseContext(), MapsActivity.class);
         intent.putExtra("markerData", markerDataParcel);
         startActivity(intent);
