@@ -29,6 +29,7 @@ public class RestaurantsService implements MainInteracter {
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
+
         /**
          * Add HttpLoginInterecptor to okhttp
          */

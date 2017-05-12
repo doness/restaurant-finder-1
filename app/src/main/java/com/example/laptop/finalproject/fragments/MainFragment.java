@@ -24,7 +24,6 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     Restaurant_ restaurant_data;
-    Tab1 tab1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,25 +63,6 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-
-        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.i("Debugging", "Page selected" + position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-
     }
 
     @Override
@@ -100,6 +80,8 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
     @Override
     public void receiveRestaurantData(Restaurant_ restaurant) {
         Log.i("Debugging", "Inside main fragment, data received, name is: " + restaurant.getName());
+        Log.i("Debugging", "Inside main fragment, data received, id is: " + restaurant.getId());
+
         this.restaurant_data = restaurant;
     }
 }

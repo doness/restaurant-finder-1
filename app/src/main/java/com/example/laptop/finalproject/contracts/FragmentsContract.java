@@ -5,8 +5,10 @@ import com.example.laptop.finalproject.models.Restaurant_;
 
 public interface FragmentsContract {
 
-    interface IFragmentActivity{
+    interface IFragmentPresenter{
 
+        void bind(ITabFragment tabFragment);
+        void unbind();
     }
 
     interface IMainFragment{
@@ -15,6 +17,7 @@ public interface FragmentsContract {
     }
 
     interface ITabFragment{
+
         void receiveRestaurantId(Restaurant_ restaurant);
     }
 }

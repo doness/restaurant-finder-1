@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.example.laptop.finalproject.constants.Constants;
-import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.fragments.MainFragment;
 import com.example.laptop.finalproject.injection.MyApp;
@@ -32,7 +31,7 @@ import javax.inject.Inject;
 //should be displayed
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        MainContract.IMapView, GoogleMap.OnInfoWindowClickListener, FragmentsContract.IFragmentActivity {
+        MainContract.IMapView, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private List<MarkerData> markerData;
