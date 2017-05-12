@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 location_check = isChecked;
+
             }
         });
 

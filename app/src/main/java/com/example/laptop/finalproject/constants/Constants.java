@@ -6,6 +6,10 @@ package com.example.laptop.finalproject.constants;
 
 public class Constants {
 
+    //Tab layout
+    public static final CharSequence TAB_TITLES[]={"Basic Info","Menu","User Reviews"};
+    public static final int NUMBER_OF_TABS = 3;
+
     //API data
     public static final String BASE_URL = "https://developers.zomato.com/api/v2.1/";
     public static final String API_KEY = "user-key: 8b1de1b1e12c75f0cdc90defe4e359ef";

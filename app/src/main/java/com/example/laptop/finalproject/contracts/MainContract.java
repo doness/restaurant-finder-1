@@ -27,8 +27,14 @@ public interface MainContract {
         void startMapActivity(MarkerDataParcel markerDataParcel);
     }
 
-    interface IMapView{
+    interface IMapPresenter{
+        void bind(IMapView view);
+        void fetchRestaurant(Integer res_id);
+        void unbind();
+    }
 
+    interface IMapView{
+        void getRestaurantData(Restaurant_ restaurant);
     }
 }
 

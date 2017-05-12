@@ -2,6 +2,7 @@ package com.example.laptop.finalproject.services;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.interacters.MainInteracter;
+import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 
 import okhttp3.OkHttpClient;
@@ -61,5 +62,10 @@ public class RestaurantsService implements MainInteracter {
     public Observable<Results> getResultsUseCase(int start, double lat, double lon,
                                                  String cuisines, String category) {
         return getConnection().getSearchResults(start, lat, lon, 2500, cuisines, category);
+    }
+
+    @Override
+    public Observable<Restaurant_> getRestaurantUseCase(Integer res_id) {
+        return getConnection().getRestaurant(res_id);
     }
 }

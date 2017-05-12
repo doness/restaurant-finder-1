@@ -2,28 +2,48 @@ package com.example.laptop.finalproject;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.example.laptop.finalproject.constants.Constants;
+import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.contracts.MainContract;
+import com.example.laptop.finalproject.fragments.MainFragment;
+import com.example.laptop.finalproject.injection.MyApp;
 import com.example.laptop.finalproject.models.MarkerData;
 import com.example.laptop.finalproject.models.MarkerDataParcel;
+import com.example.laptop.finalproject.models.Restaurant_;
+import com.example.laptop.finalproject.presenters.MapPresenter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 //This will be the main activity that controls and communicates with all the fragments
 //It is called from the MainActivity after the user has defined what types of restaurants
 //should be displayed
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, MainContract.IMapView {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        MainContract.IMapView, GoogleMap.OnInfoWindowClickListener, FragmentsContract.IFragmentActivity {
 
     private GoogleMap mMap;
     private List<MarkerData> markerData;
+
+    @Inject MapPresenter presenter;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    SupportMapFragment mapFragment;
+    MainFragment mainFragment;
+    Restaurant_ restaurant_data;
 
 
 
@@ -32,14 +52,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        //inject and bind presenter
+        ((MyApp)getApplication()).getRestaurants_component().inject(this);
+        presenter.bind(this);
+
         //fetch data to display the markers
         MarkerDataParcel markerDataParcel = getIntent().getParcelableExtra("markerData");
         markerData = markerDataParcel.markerDataList;
 
+        //set up the fragment manager and transaction
+
+        fragmentManager = getSupportFragmentManager();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
 
     }
 
@@ -67,6 +97,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        presenter.unbind();
+        mMap.clear();
+    }
+
     private void populateMap() {
 
         mMap.setMinZoomPreference(17);
@@ -75,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng mapLatLng = new LatLng(markerData.get(i).restaurant_lat,
                     markerData.get(i).restaurant_lon);
 
-           // mMap.setOnInfoWindowClickListener(this);
+            mMap.setOnInfoWindowClickListener(this);
             mMap.addMarker(new MarkerOptions()
                     .position(mapLatLng)
                     .title(String.valueOf(markerData.get(i).restaurant_name))
@@ -89,7 +127,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void getMarkerData() {
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+        Integer restaurant_id = Integer.parseInt(markerData.get(Integer.parseInt(marker.getId()
+                .replaceAll("m", ""))).restaurant_id);
+
+        presenter.fetchRestaurant(restaurant_id);
+
+
+        /*Log.i("Debugging", marker.getId());
+        Log.i("Debuggin", "name is: " + markerData.get(Integer.parseInt(marker.getId()
+                .replaceAll("m", ""))).restaurant_name);*/
+    }
+
+    @Override
+    public void getRestaurantData(Restaurant_ restaurant) {
+
+        Log.i("Debugging", "Got data from presenter, name is: " + restaurant.getName());
+
+        this.restaurant_data = restaurant;
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        this.mainFragment = new MainFragment();
+        fragmentTransaction.hide(mapFragment);
+        fragmentTransaction.add(R.id.fragment_container, mainFragment, "MAIN_FRAGMENT");
+        fragmentTransaction.addToBackStack("MAP FRAGMENT");
+        fragmentTransaction.commit();
+
+        mainFragment.receiveRestaurantData(restaurant_data);
 
     }
+
+
 }

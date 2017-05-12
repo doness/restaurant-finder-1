@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class MainPresenter implements MainContract.IMainPresenter{
+public class MainPresenter implements MainContract.IMainPresenter {
 
     private MainContract.IMainView mainView;
     private MainInteracter interacter;
