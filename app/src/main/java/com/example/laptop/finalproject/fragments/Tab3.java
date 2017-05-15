@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.models.Restaurant_;
+import com.example.laptop.finalproject.models.UserReviewWrapper;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +36,14 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     @Override
     public void receiveRestaurantId(Restaurant_ restaurant) {
         Log.i("Debugging", "Inside Tab 3, name is: " + restaurant.getName());
+
+    }
+
+
+    //unused method
+
+    @Override
+    public void receiveUserReviews(List<UserReviewWrapper> userReviews) {
 
     }
 }

@@ -4,6 +4,7 @@ import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.interacters.MainInteracter;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
+import com.example.laptop.finalproject.models.ReviewsResult;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -69,4 +70,10 @@ public class RestaurantsService implements MainInteracter {
     public Observable<Restaurant_> getRestaurantUseCase(Integer res_id) {
         return getConnection().getRestaurant(res_id);
     }
+
+    @Override
+    public Observable<ReviewsResult> getUserReviewsUseCase(Integer res_id) {
+        return getConnection().getUserReviews(res_id);
+    }
+
 }

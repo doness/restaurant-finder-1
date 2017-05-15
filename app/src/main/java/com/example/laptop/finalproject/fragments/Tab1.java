@@ -9,12 +9,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.contracts.FragmentsContract;
+import com.example.laptop.finalproject.models.Location;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.UserRating;
+import com.example.laptop.finalproject.models.UserReviewWrapper;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +36,11 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
     @BindView(R.id.tvRestaurantName) TextView tvRestaurantName;
     @BindView(R.id.tvRestaurantScore) TextView tvRestaurantScore;
     @BindView(R.id.tvRestaurantScoreText) TextView tvRestaurantScoreText;
+    @BindView(R.id.ivRestaurantThumb) ImageView ivRestaurantThumb;
+    @BindView(R.id.tvNumberOfVotes) TextView tvNumberOfVotes;
+    @BindView(R.id.tvCuisineTypes) TextView tvCuisineTypes;
+    @BindView(R.id.tvCostPerTwo) TextView tvCostPerTwo;
+    @BindView(R.id.tvAddress) TextView tvAddress;
 
     Restaurant_ restaurant_data;
 
@@ -74,11 +85,34 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
 
     private void setupViews() {
 
+        if (!(restaurant_data.getThumb()).equals("")) {
+            Picasso.with(this.getContext())
+                    .load(restaurant_data.getThumb())
+                    .into(ivRestaurantThumb);
+        }
+        else {
+            ivRestaurantThumb.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
+        ivRestaurantThumb.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
         tvRestaurantName.setText(restaurant_data.getName());
         UserRating userRating = restaurant_data.getUserRating();
+        Location location = restaurant_data.getLocation();
         tvRestaurantScoreText.setText(userRating.getRatingText());
         tvRestaurantScore.setBackgroundColor(Color.parseColor("#" + (userRating.getRatingColor())));
         tvRestaurantScore.setText(" " + String.valueOf(userRating.getAggregateRating()) + " ");
+        tvNumberOfVotes.setText("Based on " + userRating.getVotes() + " vote(s)");
+        tvCuisineTypes.setText(restaurant_data.getCuisines());
+        tvCostPerTwo.setText("Average Cost for Two: " +  restaurant_data.getCurrency()
+                + String.valueOf(restaurant_data.getAverageCostForTwo()));
+        tvAddress.setText(location.getAddress());
+
+
+    }
+
+    //unused methods
+
+    @Override
+    public void receiveUserReviews(List<UserReviewWrapper> userReviews) {
 
     }
 }
