@@ -11,7 +11,7 @@
         android:id="@+id/tvNoReviews"
         android:textSize="32sp"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/colorBackground"/>
+        android:textColor="@color/colorBackground" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srUserReviews"

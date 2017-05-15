@@ -19,6 +19,7 @@ import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.adapters.ReviewsAdapter;
 import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.injection.MyApp;
+import com.example.laptop.finalproject.models.DailyMenu;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.UserReviewWrapper;
 import com.example.laptop.finalproject.presenters.FragmentPresenter;
@@ -122,5 +123,12 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
 
     private void initialiseRecyclerView(Context context){
         rvUserReviews.setLayoutManager(new LinearLayoutManager(context));
+    }
+
+    //unused method
+
+    @Override
+    public void receiveDailyMenu(List<DailyMenu> dailyMenus) {
+
     }
 }

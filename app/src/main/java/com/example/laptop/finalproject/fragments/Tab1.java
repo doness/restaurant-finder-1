@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.contracts.FragmentsContract;
+import com.example.laptop.finalproject.models.DailyMenu;
 import com.example.laptop.finalproject.models.Location;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.UserRating;
@@ -113,6 +114,11 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
 
     @Override
     public void receiveUserReviews(List<UserReviewWrapper> userReviews) {
+
+    }
+
+    @Override
+    public void receiveDailyMenu(List<DailyMenu> dailyMenus) {
 
     }
 }

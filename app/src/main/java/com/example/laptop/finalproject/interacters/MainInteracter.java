@@ -1,5 +1,6 @@
 package com.example.laptop.finalproject.interacters;
 
+import com.example.laptop.finalproject.models.DailyMenuResult;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 import com.example.laptop.finalproject.models.ReviewsResult;
@@ -14,4 +15,7 @@ public interface MainInteracter {
     Observable<Restaurant_> getRestaurantUseCase(Integer res_id);
 
     Observable<ReviewsResult> getUserReviewsUseCase(Integer res_id);
+
+    Observable<DailyMenuResult> getDailyMenuUseCase(Integer res_id);
+
 }

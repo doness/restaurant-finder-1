@@ -1,5 +1,6 @@
 package com.example.laptop.finalproject.contracts;
 
+import com.example.laptop.finalproject.models.DailyMenu;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.UserReviewWrapper;
 
@@ -12,6 +13,7 @@ public interface FragmentsContract {
 
         void bind(ITabFragment tabFragment);
         void fetchUserReviews(Integer res_id);
+        void fetchDailyMenu(Integer res_id);
         void unbind();
     }
 
@@ -24,5 +26,6 @@ public interface FragmentsContract {
 
         void receiveRestaurantId(Restaurant_ restaurant);
         void receiveUserReviews(List<UserReviewWrapper> userReviews);
+        void receiveDailyMenu(List<DailyMenu> dailyMenus);
     }
 }

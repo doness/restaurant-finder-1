@@ -2,6 +2,7 @@ package com.example.laptop.finalproject.services;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.interacters.MainInteracter;
+import com.example.laptop.finalproject.models.DailyMenuResult;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 import com.example.laptop.finalproject.models.ReviewsResult;
@@ -74,6 +75,11 @@ public class RestaurantsService implements MainInteracter {
     @Override
     public Observable<ReviewsResult> getUserReviewsUseCase(Integer res_id) {
         return getConnection().getUserReviews(res_id);
+    }
+
+    @Override
+    public Observable<DailyMenuResult> getDailyMenuUseCase(Integer res_id) {
+        return getConnection().getDailyMenu(res_id);
     }
 
 }

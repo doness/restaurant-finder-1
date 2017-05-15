@@ -56,7 +56,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
         holder.tvUserName.setText(user.getName());
         holder.tvUserLevel.setText(user.getFoodieLevel());
         holder.tvReviewDate.setText("Reviewed: " + userReviews.get(position).getReview().getReviewTimeFriendly());
-        holder.tvUserRatingNumber.setText(" " + userReviews.get(position).getReview().getRating() + " ");
+        String rating_end = " ";
+        if ((userReviews.get(position).getReview().getRating()).length() == 1){
+            rating_end = ".0 ";
+        }
+        holder.tvUserRatingNumber.setText(" " + userReviews.get(position).getReview().getRating() + rating_end);
         holder.tvUserRatingNumber.setBackgroundColor(Color.
                 parseColor("#" + userReviews.get(position).getReview().getRatingColor()));
         holder.tvUserRatingTitle.setText(" " + userReviews.get(position).getReview().getRatingText());

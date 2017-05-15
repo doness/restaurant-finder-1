@@ -1,6 +1,7 @@
 package com.example.laptop.finalproject.services;
 
 import com.example.laptop.finalproject.constants.Constants;
+import com.example.laptop.finalproject.models.DailyMenuResult;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 import com.example.laptop.finalproject.models.ReviewsResult;
@@ -36,4 +37,11 @@ public interface IRestaurantsAPI {
     })
     @GET("reviews")
     Observable<ReviewsResult> getUserReviews(@Query("res_id") Integer res_id);
+
+    @Headers({
+            Constants.HEADER_ACCEPT,
+            Constants.API_KEY
+    })
+    @GET("dailymenu")
+    Observable<DailyMenuResult> getDailyMenu(@Query("res_id") Integer res_id);
 }
