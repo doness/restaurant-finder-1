@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
         presenter.bind(this);
 
-        //sets default values to gloval variables
+        //sets default values to global variables
         initDefaultValues();
         //initialise the toolbar
         setupToolbar();

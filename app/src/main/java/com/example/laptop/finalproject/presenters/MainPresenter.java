@@ -35,14 +35,14 @@ public class MainPresenter implements MainContract.IMainPresenter {
     private MainContract.IMainView mainView;
     private MainInteracter interacter;
     private boolean maps_location;
-    private double lat;
-    private double lon;
-    private String cuisine_id;
-    private String category_id;
-    private Integer price_max;
-    private double rating_min;
+    public double lat;
+    public double lon;
+    public String cuisine_id;
+    public String category_id;
+    public Integer price_max;
+    public double rating_min;
     private boolean inputValidity;
-    private int start_offset;
+    public int start_offset;
     private List<Restaurant> restaurantList;
     private List<Restaurant_> filteredRestaurants;
     private List<MarkerData> markerDataList;
@@ -257,7 +257,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     @Override
     public void prepareMarkerData(List<Restaurant_> restaurants){
 
-        Log.i("Debugging", "Got the restaurants");
+        //Log.i("Debugging", "Got the restaurants");
         for (Restaurant_ restaurant : restaurants){
             String temp_id = restaurant.getId();
             Location temp_location = restaurant.getLocation();

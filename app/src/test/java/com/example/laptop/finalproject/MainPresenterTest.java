@@ -18,7 +18,6 @@ import com.example.laptop.finalproject.services.IRestaurantsAPI;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -36,6 +35,7 @@ import rx.android.plugins.RxAndroidPlugins;
 import rx.android.plugins.RxAndroidSchedulersHook;
 import rx.schedulers.Schedulers;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -100,6 +100,7 @@ public class MainPresenterTest {
         restaurant_.setLocation(location);
         restaurant_.setName("restaurant name");
         restaurant_.setUserRating(userRating);
+        restaurant_.setPriceRange(0);
 
         restaurant.setRestaurant(restaurant_);
 
@@ -154,17 +155,28 @@ public class MainPresenterTest {
         presenter.unbind();
     }
 
-    @Ignore
+
     @Test
     public void testPresenterFetchesData() {
 
-        when(interacter.getResultsUseCase(0, 12, 12, "Fast Food", "Delivery"))
+        when(interacter.getResultsUseCase(0, 0, 0, null, null))
                 .thenReturn(Observable.just(results));
 
         presenter.bind(iMainView);
+        presenter.price_max = 0;
+        presenter.rating_min = 1.0;
+        presenter.start_offset = 0;
+        presenter.lat = 0;
+        presenter.lon = 0;
+        presenter.cuisine_id = null;
+        presenter.category_id = null;
+
+
         presenter.fetchMarkerData();
 
-        Mockito.verify(iMainView).startMapActivity(markerDataParcel);
+        Mockito.verify(iMainView).startMapActivity(any(MarkerDataParcel.class));
+
+        RxAndroidPlugins.getInstance().reset();
     }
 
 

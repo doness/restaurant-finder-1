@@ -57,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
         presenter.bind(this);
 
+        //counters to ensure double clicking a marker takes you to the MainFragment
         click_counter = 0;
         id_counter = "";
 
@@ -72,11 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
     }
-
 
     /**
      * Manipulates the map once available.
@@ -94,23 +91,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Calls a method which populates the map based on user input passed from MainActivity
         //and data retrieved from the API.
         populateMap();
-
-        // Add a marker in Sydney and move the camera
-        /*LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-
+        //unbind butterknife and presenter from the view
         presenter.unbind();
         mMap.clear();
     }
 
     private void populateMap() {
-
+        //generates markers with onClickListeners attached to them
+        //and displays them on the map
+        //marker data comes from user inputs in MainActivity
         mMap.setMinZoomPreference(17);
         for (int i = 0; i < markerData.size(); i++) {
 
@@ -134,21 +128,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        //if user clicks on an InfoWindow,
+        // get the details from the presenter on the selected restaurant
+        //marker ids match restaurant positions in the markerData list
+        //so we just fetch the restaurant id of the parcel at that position
         Integer restaurant_id = Integer.parseInt(markerData.get(Integer.parseInt(marker.getId()
                 .replaceAll("m", ""))).restaurant_id);
 
         presenter.fetchRestaurant(restaurant_id);
-
-
-        /*Log.i("Debugging", marker.getId());
-        Log.i("Debuggin", "name is: " + markerData.get(Integer.parseInt(marker.getId()
-                .replaceAll("m", ""))).restaurant_name);*/
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
+        //if a marker is double-clicked, fetch info for that restaurant
+        //used mostly for ui testing purposes
         if (click_counter >= 1 && id_counter.equals(marker.getId())){
             click_counter = 0;
             id_counter = "";
@@ -169,6 +162,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void getRestaurantData(Restaurant_ restaurant) {
+
+        //when presenter.fetchRestaurant(res_id); is called, the presenter gets an object
+        //containing restaurant details from the API and calls this method in the bound
+        //activity so it can access the data
+        //we pass the object to the MainFragment and display that fragment
 
         Log.i("Debugging", "Got data from presenter, name is: " + restaurant.getName());
 
