@@ -66,9 +66,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
         //Bind Butterknife to the view
         unbinder = ButterKnife.bind(this);
-        //Inject and bind the presenter to the view
+        //Inject the presenter to the view
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
-        presenter.bind(this);
 
         //sets default values to global variables
         initDefaultValues();
@@ -253,6 +252,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             this.target_location = etPostcode.getText().toString();
             this.input_validity = true;
         }
+        //bind the presenter to the view
+        if (input_validity) {
+            presenter.bind(this);
+        }
     }
 
     private void setupListeners(){
@@ -346,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         Intent intent = new Intent(getBaseContext(), MapsActivity.class);
         intent.putExtra("markerData", markerDataParcel);
         startActivity(intent);
+        presenter.unbind();
     }
 
     public void initDefaultValues() {

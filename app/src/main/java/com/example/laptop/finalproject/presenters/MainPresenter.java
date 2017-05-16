@@ -15,6 +15,7 @@ import com.example.laptop.finalproject.models.Restaurant;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 import com.example.laptop.finalproject.models.UserRating;
+import com.example.laptop.finalproject.utilities.RxUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 public class MainPresenter implements MainContract.IMainPresenter {
@@ -46,6 +48,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     private List<Restaurant> restaurantList;
     private List<Restaurant_> filteredRestaurants;
     private List<MarkerData> markerDataList;
+    CompositeSubscription compositeSubscription;
 
 
     @Inject
@@ -61,11 +64,13 @@ public class MainPresenter implements MainContract.IMainPresenter {
         filteredRestaurants = new ArrayList<>();
         markerDataList = new ArrayList<>();
         start_offset = 0;
+        compositeSubscription = new CompositeSubscription();
     }
 
     @Override
     public void unbind() {
         this.mainView = null;
+        RxUtils.unsubscribeIfNotNull(compositeSubscription);
     }
 
     @Override
@@ -127,15 +132,10 @@ public class MainPresenter implements MainContract.IMainPresenter {
                         e.printStackTrace();
                         inputValidity = false;
                         //Log.i("Debugging", "Inside presenter: Error parsing postcode");
-
                     }
-
                     //Log.i("Debugging", "Inside presenter: Successfully parsed postcode");
                     //Log.i("Debugging", "postcode is: " + location);
                     //Log.i("Debugging", "location is: " + String.valueOf(lat) + ", " + String.valueOf(lon));
-
-
-
                 }
             }
         }
@@ -196,7 +196,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
     @Override
     public void fetchMarkerData() {
 
-        interacter.getResultsUseCase(start_offset, lat, lon, cuisine_id, category_id)
+        compositeSubscription.add(interacter.getResultsUseCase(start_offset, lat, lon, cuisine_id, category_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Results>() {
@@ -218,7 +218,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
                         getResults(results);
 
                     }
-                });
+                }));
 
     }
 

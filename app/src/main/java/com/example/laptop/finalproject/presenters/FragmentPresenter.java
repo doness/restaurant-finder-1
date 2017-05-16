@@ -4,17 +4,20 @@ import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.interacters.MainInteracter;
 import com.example.laptop.finalproject.models.DailyMenuResult;
 import com.example.laptop.finalproject.models.ReviewsResult;
+import com.example.laptop.finalproject.utilities.RxUtils;
 
 import javax.inject.Inject;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
 
     MainInteracter interacter;
     FragmentsContract.ITabFragment tabFragment;
+    CompositeSubscription compositeSubscription;
 
     @Inject
     public FragmentPresenter (MainInteracter interacter) {
@@ -26,12 +29,13 @@ public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
     @Override
     public void bind(FragmentsContract.ITabFragment tabFragment) {
         this.tabFragment = tabFragment;
+        compositeSubscription = new CompositeSubscription();
     }
 
     @Override
     public void fetchUserReviews(Integer res_id) {
 
-        interacter.getUserReviewsUseCase(res_id)
+        compositeSubscription.add(interacter.getUserReviewsUseCase(res_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ReviewsResult>() {
@@ -52,13 +56,13 @@ public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
 
                         tabFragment.receiveUserReviews(userReviews.getUserReviews());
                     }
-                });
+                }));
     }
 
     @Override
     public void fetchDailyMenu(Integer res_id) {
 
-        interacter.getDailyMenuUseCase(res_id)
+        compositeSubscription.add(interacter.getDailyMenuUseCase(res_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DailyMenuResult>() {
@@ -80,11 +84,12 @@ public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
 
                         tabFragment.receiveDailyMenu(dailyMenus.getDailyMenus());
                     }
-                });
+                }));
     }
 
     @Override
     public void unbind() {
         tabFragment = null;
+        RxUtils.unsubscribeIfNotNull(compositeSubscription);
     }
 }
