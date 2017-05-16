@@ -31,7 +31,7 @@ import javax.inject.Inject;
 //should be displayed
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        MainContract.IMapView, GoogleMap.OnInfoWindowClickListener {
+        MainContract.IMapView, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private List<MarkerData> markerData;
@@ -43,6 +43,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     SupportMapFragment mapFragment;
     MainFragment mainFragment;
     Restaurant_ restaurant_data;
+    int click_counter;
+    String id_counter;
 
 
 
@@ -54,6 +56,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //inject and bind presenter
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
         presenter.bind(this);
+
+        click_counter = 0;
+        id_counter = "";
 
         //fetch data to display the markers
         MarkerDataParcel markerDataParcel = getIntent().getParcelableExtra("markerData");
@@ -113,6 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     markerData.get(i).restaurant_lon);
 
             mMap.setOnInfoWindowClickListener(this);
+            mMap.setOnMarkerClickListener(this);
             mMap.addMarker(new MarkerOptions()
                     .position(mapLatLng)
                     .title(String.valueOf(markerData.get(i).restaurant_name))
@@ -141,6 +147,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        if (click_counter >= 1 && id_counter.equals(marker.getId())){
+            click_counter = 0;
+            id_counter = "";
+
+            Integer restaurant_id = Integer.parseInt(markerData.get(Integer.parseInt(marker.getId()
+                    .replaceAll("m", ""))).restaurant_id);
+
+            presenter.fetchRestaurant(restaurant_id);
+        }
+
+        else {
+            click_counter++;
+            id_counter = marker.getId();
+        }
+
+        return false;
+    }
+
+    @Override
     public void getRestaurantData(Restaurant_ restaurant) {
 
         Log.i("Debugging", "Got data from presenter, name is: " + restaurant.getName());
@@ -158,6 +185,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mainFragment.receiveRestaurantData(restaurant_data);
 
     }
-
 
 }

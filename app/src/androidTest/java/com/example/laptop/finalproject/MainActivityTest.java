@@ -108,4 +108,5 @@ public class MainActivityTest {
 
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
+
 }

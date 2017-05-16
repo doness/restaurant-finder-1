@@ -57,6 +57,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setRetainInstance(true); // save state on change orientation
         ((MyApp)getActivity().getApplication()).getRestaurants_component().inject(this);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tab2, container, false);
@@ -82,6 +83,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
         unbinder.unbind();
         presenter.unbind();
     }
+
 
     @Override
     public void receiveUserReviews(List<UserReviewWrapper> userReviews) {

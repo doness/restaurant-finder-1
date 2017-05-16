@@ -33,6 +33,7 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setRetainInstance(true); // save state on change orientation
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -76,6 +77,7 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
     public void onDetach() {
         super.onDetach();
     }
+
 
     @Override
     public void receiveRestaurantData(Restaurant_ restaurant) {

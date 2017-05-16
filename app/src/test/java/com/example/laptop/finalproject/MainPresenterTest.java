@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
+import rx.android.plugins.RxAndroidPlugins;
+import rx.android.plugins.RxAndroidSchedulersHook;
+import rx.schedulers.Schedulers;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -73,6 +78,8 @@ public class MainPresenterTest {
     @Before
     public void setUp() throws Exception {
 
+        MockitoAnnotations.initMocks(this);
+
         iMainView = mock(MainContract.IMainView.class);
 
         presenter = new MainPresenter(interacter);
@@ -109,11 +116,18 @@ public class MainPresenterTest {
 
         markerDataParcel = new MarkerDataParcel(markerDataList);
 
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
+            @Override
+            public Scheduler getMainThreadScheduler() {
+                return Schedulers.immediate();
+            }
+        });
+
     }
 
     @After
     public void tearDown() {
-
+        RxAndroidPlugins.getInstance().reset();
     }
 
     //test if user input verification works as intended
@@ -136,17 +150,18 @@ public class MainPresenterTest {
         presenter.getUserInputs(context, "", "", "", "", "");
 
         Mockito.verify(iMainView).confirmData(false);
+
+        presenter.unbind();
     }
 
     @Ignore
     @Test
     public void testPresenterFetchesData() {
 
-        presenter.bind(iMainView);
-
         when(interacter.getResultsUseCase(0, 12, 12, "Fast Food", "Delivery"))
                 .thenReturn(Observable.just(results));
 
+        presenter.bind(iMainView);
         presenter.fetchMarkerData();
 
         Mockito.verify(iMainView).startMapActivity(markerDataParcel);
