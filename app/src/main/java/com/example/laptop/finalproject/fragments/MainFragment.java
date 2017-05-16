@@ -1,6 +1,5 @@
 package com.example.laptop.finalproject.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,7 +41,8 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles for the Tabs, Number Of Tabs
+        //and the data to be displayed
         adapter =  new ViewPagerAdapter(getActivity().getSupportFragmentManager(), Constants.TAB_TITLES,
                 Constants.NUMBER_OF_TABS, restaurant_data);
 
@@ -65,19 +65,6 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
 
     @Override
     public void receiveRestaurantData(Restaurant_ restaurant) {

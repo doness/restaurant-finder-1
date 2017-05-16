@@ -65,34 +65,43 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //binding presenter/butterknife
         this.view = view;
         presenter.bind(this);
         unbinder = ButterKnife.bind(this, view);
 
+        //initialise the recycler view
         initialiseRecyclerView(view.getContext());
+        //tell the presenter to fetch the daily menus for the given restaurant
         presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
+        //setu the swipe to refresh layout
         setupRefresh();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //unbind presenter/butterknife
         presenter.unbind();
         unbinder.unbind();
     }
 
+    //method called in the presenter, sends the daily menu data to the fragment
     @Override
     public void receiveDailyMenu(List<DailyMenu> dailyMenus) {
 
         this.dailyMenu_data = dailyMenus;
+        //setup the recycler view after retreiving the menu data
         setupRecyclerView();
     }
 
     private void initialiseRecyclerView(Context context) {
 
+        //assign a layout manager to the recycler view
         rvDailyMenu.setLayoutManager(new LinearLayoutManager(context));
     }
 
+    //setup the swipe to refresh layout
     private void setupRefresh(){
 
         srDailyMenu.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -109,22 +118,20 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
         });
     }
 
+    //pass the relevant data to the recycler view
     private void setupRecyclerView() {
 
         rvDailyMenu.setAdapter(new DailyMenuAdapter(dailyMenu_data, R.layout.row_daily_menu,
                 getActivity().getApplicationContext()));
     }
 
-
-
+    //method called i nthe page adapter that passes the restaurant data from the MainFragment to the tab
     @Override
     public void receiveRestaurantId(Restaurant_ restaurant) {
         Log.i("Debugging", "Inside Tab 3, name is: " + restaurant.getName());
         this.restaurant_data = restaurant;
 
     }
-
-
 
     //unused method
 

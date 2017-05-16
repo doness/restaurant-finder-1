@@ -58,6 +58,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setRetainInstance(true); // save state on change orientation
+        //inject presenter
         ((MyApp)getActivity().getApplication()).getRestaurants_component().inject(this);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tab2, container, false);
@@ -66,36 +67,45 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        //do presenter/butterknife bindings
         this.view = view;
         presenter.bind(this);
         unbinder = ButterKnife.bind(this, view);
 
+        //set default value to the text view that is displayed if no user reviews are available
         tvNoReviews.setText("No Reviews Available");
+        //initialise the Recycler View
         initialiseRecyclerView(view.getContext());
+        //tell the presenter to fetch the user reviews for the given restaurant
         presenter.fetchUserReviews(Integer.parseInt(restaurant_data.getId()));
+        //setup the swipe refresh layout
         setupRefresh();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //unbind butterknife and the presenter
         unbinder.unbind();
         presenter.unbind();
     }
 
-
+    //method called in the presenter that returns the User reviews to the fragment
+    //we store the data so that the recycler view can use it
     @Override
     public void receiveUserReviews(List<UserReviewWrapper> userReviews) {
         Log.i("User Reviews Received", "Size is: " + userReviews.size());
         this.userReviews_data = userReviews;
         if (userReviews.size() > 0) {
+            //checks if there are any user reviews available and nullifies the No Reviews text view if reviews are available
             tvNoReviews.setText("");
         }
+        //after succesfully getting the data, set the recycler view
         setupRecyclerView();
 
     }
 
+    //method called in the PageAdapter that passes the data from the MainFragment to the tab
     @Override
     public void receiveRestaurantId(Restaurant_ restaurant) {
         Log.i("Debugging", "Inside Tab 2, name is: " + restaurant.getName());
@@ -103,11 +113,13 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
 
     }
 
+    //pass the relevant values to the recycler view
     private void setupRecyclerView() {
         rvUserReviews.setAdapter(new ReviewsAdapter(userReviews_data, R.layout.row_user_reviews,
                 getActivity().getApplicationContext()));
     }
 
+    //setup the swipe refresh layout
     private void setupRefresh() {
         srUserReviews.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -123,6 +135,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
         });
     }
 
+    //assign a layout manager to the recycler view
     private void initialiseRecyclerView(Context context){
         rvUserReviews.setLayoutManager(new LinearLayoutManager(context));
     }

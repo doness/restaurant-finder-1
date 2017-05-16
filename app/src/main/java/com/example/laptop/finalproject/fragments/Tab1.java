@@ -63,7 +63,9 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //bind butterknife
         unbinder = ButterKnife.bind(this, view);
+        //setup the views
         setupViews();
     }
 
@@ -88,15 +90,19 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
 
 
     private void setupViews() {
+        //uses the data passed from the MainFragment to display the relevant restaurant information
 
+        //check if the restaurant has a Thumbnail image available in the database
         if (!(restaurant_data.getThumb()).equals("")) {
             Picasso.with(this.getContext())
                     .load(restaurant_data.getThumb())
                     .into(ivRestaurantThumb);
         }
+        //if not, use a default background
         else {
             ivRestaurantThumb.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
+        //setup the rest of the views
         ivRestaurantThumb.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
         tvRestaurantName.setText(restaurant_data.getName());
         UserRating userRating = restaurant_data.getUserRating();
