@@ -43,16 +43,11 @@ public class MainActivityTest {
         onView(withId(R.id.etPostcode)).check(matches(isDisplayed()));
         onView(withId(R.id.tvOr)).check(matches(isDisplayed()));
         onView(withId(R.id.swUseMyLocation)).check(matches(isDisplayed()));
-        onView(withId(R.id.tvCuisine)).check(matches(isDisplayed()));
-        onView(withId(R.id.spCuisine)).check(matches(isDisplayed()));
-        onView(withId(R.id.tvCategory)).check(matches(isDisplayed()));
-        onView(withId(R.id.spCategory)).check(matches(isDisplayed()));
-        onView(withId(R.id.tvPrice)).check(matches(isDisplayed()));
-        onView(withId(R.id.spPrice)).check(matches(isDisplayed()));
-        onView(withId(R.id.tvRating)).check(matches(isDisplayed()));
-        onView(withId(R.id.spRating)).check(matches(isDisplayed()));
+        onView(withId(R.id.btnCuisine)).check(matches(isDisplayed()));
+        onView(withId(R.id.btnCategory)).check(matches(isDisplayed()));
+        onView(withId(R.id.btnPrice)).check(matches(isDisplayed()));
+        onView(withId(R.id.btnRating)).check(matches(isDisplayed()));
         onView(withId(R.id.btnFindNearby)).check(matches(isDisplayed()));
-        onView(withId(R.id.tvFilters)).check(matches(isDisplayed()));
 
     }
 

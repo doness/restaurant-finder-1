@@ -1,12 +1,14 @@
 package com.example.laptop.finalproject.services;
 
 import com.example.laptop.finalproject.constants.Constants;
+import com.example.laptop.finalproject.injection.MyApp;
 import com.example.laptop.finalproject.interacters.MainInteracter;
 import com.example.laptop.finalproject.models.DailyMenuResult;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 import com.example.laptop.finalproject.models.ReviewsResult;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -15,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 public class RestaurantsService implements MainInteracter {
+
 
     public RestaurantsService() {
         getConnection();
@@ -35,8 +38,10 @@ public class RestaurantsService implements MainInteracter {
         /**
          * Add HttpLoginInterecptor to okhttp
          */
+        Cache cache = new Cache(MyApp.getContext().getCacheDir(), 10 * 1024 * 1024);
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
+                .cache(cache)
                 .build();
 
 

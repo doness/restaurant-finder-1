@@ -141,13 +141,15 @@ public class MainPresenter implements MainContract.IMainPresenter {
         }
         //determine the cuisine type
 
-        if (cuisine.equals(Constants.EN_CUISINE_LIST[0]) || cuisine.equals(Constants.BG_CUISINE_LIST[0])){
+        if (cuisine.equals(Constants.EN_AD_CUISINE_LIST[0].toString()) ||
+                cuisine.equals(Constants.BG_AD_CUISINE_LIST[0].toString())){
             cuisine_id = Constants.CUISINE_ID_LIST[0];
         }
 
         int i;
         for (i=1; i<Constants.CUISINE_ID_LIST.length; i++){
-            if (cuisine.equals(Constants.EN_CUISINE_LIST[i]) || cuisine.equals(Constants.BG_CUISINE_LIST[i])){
+            if (cuisine.equals(Constants.EN_AD_CUISINE_LIST[i].toString()) ||
+                    cuisine.equals(Constants.BG_AD_CUISINE_LIST[i].toString())){
                 cuisine_id = Constants.CUISINE_ID_LIST[i];
                 //Log.i("Debugging", "Selected cuisine is: " + Constants.EN_CUISINE_LIST[i] +
                 //        ", id is: " + Constants.CUISINE_ID_LIST[i]);
@@ -158,12 +160,14 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
         //determine the category type
 
-        if (category.equals(Constants.EN_CATEGORY_LIST[0]) || category.equals(Constants.BG_CATEGORY_LIST[0])){
+        if (category.equals(Constants.EN_AD_CATEGORY_LIST[0].toString()) ||
+                category.equals(Constants.BG_AD_CATEGORY_LIST[0].toString())){
             category_id = Constants.CATEGORY_ID_LIST[0];
         }
 
         for (i=1; i<Constants.CATEGORY_ID_LIST.length; i++){
-            if (category.equals(Constants.EN_CATEGORY_LIST[i]) || category.equals(Constants.BG_CATEGORY_LIST[i])){
+            if (category.equals(Constants.EN_AD_CATEGORY_LIST[i].toString()) ||
+                    category.equals(Constants.BG_AD_CATEGORY_LIST[i].toString())){
                 category_id = Constants.CATEGORY_ID_LIST[i];
                 //Log.i("Debugging", "Selected category is: " + Constants.EN_CATEGORY_LIST[i] +
                 //        ", id is: " + Constants.CATEGORY_ID_LIST[i]);
@@ -173,7 +177,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
         //determine the price range
         for (i=0; i<Constants.EN_PRICE_LIST.length; i++){
-            if (price.equals(Constants.EN_PRICE_LIST[i]) || price.equals(Constants.BG_PRICE_LIST[i])){
+            if (price.equals(Constants.EN_AD_PRICE_LIST[i].toString()) ||
+                    price.equals(Constants.BG_AD_PRICE_LIST[i].toString())){
                 price_max = i;
                 //Log.i("Debugging", "Selected price is: " + Constants.EN_PRICE_LIST[i]);
                 break;
@@ -182,7 +187,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
         //determine the rating limit
         for (i=0; i<Constants.EN_RATING_LIST.length; i++){
-            if (reviews.equals(Constants.EN_RATING_LIST[i]) || reviews.equals(Constants.BG_RATING_LIST[i])){
+            if (reviews.equals(Constants.EN_AD_RATING_LIST[i].toString()) ||
+                    reviews.equals(Constants.BG_AD_RATING_LIST[i].toString())){
                 rating_min = i;
                 //Log.i("Debugging", "Selected rating is: " + Constants.EN_RATING_LIST[i]);
                 break;

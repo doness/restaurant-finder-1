@@ -130,16 +130,26 @@ public class Constants {
     public static final String EN_BUTTON = "Find Restaurants";
     public static final String EN_MAIN_TOOLBAR_TITLE = "Restaurant Finder";
     public static final String EN_FILTERS = "Filters (Optional)";
-    public static final String [] EN_CUISINE_LIST = {"Select a cuisine", "American", "British", "Burger",
+    public static final String [] EN_CUISINE_LIST = {"Select a cuisine (Optional)", "American", "British", "Burger",
             "Chinese", "Desserts", "Fast Food", "Fish and Chips", "Grill", "Healthy Food", "Indian",
             "International", "Italian", "Kebab", "Pizza", "Sushi"};
-    public static final String [] EN_CATEGORY_LIST = {"Select a category", "Delivery", "Dine-out", "Nightlife", "Catching-up",
+    public static final String [] EN_CATEGORY_LIST = {"Select a category (Optional)", "Delivery", "Dine-out", "Nightlife", "Catching-up",
     "Takeaway", "Cafes", "Daily Menus", "Breakfast", "Lunch", "Dinner", "Pubs & Bars",
             "Pocket Friendly Delivery", "Clubs & Lounges"};
-    public static final String [] EN_PRICE_LIST = {"Select maximum price", "£", "££", "£££", "££££"};
-    public static final String [] EN_RATING_LIST = {"Select minimum rating", "1", "2", "3", "4", "5"};
+    public static final String [] EN_PRICE_LIST = {"Select maximum price (Optional)", "£", "££", "£££", "££££"};
+    public static final String [] EN_RATING_LIST = {"Select minimum rating (Optional)", "1", "2", "3", "4", "5"};
     public static final String EN_TOAST_ONLY_ONE_INPUT = "Error: Only either enter a postcode or select 'Use my location'";
     public static final String EN_TOAST_INVALID_POSTCODE = "Error: Invalid Postcode";
+
+    public static final CharSequence EN_AD_CUISINE_LIST[]={"None", "American", "British", "Burger",
+            "Chinese", "Desserts", "Fast Food", "Fish and Chips", "Grill", "Healthy Food", "Indian",
+            "International", "Italian", "Kebab", "Pizza", "Sushi"};
+    public static final CharSequence EN_AD_CATEGORY_LIST[]= {"None", "Delivery", "Dine-out", "Nightlife", "Catching-up",
+            "Takeaway", "Cafes", "Daily Menus", "Breakfast", "Lunch", "Dinner", "Pubs & Bars",
+            "Pocket Friendly Delivery", "Clubs & Lounges"};
+    public static final CharSequence EN_AD_PRICE_LIST [] = {"None", "£", "££", "£££", "££££"};
+    public static final CharSequence EN_AD_RATING_LIST [] = {"None", "1", "2", "3", "4", "5"};
+
 
     //Bulgarian strings
     public static final String BG_POSTCODE_HINT = "Въведете пощенски код";
@@ -152,14 +162,23 @@ public class Constants {
     public static final String BG_BUTTON = "Намери Ресторанти";
     public static final String BG_MAIN_TOOLBAR_TITLE = "Търсач на Ресторанти";
     public static final String BG_FILTERS = "Филтри (Незадължителни)";
-    public static final String [] BG_CUISINE_LIST = {"Изберете вид кухня", "Американска", "Британска", "Бургер",
+    public static final String [] BG_CUISINE_LIST = {"Изберете вид кухня (Незадължително)", "Американска", "Британска", "Бургер",
             "Китайска", "Десерти", "Бързо хранене", "Риба с чипс", "Грил", "Здравословна храна", "Индийска",
             "Интернационална", "Италианска", "Кебап", "Пица", "Суши"};
-    public static final String [] BG_CATEGORY_LIST = {"Изберете категория", "Доставка", "Ресторант", "Нощен", "За Среща",
+    public static final String [] BG_CATEGORY_LIST = {"Изберете категория (Незадължително)", "Доставка", "Ресторант", "Нощен", "За Среща",
             "За Вкъщи", "Кафенета", "Дневни Менюта", "Закуска", "Обяд", "Вечеря", "Кръчми и Барове",
             "Евтина Доставка", "Клубове и Салони"};
-    public static final String [] BG_PRICE_LIST = {"Изберете максимална цена", "£", "££", "£££", "££££"};
-    public static final String [] BG_RATING_LIST = {"Изберете минимален рейтинг", "1", "2", "3", "4", "5"};
+    public static final String [] BG_PRICE_LIST = {"Изберете максимална цена (Незадължително)", "£", "££", "£££", "££££"};
+    public static final String [] BG_RATING_LIST = {"Изберете минимален рейтинг (Незадължително)", "1", "2", "3", "4", "5"};
     public static final String BG_TOAST_ONLY_ONE_INPUT = "Грешка: Или въведте пощенски код, или изберете 'Използвай моето местоположение'";
     public static final String BG_TOAST_INVALID_POSTCODE = "Грешка: Невалиден пощенски код";
+
+    public static final CharSequence BG_AD_CUISINE_LIST[]={"Без значение", "Американска", "Британска", "Бургер",
+            "Китайска", "Десерти", "Бързо хранене", "Риба с чипс", "Грил", "Здравословна храна", "Индийска",
+            "Интернационална", "Италианска", "Кебап", "Пица", "Суши"};
+    public static final CharSequence BG_AD_CATEGORY_LIST[]= {"Без значение", "Доставка", "Ресторант", "Нощен", "За Среща",
+            "За Вкъщи", "Кафенета", "Дневни Менюта", "Закуска", "Обяд", "Вечеря", "Кръчми и Барове",
+            "Евтина Доставка", "Клубове и Салони"};
+    public static final CharSequence BG_AD_PRICE_LIST [] = {"Без значение", "£", "££", "£££", "££££"};
+    public static final CharSequence BG_AD_RATING_LIST [] = {"Без значение", "1", "2", "3", "4", "5"};
 }

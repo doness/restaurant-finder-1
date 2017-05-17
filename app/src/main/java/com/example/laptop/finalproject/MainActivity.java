@@ -1,18 +1,17 @@
 package com.example.laptop.finalproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,18 +44,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
     @BindView(R.id.etPostcode) EditText etPostcode;
     @BindView(R.id.tvOr) TextView tvOr;
-    @BindView(R.id.tvFilters) TextView tvFilters;
     @BindView(R.id.swUseMyLocation) Switch swUseMyLocation;
-    @BindView(R.id.tvCuisine) TextView tvCuisine;
-    @BindView(R.id.tvCategory) TextView tvCategory;
-    @BindView(R.id.tvPrice) TextView tvPrice;
-    @BindView(R.id.tvRating) TextView tvRating;
     @BindView(R.id.btnFindNearby) Button btnFindNearby;
     @BindView(R.id.toolbarMain) Toolbar toolbarMain;
-    @BindView(R.id.spCuisine) Spinner spCuisine;
-    @BindView(R.id.spCategory) Spinner spCategory;
-    @BindView(R.id.spPrice) Spinner spPrice;
-    @BindView(R.id.spRating) Spinner spRating;
+    @BindView(R.id.btnCuisine) Button btnCuisine;
+    @BindView(R.id.btnCategory) Button btnCategory;
+    @BindView(R.id.btnPrice) Button btnPrice;
+    @BindView(R.id.btnRating) Button btnRating;
 
     //Initialise the Activity
     @Override
@@ -141,53 +135,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
             etPostcode.setHint(Constants.EN_POSTCODE_HINT);
             tvOr.setText(Constants.EN_OR);
-            tvFilters.setText(Constants.EN_FILTERS);
             swUseMyLocation.setText(Constants.EN_USE_LOCATION);
-            tvCuisine.setText(Constants.EN_CUISINE);
-            tvCategory.setText(Constants.EN_CATEGORY);
-            tvPrice.setText(Constants.EN_PRICE);
-            tvRating.setText(Constants.EN_RATING);
             btnFindNearby.setText(Constants.EN_BUTTON);
             toolbarMain.setTitle(Constants.EN_MAIN_TOOLBAR_TITLE);
-            ArrayAdapter<String> cuisine_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_CUISINE_LIST);
-            spCuisine.setAdapter(cuisine_adapter);
-            ArrayAdapter<String> category_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_CATEGORY_LIST);
-            spCategory.setAdapter(category_adapter);
-            ArrayAdapter<String> price_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_PRICE_LIST);
-            spPrice.setAdapter(price_adapter);
-
-            ArrayAdapter<String> rating_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.EN_RATING_LIST);
-            spRating.setAdapter(rating_adapter);
+            btnCuisine.setText(Constants.EN_CUISINE_LIST[0]);
+            btnCategory.setText(Constants.EN_CATEGORY_LIST[0]);
+            btnPrice.setText(Constants.EN_PRICE_LIST[0]);
+            btnRating.setText(Constants.EN_RATING_LIST[0]);
         }
         else {
 
             etPostcode.setHint(Constants.BG_POSTCODE_HINT);
             tvOr.setText(Constants.BG_OR);
-            tvFilters.setText(Constants.BG_FILTERS);
             swUseMyLocation.setText(Constants.BG_USE_LOCATION);
-            tvCuisine.setText(Constants.BG_CUISINE);
-            tvCategory.setText(Constants.BG_CATEGORY);
-            tvPrice.setText(Constants.BG_PRICE);
-            tvRating.setText(Constants.BG_RATING);
             btnFindNearby.setText(Constants.BG_BUTTON);
             toolbarMain.setTitle(Constants.BG_MAIN_TOOLBAR_TITLE);
-            ArrayAdapter<String> cuisine_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_CUISINE_LIST);
-            spCuisine.setAdapter(cuisine_adapter);
-            ArrayAdapter<String> category_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_CATEGORY_LIST);
-            spCategory.setAdapter(category_adapter);
-            ArrayAdapter<String> price_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_PRICE_LIST);
-            spPrice.setAdapter(price_adapter);
-
-            ArrayAdapter<String> rating_adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_dropdown_item, Constants.BG_RATING_LIST);
-            spRating.setAdapter(rating_adapter);
+            btnCuisine.setText(Constants.BG_CUISINE_LIST[0]);
+            btnCategory.setText(Constants.BG_CATEGORY_LIST[0]);
+            btnPrice.setText(Constants.BG_PRICE_LIST[0]);
+            btnRating.setText(Constants.BG_RATING_LIST[0]);
         }
     }
 
@@ -270,54 +236,35 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             }
         });
 
-        spCuisine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        btnCuisine.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                target_cuisine = parent.getItemAtPosition(position).toString();
+            public void onClick(View v) {
+                displayDialogueBox(0);
             }
+        });
 
+        btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                displayDialogueBox(1);
+            }
+        });
+
+        btnPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayDialogueBox(2);
 
             }
         });
 
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        btnRating.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                target_category = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                displayDialogueBox(3);
 
             }
         });
-
-        spPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                target_price = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spRating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                target_rating = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
     }
 
     @Override
@@ -350,6 +297,107 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         intent.putExtra("markerData", markerDataParcel);
         startActivity(intent);
         presenter.unbind();
+    }
+
+    //build an Alert Dialogue for filter selection
+    public void displayDialogueBox(int dialogue_type) {
+        String title_0;
+        String title_1;
+        String title_2;
+        String title_3;
+
+        CharSequence list_0 [];
+        CharSequence list_1 [];
+        CharSequence list_2 [];
+        CharSequence list_3 [];
+
+
+        if (!language_type) {
+            title_0 = Constants.BG_CUISINE_LIST[0];
+            title_1 = Constants.BG_CATEGORY_LIST[0];
+            title_2 = Constants.BG_PRICE_LIST[0];
+            title_3 = Constants.BG_RATING_LIST[0];
+
+            list_0 = Constants.BG_AD_CUISINE_LIST;
+            list_1 = Constants.BG_AD_CATEGORY_LIST;
+            list_2 = Constants.BG_AD_PRICE_LIST;
+            list_3 = Constants.BG_AD_RATING_LIST;
+        }
+
+        else {
+            title_0 = Constants.EN_CUISINE_LIST[0];
+            title_1 = Constants.EN_CATEGORY_LIST[0];
+            title_2 = Constants.EN_PRICE_LIST[0];
+            title_3 = Constants.EN_RATING_LIST[0];
+
+            list_0 = Constants.EN_AD_CUISINE_LIST;
+            list_1 = Constants.EN_AD_CATEGORY_LIST;
+            list_2 = Constants.EN_AD_PRICE_LIST;
+            list_3 = Constants.EN_AD_RATING_LIST;
+        }
+
+        switch (dialogue_type) {
+            case 0:
+                AlertDialog.Builder builder0 = new AlertDialog.Builder(this);
+                final CharSequence l0 [] = list_0;
+                builder0.setTitle(title_0);
+                builder0.setItems(list_0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        target_cuisine = l0[which].toString();
+                        btnCuisine.setText(target_cuisine);
+                        dialog.dismiss();
+                    }
+                });
+                builder0.show();
+
+                break;
+            case 1:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                final CharSequence l1 [] = list_1;
+                builder1.setTitle(title_1);
+                builder1.setItems(list_1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        target_category = l1[which].toString();
+                        btnCategory.setText(target_category);
+                        dialog.dismiss();
+                    }
+                });
+                builder1.show();
+
+                break;
+            case 2:
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                final CharSequence l2 [] = list_2;
+                builder2.setTitle(title_2);
+                builder2.setItems(list_2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        target_price = l2[which].toString();
+                        btnPrice.setText(target_price);
+                        dialog.dismiss();
+                    }
+                });
+                builder2.show();
+
+                break;
+            case 3:
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
+                final CharSequence l3 [] = list_3;
+                builder3.setTitle(title_3);
+                builder3.setItems(list_3, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        target_rating = l3[which].toString();
+                        btnRating.setText(target_rating);
+                        dialog.dismiss();
+                    }
+                });
+                builder3.show();
+
+                break;
+        }
     }
 
     public void initDefaultValues() {
