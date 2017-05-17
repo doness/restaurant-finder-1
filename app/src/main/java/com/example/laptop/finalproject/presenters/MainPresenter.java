@@ -64,6 +64,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
         filteredRestaurants = new ArrayList<>();
         markerDataList = new ArrayList<>();
         start_offset = 0;
+        price_max = 5;
+        rating_min = 0.5;
         compositeSubscription = new CompositeSubscription();
     }
 

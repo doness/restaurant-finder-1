@@ -22,93 +22,100 @@
         app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
         app:titleTextColor="@android:color/black"/>
 
-    <RelativeLayout
-        android:layout_height="match_parent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@id/toolbarMain">
+        android:layout_height="match_parent"
+        android:id="@+id/svMainScrollView"
+        android:fillViewport="true">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:inputType="textPostalAddress"
-            android:id="@+id/etPostcode"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:id="@+id/tvOr"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/etPostcode"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:inputType="textPostalAddress"
+                android:id="@+id/etPostcode"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" />
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:id="@+id/swUseMyLocation"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/tvOr"
-            android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/tvOr"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/etPostcode"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnFindNearby"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/swUseMyLocation"
-            android:background="@color/colorAccent" />
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/swUseMyLocation"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/tvOr"
+                android:textSize="16sp"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCuisine"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/btnFindNearby"
-            android:background="@color/cardview_shadow_start_color"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnFindNearby"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/swUseMyLocation"
+                android:background="@color/colorAccent" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCategory"
-            android:layout_marginTop="1dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/btnCuisine"
-            android:background="@color/cardview_shadow_start_color"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCuisine"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btnFindNearby"
+                android:background="@color/cardview_shadow_start_color"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:id="@+id/btnPrice"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/btnCategory"
-            android:background="@color/cardview_shadow_start_color"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCategory"
+                android:layout_marginTop="1dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btnCuisine"
+                android:background="@color/cardview_shadow_start_color"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:id="@+id/btnRating"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/btnPrice"
-            android:background="@color/cardview_shadow_start_color"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:id="@+id/btnPrice"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btnCategory"
+                android:background="@color/cardview_shadow_start_color"/>
 
-    </RelativeLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:id="@+id/btnRating"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btnPrice"
+                android:background="@color/cardview_shadow_start_color"/>
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

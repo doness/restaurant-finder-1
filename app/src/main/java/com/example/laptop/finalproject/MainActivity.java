@@ -2,6 +2,7 @@ package com.example.laptop.finalproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     @BindView(R.id.btnCategory) Button btnCategory;
     @BindView(R.id.btnPrice) Button btnPrice;
     @BindView(R.id.btnRating) Button btnRating;
+    @BindView(R.id.svMainScrollView) ScrollView svMainScrollView;
 
     //Initialise the Activity
     @Override
@@ -265,6 +270,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
             }
         });
+
+        //hiding the toolbar when scrolling
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            svMainScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                    if (oldScrollY >= toolbarMain.getHeight()/2 && scrollY < toolbarMain.getHeight()/2){
+                        toolbarMain.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+                    }
+                    else if (scrollY > toolbarMain.getHeight()/2){
+                        toolbarMain.animate().translationY(-toolbarMain.getHeight())
+                                .setInterpolator(new AccelerateInterpolator(2));
+                    }
+                }
+            });
+        }
     }
 
     @Override
