@@ -7,15 +7,14 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.example.laptop.finalproject.R;
-import com.example.laptop.finalproject.adapters.DailyMenuAdapter;
 import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.injection.MyApp;
 import com.example.laptop.finalproject.models.DailyMenu;
@@ -42,7 +41,8 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     Unbinder unbinder;
 
     @BindView(R.id.srDailyMenu) SwipeRefreshLayout srDailyMenu;
-    @BindView(R.id.rvDailyMenu) RecyclerView rvDailyMenu;
+    //@BindView(R.id.rvDailyMenu) RecyclerView rvDailyMenu;
+    @BindView(R.id.wvMenu) WebView wvMenu;
 
     View view;
     Restaurant_ restaurant_data;
@@ -73,8 +73,9 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
         //initialise the recycler view
         initialiseRecyclerView(view.getContext());
         //tell the presenter to fetch the daily menus for the given restaurant
-        presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
-        //setu the swipe to refresh layout
+        //presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
+        setupRecyclerView();
+        //setup the swipe to refresh layout
         setupRefresh();
     }
 
@@ -98,7 +99,7 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     private void initialiseRecyclerView(Context context) {
 
         //assign a layout manager to the recycler view
-        rvDailyMenu.setLayoutManager(new LinearLayoutManager(context));
+        //rvDailyMenu.setLayoutManager(new LinearLayoutManager(context));
     }
 
     //setup the swipe to refresh layout
@@ -116,13 +117,22 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
                 }, 2500);
             }
         });
+
+
     }
 
     //pass the relevant data to the recycler view
     private void setupRecyclerView() {
 
-        rvDailyMenu.setAdapter(new DailyMenuAdapter(dailyMenu_data, R.layout.row_daily_menu,
-                getActivity().getApplicationContext()));
+        //rvDailyMenu.setAdapter(new DailyMenuAdapter(dailyMenu_data, R.layout.row_daily_menu,
+        //        getActivity().getApplicationContext()));
+
+        WebSettings webSettings = wvMenu.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
+        wvMenu.loadUrl(restaurant_data.getMenuUrl());
+        wvMenu.setHorizontalScrollBarEnabled(true);
+        wvMenu.setVerticalScrollBarEnabled(true);
     }
 
     //method called i nthe page adapter that passes the restaurant data from the MainFragment to the tab

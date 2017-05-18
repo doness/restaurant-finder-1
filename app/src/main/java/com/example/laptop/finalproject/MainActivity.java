@@ -2,6 +2,7 @@ package com.example.laptop.finalproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,12 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.injection.MyApp;
 import com.example.laptop.finalproject.models.MarkerDataParcel;
 import com.example.laptop.finalproject.presenters.MainPresenter;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -40,21 +42,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     boolean language_type;
     boolean location_check;
     boolean input_validity;
+    boolean toolbar_hidden_check;
     String target_location;
     String target_cuisine;
     String target_category;
     String target_price;
     String target_rating;
+    private AlphaAnimation buttonClick;
+
 
     @BindView(R.id.etPostcode) EditText etPostcode;
-    @BindView(R.id.tvOr) TextView tvOr;
-    @BindView(R.id.swUseMyLocation) Switch swUseMyLocation;
+    //@BindView(R.id.tvOr) TextView tvOr;
+    //@BindView(R.id.swUseMyLocation) Switch swUseMyLocation;
     @BindView(R.id.btnFindNearby) Button btnFindNearby;
     @BindView(R.id.toolbarMain) Toolbar toolbarMain;
-    @BindView(R.id.btnCuisine) Button btnCuisine;
-    @BindView(R.id.btnCategory) Button btnCategory;
-    @BindView(R.id.btnPrice) Button btnPrice;
-    @BindView(R.id.btnRating) Button btnRating;
+    @BindView(R.id.ivCuisine) ImageView ivCuisine;
+    @BindView(R.id.ivCategory) ImageView ivCategory;
+    @BindView(R.id.ivPrice) ImageView ivPrice;
+    @BindView(R.id.ivRating) ImageView ivRating;
+    @BindView(R.id.tvCuisine) TextView tvCuisine;
+    @BindView(R.id.tvCategory) TextView tvCategory;
+    @BindView(R.id.tvPrice) TextView tvPrice;
+    @BindView(R.id.tvRating) TextView tvRating;
     @BindView(R.id.svMainScrollView) ScrollView svMainScrollView;
 
     //Initialise the Activity
@@ -68,10 +77,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         //Inject the presenter to the view
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
 
+        //sets the default language value
+        initDefaultLanguage();
         //sets default values to global variables
         initDefaultValues();
         //initialise the toolbar
         setupToolbar();
+        //setup the image buttons
+        setupImages();
         //assign the views with the correct language option (EN by default)
         setupViews();
         //assign listeners
@@ -110,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             else {
                 this.language_type = true;
                 setupViews();
+                initDefaultValues();
 
                 return true;
             }
@@ -122,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             else {
                 this.language_type = false;
                 setupViews();
+                initDefaultValues();
 
                 return true;
             }
@@ -139,33 +154,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         if (language_type) {
 
             etPostcode.setHint(Constants.EN_POSTCODE_HINT);
-            tvOr.setText(Constants.EN_OR);
-            swUseMyLocation.setText(Constants.EN_USE_LOCATION);
+            //tvOr.setText(Constants.EN_OR);
+            //swUseMyLocation.setText(Constants.EN_USE_LOCATION);
             btnFindNearby.setText(Constants.EN_BUTTON);
-            toolbarMain.setTitle(Constants.EN_MAIN_TOOLBAR_TITLE);
-            btnCuisine.setText(Constants.EN_CUISINE_LIST[0]);
-            btnCategory.setText(Constants.EN_CATEGORY_LIST[0]);
-            btnPrice.setText(Constants.EN_PRICE_LIST[0]);
-            btnRating.setText(Constants.EN_RATING_LIST[0]);
+            //toolbarMain.setTitle(Constants.EN_MAIN_TOOLBAR_TITLE);
+            tvCuisine.setText(Constants.EN_CUISINE_LIST[0]);
+            tvCategory.setText(Constants.EN_CATEGORY_LIST[0]);
+            tvPrice.setText(Constants.EN_PRICE_LIST[0]);
+            tvRating.setText(Constants.EN_RATING_LIST[0]);
         }
         else {
 
             etPostcode.setHint(Constants.BG_POSTCODE_HINT);
-            tvOr.setText(Constants.BG_OR);
-            swUseMyLocation.setText(Constants.BG_USE_LOCATION);
+            //tvOr.setText(Constants.BG_OR);
+            //swUseMyLocation.setText(Constants.BG_USE_LOCATION);
             btnFindNearby.setText(Constants.BG_BUTTON);
-            toolbarMain.setTitle(Constants.BG_MAIN_TOOLBAR_TITLE);
-            btnCuisine.setText(Constants.BG_CUISINE_LIST[0]);
-            btnCategory.setText(Constants.BG_CATEGORY_LIST[0]);
-            btnPrice.setText(Constants.BG_PRICE_LIST[0]);
-            btnRating.setText(Constants.BG_RATING_LIST[0]);
+            //toolbarMain.setTitle(Constants.BG_MAIN_TOOLBAR_TITLE);
+            tvCuisine.setText(Constants.BG_CUISINE_LIST[0]);
+            tvCategory.setText(Constants.BG_CATEGORY_LIST[0]);
+            tvPrice.setText(Constants.BG_PRICE_LIST[0]);
+            tvRating.setText(Constants.BG_RATING_LIST[0]);
         }
     }
 
     private void setupToolbar() {
 
         setSupportActionBar(toolbarMain);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        //getSupportActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
     private void setupButton() {
@@ -233,41 +248,43 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         //assign listeners to all the views that require user input
         //store the selected data so it can be passed to the presenter
 
-        swUseMyLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*swUseMyLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 location_check = isChecked;
 
             }
-        });
+        });*/
 
-        btnCuisine.setOnClickListener(new View.OnClickListener() {
+        ivCuisine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 displayDialogueBox(0);
             }
         });
 
-        btnCategory.setOnClickListener(new View.OnClickListener() {
+        ivCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 displayDialogueBox(1);
             }
         });
 
-        btnPrice.setOnClickListener(new View.OnClickListener() {
+        ivPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 displayDialogueBox(2);
-
             }
         });
 
-        btnRating.setOnClickListener(new View.OnClickListener() {
+        ivRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
                 displayDialogueBox(3);
-
             }
         });
 
@@ -277,12 +294,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-                    if (oldScrollY >= toolbarMain.getHeight()/2 && scrollY < toolbarMain.getHeight()/2){
+                    if (oldScrollY >= toolbarMain.getHeight()/2 && scrollY < toolbarMain.getHeight()/2
+                            && toolbar_hidden_check){
                         toolbarMain.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+                        toolbar_hidden_check = false;
                     }
-                    else if (scrollY > toolbarMain.getHeight()/2){
+                    else if (scrollY > toolbarMain.getHeight()/2 && !toolbar_hidden_check){
                         toolbarMain.animate().translationY(-toolbarMain.getHeight())
                                 .setInterpolator(new AccelerateInterpolator(2));
+                        toolbar_hidden_check = true;
                     }
                 }
             });
@@ -367,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_cuisine = l0[which].toString();
-                        btnCuisine.setText(target_cuisine);
+                        tvCuisine.setText(target_cuisine);
                         dialog.dismiss();
                     }
                 });
@@ -382,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_category = l1[which].toString();
-                        btnCategory.setText(target_category);
+                        tvCategory.setText(target_category);
                         dialog.dismiss();
                     }
                 });
@@ -397,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_price = l2[which].toString();
-                        btnPrice.setText(target_price);
+                        tvPrice.setText(target_price);
                         dialog.dismiss();
                     }
                 });
@@ -412,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_rating = l3[which].toString();
-                        btnRating.setText(target_rating);
+                        tvRating.setText(target_rating);
                         dialog.dismiss();
                     }
                 });
@@ -422,17 +442,45 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         }
     }
 
+    public void setupImages(){
+
+        Picasso.with(getApplicationContext())
+                .load("http://fresh-abersoch.co.uk/wp-content/uploads/2014/07/restaurant-food-salat-2.jpg")
+                .into(ivCuisine);
+        ivCuisine.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        Picasso.with(getApplicationContext())
+                .load("https://media.timeout.com/images/103720743/image.jpg")
+                .into(ivCategory);
+        ivCategory.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        Picasso.with(getApplicationContext())
+                .load("http://libn.com/files/2014/05/Money-in-Wallet-620x330.jpg")
+                .into(ivPrice);
+        ivPrice.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        Picasso.with(getApplicationContext())
+                .load("https://cdn.shutterstock.com/shutterstock/videos/17660632/thumb/1.jpg")
+                .into(ivRating);
+        ivRating.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
+    }
+
     public void initDefaultValues() {
 
         //assign the default values to the global variables
 
         this.location_check = false;
-        this.language_type = true;
         this.target_location = "";
         this.target_cuisine = "";
         this.target_category = "";
         this.target_price = "";
         this.target_rating = "";
         this.input_validity = false;
+        this.toolbar_hidden_check = false;
+    }
+
+    public void initDefaultLanguage(){
+        this.language_type = true;
+        this.buttonClick = new AlphaAnimation(1F, 0.8F);
     }
 }

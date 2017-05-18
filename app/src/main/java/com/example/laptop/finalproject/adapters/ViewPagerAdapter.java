@@ -39,14 +39,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
             return tab1;
         }
-        else if (position == 1)
+        else if (position == 2)
         {
             Tab2 tab2 = new Tab2();
 
             tab2.receiveRestaurantId(restaurant);
             return tab2;
         }
-        //insert Tab 3 here
         else
         {
             Tab3 tab3 = new Tab3();

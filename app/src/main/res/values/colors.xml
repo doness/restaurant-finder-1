@@ -5,4 +5,6 @@
     <color name="colorAccent">#b8d7ff</color>
     <color name="colorBackground">#a7a7a7</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorButtonBg">#cf000e</color>
+    <color name="colorHighlightBackup">#b8d7ff</color>
 </resources>

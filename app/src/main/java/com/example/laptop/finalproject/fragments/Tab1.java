@@ -117,6 +117,8 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
         tvAddress.setText(location.getAddress());
 
 
+
+
     }
 
     //unused methods

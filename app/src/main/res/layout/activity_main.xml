@@ -14,14 +14,25 @@
         android:layout_height="?attr/actionBarSize"
         android:minHeight="?android:attr/actionBarSize"
         android:id="@+id/toolbarMain"
-        android:background="@color/colorBackground"
+        android:background="@color/colorWhite"
         app:theme="@style/Base.Widget.AppCompat.ActionBar"
         app:title="Restaurant Finder"
         app:titleMarginStart="20dp"
         android:elevation="4dp"
         app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
-        app:titleTextColor="@android:color/black"/>
+        app:titleTextColor="@android:color/black">
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:id="@+id/etPostcode"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@null"/>
+
+    </android.support.v7.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,10 +40,10 @@
         android:fillViewport="true">
 
         <RelativeLayout
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <EditText
+            <!--EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/actionBarSize"
@@ -52,7 +63,7 @@
                 android:paddingRight="16dp"
                 android:id="@+id/tvOr"
                 android:layout_marginTop="8dp"
-                android:layout_below="@id/etPostcode"
+                android:layout_alignParentTop="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
@@ -67,53 +78,153 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="8dp"
                 android:layout_below="@id/tvOr"
-                android:textSize="16sp"/>
-
-            <Button
+                android:textSize="16sp"/-->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnFindNearby"
-                android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/swUseMyLocation"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorButtonBg"
+                android:id="@+id/rlFindNearby">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:id="@+id/btnFindNearby"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1.5"
+                    android:shadowDy="1.3"
+                    android:shadowRadius="1.6"
+                    android:textColor="@color/colorWhite"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    />
+                </RelativeLayout>
 
-            <Button
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnCuisine"
-                android:layout_marginTop="16dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/btnFindNearby"
-                android:background="@color/cardview_shadow_start_color"/>
+                android:id="@+id/rlCuisine"
+                android:layout_below="@id/rlFindNearby">
 
-            <Button
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/ivCuisine"
+                    android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/cardview_shadow_start_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tvCuisine"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1.5"
+                    android:shadowDy="1.3"
+                    android:shadowRadius="1.6"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"/>
+
+                </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnCategory"
-                android:layout_marginTop="1dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/btnCuisine"
-                android:background="@color/cardview_shadow_start_color"/>
+                android:id="@+id/rlCategory"
+                android:layout_below="@id/rlCuisine">
 
-            <Button
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/ivCategory"
+                    android:layout_marginTop="1dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/cardview_shadow_start_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tvCategory"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1.5"
+                    android:shadowDy="1.3"
+                    android:shadowRadius="1.6"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:id="@+id/btnPrice"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/btnCategory"
-                android:background="@color/cardview_shadow_start_color"/>
+                android:id="@+id/rlPrice"
+                android:layout_below="@id/rlCategory">
 
-            <Button
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/ivPrice"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/cardview_shadow_start_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tvPrice"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1.5"
+                    android:shadowDy="1.3"
+                    android:shadowRadius="1.6"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:id="@+id/btnRating"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/btnPrice"
-                android:background="@color/cardview_shadow_start_color"/>
+                android:id="@+id/rlRating"
+                android:layout_below="@id/rlPrice">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/ivRating"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/cardview_shadow_start_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tvRating"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1.5"
+                    android:shadowDy="1.3"
+                    android:shadowRadius="1.6"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
     </ScrollView>

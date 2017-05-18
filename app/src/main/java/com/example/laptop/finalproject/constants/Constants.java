@@ -7,7 +7,7 @@ package com.example.laptop.finalproject.constants;
 public class Constants {
 
     //Tab layout
-    public static final CharSequence TAB_TITLES[]={"Overview","User Reviews","Daily Menu"};
+    public static final CharSequence TAB_TITLES[]={"Overview", "Menu", "User Reviews"};
     public static final int NUMBER_OF_TABS = 3;
 
     //API data

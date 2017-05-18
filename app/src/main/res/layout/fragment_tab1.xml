@@ -2,172 +2,179 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.laptop.finalproject.fragments.Tab1"
-    >
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cvRestaurantInfo"
-        android:layout_marginBottom="8dp"
-        android:elevation="4dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rlRestaurantInfo"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+    tools:context="com.example.laptop.finalproject.fragments.Tab1">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/ivRestaurantThumb"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:layout_centerHorizontal="true"
-                android:textAlignment="center"
-                android:shadowColor="#000000"
-                android:shadowDx="1.5"
-                android:shadowDy="1.3"
-                android:shadowRadius="1.6"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/tvRestaurantName" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/tvRestaurantName"
-                android:layout_marginTop="8dp"
-                android:id="@+id/rlUserScore">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:shadowColor="#000000"
-                    android:shadowDx="1.5"
-                    android:shadowDy="1.3"
-                    android:shadowRadius="1.6"
-                    android:textColor="@color/colorWhite"
-                    android:id="@+id/tvRestaurantScoreText"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_toRightOf="@id/tvRestaurantScoreText"
-                    android:layout_toEndOf="@id/tvRestaurantScoreText"
-                    android:layout_alignBaseline="@id/tvRestaurantScoreText"
-                    android:shadowColor="#000000"
-                    android:shadowDx="1.5"
-                    android:shadowDy="1.3"
-                    android:shadowRadius="1.6"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold"
-                    android:id="@+id/tvRestaurantScore" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvNumberOfVotes"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp"
-                    android:layout_below="@id/tvRestaurantScore"
-                    android:layout_alignRight="@id/tvRestaurantScore"
-                    android:layout_alignEnd="@id/tvRestaurantScore"
-                    android:shadowColor="#000000"
-                    android:shadowDx="1.5"
-                    android:shadowDy="1.3"
-                    android:shadowRadius="1.6"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="italic"/>
-
-            </RelativeLayout>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cvRestaurantInfo"
-        android:paddingLeft="8dp"
-        >
+        android:fillViewport="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cvRestaurantInfo"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rlRestaurantInfo"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:text="Cuisines"
-            android:textStyle="bold"
-            android:id="@+id/tvCuisinesText"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/ivRestaurantThumb"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvCuisineTypes"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="16sp"
-            android:layout_below="@id/tvCuisinesText"
-            />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+                        android:shadowColor="#000000"
+                        android:shadowDx="1.5"
+                        android:shadowDy="1.3"
+                        android:shadowRadius="1.6"
+                        android:textColor="@color/colorWhite"
+                        android:id="@+id/tvRestaurantName" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:text="Cost"
-            android:textStyle="bold"
-            android:id="@+id/tvCostText"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/tvCuisineTypes"
-            android:layout_marginTop="8dp"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/tvRestaurantName"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/rlUserScore">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvCostPerTwo"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="16sp"
-            android:layout_below="@id/tvCostText"
-            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:shadowColor="#000000"
+                            android:shadowDx="1.5"
+                            android:shadowDy="1.3"
+                            android:shadowRadius="1.6"
+                            android:textColor="@color/colorWhite"
+                            android:id="@+id/tvRestaurantScoreText"
+                            android:layout_marginTop="8dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:text="Address"
-            android:textStyle="bold"
-            android:id="@+id/tvAddressText"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/tvCostPerTwo"
-            android:layout_marginTop="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="32sp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_toRightOf="@id/tvRestaurantScoreText"
+                            android:layout_toEndOf="@id/tvRestaurantScoreText"
+                            android:layout_alignBaseline="@id/tvRestaurantScoreText"
+                            android:shadowColor="#000000"
+                            android:shadowDx="1.5"
+                            android:shadowDy="1.3"
+                            android:shadowRadius="1.6"
+                            android:textColor="@color/colorWhite"
+                            android:textStyle="bold"
+                            android:id="@+id/tvRestaurantScore" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvAddress"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="16sp"
-            android:layout_below="@id/tvAddressText"
-            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvNumberOfVotes"
+                            android:textSize="12sp"
+                            android:layout_marginTop="4dp"
+                            android:layout_below="@id/tvRestaurantScore"
+                            android:layout_alignRight="@id/tvRestaurantScore"
+                            android:layout_alignEnd="@id/tvRestaurantScore"
+                            android:shadowColor="#000000"
+                            android:shadowDx="1.5"
+                            android:shadowDy="1.3"
+                            android:shadowRadius="1.6"
+                            android:textColor="@color/colorWhite"
+                            android:textStyle="italic"/>
 
-    </RelativeLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/cvRestaurantInfo"
+                android:paddingLeft="8dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:text="Cuisines"
+                    android:textStyle="bold"
+                    android:id="@+id/tvCuisinesText"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvCuisineTypes"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="16sp"
+                    android:layout_below="@id/tvCuisinesText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:text="Cost"
+                    android:textStyle="bold"
+                    android:id="@+id/tvCostText"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tvCuisineTypes"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvCostPerTwo"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="16sp"
+                    android:layout_below="@id/tvCostText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:text="Address"
+                    android:textStyle="bold"
+                    android:id="@+id/tvAddressText"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tvCostPerTwo"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAddress"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="16sp"
+                    android:layout_below="@id/tvAddressText"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
