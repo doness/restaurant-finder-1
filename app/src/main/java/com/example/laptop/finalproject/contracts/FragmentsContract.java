@@ -27,5 +27,6 @@ public interface FragmentsContract {
         void receiveRestaurantId(Restaurant_ restaurant);
         void receiveUserReviews(List<UserReviewWrapper> userReviews);
         void receiveDailyMenu(List<DailyMenu> dailyMenus);
+        void getError(String error_message);
     }
 }

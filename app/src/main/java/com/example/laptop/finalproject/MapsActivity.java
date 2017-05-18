@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
@@ -196,6 +197,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         progressDialog.dismiss();
 
+    }
+
+    @Override
+    public void getError(String error_message) {
+
+        Toast.makeText(this, error_message, Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
     }
 
 }

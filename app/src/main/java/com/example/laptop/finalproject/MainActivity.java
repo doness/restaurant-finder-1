@@ -340,6 +340,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     }
 
     @Override
+    public void getError(String error_message) {
+
+        progressDialog.dismiss();
+        Toast.makeText(this, error_message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void startMapActivity(MarkerDataParcel markerDataParcel) {
         //pass the required data to the map activity and start it
         Intent intent = new Intent(getBaseContext(), MapsActivity.class);

@@ -6,6 +6,8 @@ import com.example.laptop.finalproject.interacters.MainInteracter;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.utilities.RxUtils;
 
+import java.net.UnknownHostException;
+
 import javax.inject.Inject;
 
 import rx.Observer;
@@ -48,6 +50,14 @@ public class MapPresenter implements MainContract.IMapPresenter {
                     public void onError(Throwable e) {
 
                         e.printStackTrace();
+
+                        if(e.getClass() == UnknownHostException.class) {
+                            mapView.getError("No Internet Connection");
+                        }
+
+                        else {
+                            mapView.getError(e.getMessage());
+                        }
 
                     }
 

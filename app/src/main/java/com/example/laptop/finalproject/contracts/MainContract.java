@@ -25,6 +25,7 @@ public interface MainContract {
 
         void confirmData(boolean dataState);
         void startMapActivity(MarkerDataParcel markerDataParcel);
+        void getError(String error_message);
     }
 
     interface IMapPresenter{
@@ -35,6 +36,7 @@ public interface MainContract {
 
     interface IMapView{
         void getRestaurantData(Restaurant_ restaurant);
+        void getError(String error_message);
     }
 }
 

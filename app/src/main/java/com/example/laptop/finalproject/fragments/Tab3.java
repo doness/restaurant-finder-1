@@ -149,4 +149,9 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     public void receiveUserReviews(List<UserReviewWrapper> userReviews) {
 
     }
+
+    @Override
+    public void getError(String error_message) {
+
+    }
 }

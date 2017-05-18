@@ -6,6 +6,8 @@ import com.example.laptop.finalproject.models.DailyMenuResult;
 import com.example.laptop.finalproject.models.ReviewsResult;
 import com.example.laptop.finalproject.utilities.RxUtils;
 
+import java.net.UnknownHostException;
+
 import javax.inject.Inject;
 
 import rx.Observer;
@@ -48,6 +50,14 @@ public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
                     public void onError(Throwable e) {
 
                         e.printStackTrace();
+
+                        if(e.getClass() == UnknownHostException.class) {
+                            tabFragment.getError("No Internet Connection");
+                        }
+
+                        else {
+                            tabFragment.getError(e.getMessage());
+                        }
 
                     }
 

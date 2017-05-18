@@ -124,4 +124,9 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
     public void receiveDailyMenu(List<DailyMenu> dailyMenus) {
 
     }
+
+    @Override
+    public void getError(String error_message) {
+
+    }
 }

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.adapters.ReviewsAdapter;
@@ -146,6 +147,13 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
     //assign a layout manager to the recycler view
     private void initialiseRecyclerView(Context context){
         rvUserReviews.setLayoutManager(new LinearLayoutManager(context));
+    }
+
+    @Override
+    public void getError(String error_message) {
+
+        Toast.makeText(getContext(), error_message, Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
     }
 
     //unused method

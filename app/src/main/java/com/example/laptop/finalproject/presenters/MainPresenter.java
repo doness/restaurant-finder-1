@@ -3,7 +3,8 @@ package com.example.laptop.finalproject.presenters;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-import android.util.Log;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
@@ -18,6 +19,7 @@ import com.example.laptop.finalproject.models.UserRating;
 import com.example.laptop.finalproject.utilities.RxUtils;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -76,8 +78,21 @@ public class MainPresenter implements MainContract.IMainPresenter {
     }
 
     @Override
-    public void getUserInputs(Context context, String location, String cuisine, String category,
+    public void getUserInputs(Context context, final String location, String cuisine, String category,
                               String price, String reviews) {
+
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (!isConnected){
+
+            mainView.getError("No Internet Connection");
+            return;
+        }
 
         //determine the location
         if (location.equals(Constants.USE_MY_LOCATION)) {
@@ -99,6 +114,8 @@ public class MainPresenter implements MainContract.IMainPresenter {
         else {
 
             inputValidity = false;
+            maps_location = false;
+
 
             String regex = "^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$";
 
@@ -106,7 +123,6 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
             Matcher matcher = pattern.matcher(location);
 
-            maps_location = false;
             Geocoder geoCoder = new Geocoder(context ,Locale.getDefault());
             List<Address> address = null;
 
@@ -218,6 +234,14 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
                         e.printStackTrace();
 
+                        if(e.getClass() == UnknownHostException.class) {
+                            mainView.getError("No Internet Connection");
+                        }
+
+                        else {
+                            mainView.getError(e.getMessage());
+                        }
+
                     }
 
                     @Override
@@ -258,7 +282,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         }
 
         else{
-            Log.i("Debugging", "No valid restaurants");
+            mainView.getError("No valid results");
         }
     }
 
@@ -287,6 +311,4 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
         mainView.startMapActivity(markerDataParcel);
     }
-
-
 }
