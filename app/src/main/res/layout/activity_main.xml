@@ -15,11 +15,10 @@
         android:minHeight="?android:attr/actionBarSize"
         android:id="@+id/toolbarMain"
         android:background="@color/colorWhite"
-        app:theme="@style/Base.Widget.AppCompat.ActionBar"
-        app:title="Restaurant Finder"
+        android:theme="@style/Base.Widget.AppCompat.ActionBar"
         app:titleMarginStart="20dp"
         android:elevation="4dp"
-        app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
+        android:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
         app:titleTextColor="@android:color/black">
 
         <EditText

@@ -1,5 +1,6 @@
 package com.example.laptop.finalproject;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private List<MarkerData> markerData;
+    ProgressDialog progressDialog;
 
     @Inject MapPresenter presenter;
 
@@ -132,6 +134,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // get the details from the presenter on the selected restaurant
         //marker ids match restaurant positions in the markerData list
         //so we just fetch the restaurant id of the parcel at that position
+
+        progressDialog = new ProgressDialog(MapsActivity.this);
+        progressDialog.setMessage(Constants.EN_PROGRESS_DIALOG);
+        progressDialog.show();
+
         Integer restaurant_id = Integer.parseInt(markerData.get(Integer.parseInt(marker.getId()
                 .replaceAll("m", ""))).restaurant_id);
 
@@ -143,6 +150,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //if a marker is double-clicked, fetch info for that restaurant
         //used mostly for ui testing purposes
         if (click_counter >= 1 && id_counter.equals(marker.getId())){
+
+            progressDialog = new ProgressDialog(MapsActivity.this);
+            progressDialog.setMessage(Constants.EN_PROGRESS_DIALOG);
+            progressDialog.show();
+
             click_counter = 0;
             id_counter = "";
 
@@ -181,6 +193,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fragmentTransaction.commit();
 
         mainFragment.receiveRestaurantData(restaurant_data);
+
+        progressDialog.dismiss();
 
     }
 

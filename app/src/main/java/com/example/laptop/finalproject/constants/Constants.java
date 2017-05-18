@@ -149,6 +149,7 @@ public class Constants {
             "Pocket Friendly Delivery", "Clubs & Lounges"};
     public static final CharSequence EN_AD_PRICE_LIST [] = {"None", "£", "££", "£££", "££££"};
     public static final CharSequence EN_AD_RATING_LIST [] = {"None", "1", "2", "3", "4", "5"};
+    public static final String EN_PROGRESS_DIALOG = "Loading";
 
 
     //Bulgarian strings
@@ -181,4 +182,5 @@ public class Constants {
             "Евтина Доставка", "Клубове и Салони"};
     public static final CharSequence BG_AD_PRICE_LIST [] = {"Без значение", "£", "££", "£££", "££££"};
     public static final CharSequence BG_AD_RATING_LIST [] = {"Без значение", "1", "2", "3", "4", "5"};
+    public static final String BG_PROGRESS_DIALOG = "Зареждане";
 }

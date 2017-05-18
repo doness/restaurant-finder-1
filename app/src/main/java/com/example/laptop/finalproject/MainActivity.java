@@ -1,5 +1,6 @@
 package com.example.laptop.finalproject;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     String target_category;
     String target_price;
     String target_rating;
-    private AlphaAnimation buttonClick;
+    AlphaAnimation buttonClick;
+    ProgressDialog progressDialog;
 
 
     @BindView(R.id.etPostcode) EditText etPostcode;
@@ -76,11 +78,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         unbinder = ButterKnife.bind(this);
         //Inject the presenter to the view
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
-
-        //sets the default language value
-        initDefaultLanguage();
-        //sets default values to global variables
+        //sets the default non-input values
         initDefaultValues();
+        //sets default values to global variables related to user inputs
+        initDefaultInputValues();
         //initialise the toolbar
         setupToolbar();
         //setup the image buttons
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             else {
                 this.language_type = true;
                 setupViews();
-                initDefaultValues();
+                initDefaultInputValues();
 
                 return true;
             }
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             else {
                 this.language_type = false;
                 setupViews();
-                initDefaultValues();
+                initDefaultInputValues();
 
                 return true;
             }
@@ -162,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             tvCategory.setText(Constants.EN_CATEGORY_LIST[0]);
             tvPrice.setText(Constants.EN_PRICE_LIST[0]);
             tvRating.setText(Constants.EN_RATING_LIST[0]);
+            progressDialog.setMessage(Constants.EN_PROGRESS_DIALOG);
         }
         else {
 
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             tvCategory.setText(Constants.BG_CATEGORY_LIST[0]);
             tvPrice.setText(Constants.BG_PRICE_LIST[0]);
             tvRating.setText(Constants.BG_RATING_LIST[0]);
+            progressDialog.setMessage(Constants.BG_PROGRESS_DIALOG);
         }
     }
 
@@ -193,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             @Override
             public void onClick(View v) {
 
+                progressDialog.show();
                 checkLocation();
 
                 if (input_validity) {
@@ -317,6 +321,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         //otherwise, start MapsActivity
 
         if (!dataState){
+
+            progressDialog.dismiss();
+
             if (language_type) {
 
                 Toast.makeText(this, Constants.EN_TOAST_INVALID_POSTCODE, Toast.LENGTH_LONG).show();
@@ -338,6 +345,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         Intent intent = new Intent(getBaseContext(), MapsActivity.class);
         intent.putExtra("markerData", markerDataParcel);
         startActivity(intent);
+        progressDialog.dismiss();
         presenter.unbind();
     }
 
@@ -465,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         ivRating.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
-    public void initDefaultValues() {
+    public void initDefaultInputValues() {
 
         //assign the default values to the global variables
 
@@ -479,8 +487,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         this.toolbar_hidden_check = false;
     }
 
-    public void initDefaultLanguage(){
+    public void initDefaultValues(){
         this.language_type = true;
         this.buttonClick = new AlphaAnimation(1F, 0.8F);
+        progressDialog = new ProgressDialog(MainActivity.this);
     }
 }

@@ -58,6 +58,8 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tab1, container, false);
 
+
+
     }
 
     @Override
@@ -67,12 +69,6 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
         unbinder = ButterKnife.bind(this, view);
         //setup the views
         setupViews();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
@@ -115,10 +111,6 @@ public class Tab1 extends Fragment implements FragmentsContract.ITabFragment{
         tvCostPerTwo.setText("Average Cost for Two: " +  restaurant_data.getCurrency()
                 + String.valueOf(restaurant_data.getAverageCostForTwo()));
         tvAddress.setText(location.getAddress());
-
-
-
-
     }
 
     //unused methods
