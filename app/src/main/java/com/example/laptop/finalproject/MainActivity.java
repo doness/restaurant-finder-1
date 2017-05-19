@@ -52,10 +52,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     AlphaAnimation buttonClick;
     ProgressDialog progressDialog;
 
-
+    //bind views
     @BindView(R.id.etPostcode) EditText etPostcode;
-    //@BindView(R.id.tvOr) TextView tvOr;
-    //@BindView(R.id.swUseMyLocation) Switch swUseMyLocation;
     @BindView(R.id.btnFindNearby) Button btnFindNearby;
     @BindView(R.id.toolbarMain) Toolbar toolbarMain;
     @BindView(R.id.ivCuisine) ImageView ivCuisine;
@@ -76,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
         //Bind Butterknife to the view
         unbinder = ButterKnife.bind(this);
-        //Inject the presenter to the view
+        //Inject the presenter in the view
+        //binding to view happens in checkLocation()
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
         //sets the default non-input values
         initDefaultValues();
@@ -124,7 +123,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             else {
                 this.language_type = true;
                 setupViews();
+                boolean i = location_check;
                 initDefaultInputValues();
+                location_check = i;
+
 
                 return true;
             }
@@ -133,14 +135,27 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             if (!language_type){
                 return true;
             }
-
             else {
                 this.language_type = false;
                 setupViews();
+                boolean i = location_check;
                 initDefaultInputValues();
+                location_check = i;
 
                 return true;
             }
+        }
+        else if (item.getItemId() == R.id.btnLocation) {
+            if (location_check){
+                location_check = false;
+                item.setIcon(R.mipmap.ic_launcher);
+            }
+            else{
+                location_check = true;
+                item.setIcon(R.mipmap.ic_launcher_round);
+            }
+
+            return true;
         }
         else {
 
@@ -155,10 +170,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         if (language_type) {
 
             etPostcode.setHint(Constants.EN_POSTCODE_HINT);
-            //tvOr.setText(Constants.EN_OR);
-            //swUseMyLocation.setText(Constants.EN_USE_LOCATION);
             btnFindNearby.setText(Constants.EN_BUTTON);
-            //toolbarMain.setTitle(Constants.EN_MAIN_TOOLBAR_TITLE);
             tvCuisine.setText(Constants.EN_CUISINE_LIST[0]);
             tvCategory.setText(Constants.EN_CATEGORY_LIST[0]);
             tvPrice.setText(Constants.EN_PRICE_LIST[0]);
@@ -168,10 +180,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         else {
 
             etPostcode.setHint(Constants.BG_POSTCODE_HINT);
-            //tvOr.setText(Constants.BG_OR);
-            //swUseMyLocation.setText(Constants.BG_USE_LOCATION);
             btnFindNearby.setText(Constants.BG_BUTTON);
-            //toolbarMain.setTitle(Constants.BG_MAIN_TOOLBAR_TITLE);
             tvCuisine.setText(Constants.BG_CUISINE_LIST[0]);
             tvCategory.setText(Constants.BG_CATEGORY_LIST[0]);
             tvPrice.setText(Constants.BG_PRICE_LIST[0]);
@@ -183,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     private void setupToolbar() {
 
         setSupportActionBar(toolbarMain);
-        //getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
     private void setupButton() {
@@ -206,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 }
 
                 else {
+                    progressDialog.dismiss();
                     if (language_type) {
 
                         Toast.makeText(getApplicationContext(), Constants.EN_TOAST_ONLY_ONE_INPUT,
@@ -224,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
     private void checkLocation() {
         //check if the user wants to use GPS location or postcode
+
 
         if (location_check) {
 
@@ -251,14 +262,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     private void setupListeners(){
         //assign listeners to all the views that require user input
         //store the selected data so it can be passed to the presenter
-
-        /*swUseMyLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                location_check = isChecked;
-
-            }
-        });*/
 
         ivCuisine.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,12 +301,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-                    if (oldScrollY >= toolbarMain.getHeight()/2 && scrollY < toolbarMain.getHeight()/2
+                    if (oldScrollY >= toolbarMain.getHeight() && scrollY < toolbarMain.getHeight()
                             && toolbar_hidden_check){
                         toolbarMain.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
                         toolbar_hidden_check = false;
                     }
-                    else if (scrollY > toolbarMain.getHeight()/2 && !toolbar_hidden_check){
+                    else if (scrollY > toolbarMain.getHeight() && !toolbar_hidden_check){
                         toolbarMain.animate().translationY(-toolbarMain.getHeight())
                                 .setInterpolator(new AccelerateInterpolator(2));
                         toolbar_hidden_check = true;
@@ -343,7 +346,45 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     public void getError(String error_message) {
 
         progressDialog.dismiss();
-        Toast.makeText(this, error_message, Toast.LENGTH_LONG).show();
+
+        if (error_message.equals(Constants.LOCATION_ERROR)){
+
+            String dialog_message;
+            String dialog_yes;
+            String dialog_no;
+
+            if (language_type){
+                dialog_message = Constants.EN_LOCATION_DIALOG_TEXT;
+                dialog_yes = Constants.EN_LOCATION_DIALOG_YES;
+                dialog_no = Constants.EN_LOCATION_DIALOG_NO;
+            }
+
+            else{
+                dialog_message = Constants.BG_LOCATION_DIALOG_TEXT;
+                dialog_yes = Constants.BG_LOCATION_DIALOG_YES;
+                dialog_no = Constants.BG_LOCATION_DIALOG_NO;
+            }
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(dialog_message)
+                    .setCancelable(false)
+                    .setPositiveButton(dialog_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton(dialog_no, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        }
+
+        else{
+            Toast.makeText(this, error_message, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -357,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     }
 
     //build an Alert Dialogue for filter selection
-    public void displayDialogueBox(int dialogue_type) {
+    private void displayDialogueBox(int dialogue_type) {
         String title_0;
         String title_1;
         String title_2;
@@ -457,7 +498,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         }
     }
 
-    public void setupImages(){
+    private void setupImages(){
 
         Picasso.with(getApplicationContext())
                 .load("http://fresh-abersoch.co.uk/wp-content/uploads/2014/07/restaurant-food-salat-2.jpg")
@@ -480,7 +521,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         ivRating.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
-    public void initDefaultInputValues() {
+    private void initDefaultInputValues() {
 
         //assign the default values to the global variables
 
@@ -492,9 +533,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         this.target_rating = "";
         this.input_validity = false;
         this.toolbar_hidden_check = false;
+
     }
 
-    public void initDefaultValues(){
+    private void initDefaultValues(){
         this.language_type = true;
         this.buttonClick = new AlphaAnimation(1F, 0.8F);
         progressDialog = new ProgressDialog(MainActivity.this);

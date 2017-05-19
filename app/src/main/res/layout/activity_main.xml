@@ -14,22 +14,23 @@
         android:layout_height="?attr/actionBarSize"
         android:minHeight="?android:attr/actionBarSize"
         android:id="@+id/toolbarMain"
-        android:background="@color/colorWhite"
-        android:theme="@style/Base.Widget.AppCompat.ActionBar"
+        android:background="@color/colorPrimaryDark"
         app:titleMarginStart="20dp"
         android:elevation="4dp"
-        android:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
-        app:titleTextColor="@android:color/black">
+        app:titleTextColor="@color/colorBackground">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPostalAddress"
             android:id="@+id/etPostcode"
+            android:padding="6dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@null"/>
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:background="@color/colorWhite"/>
 
     </android.support.v7.widget.Toolbar>
     <ScrollView
@@ -42,42 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <!--EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:paddingTop="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:inputType="textPostalAddress"
-                android:id="@+id/etPostcode"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:id="@+id/tvOr"
-                android:layout_marginTop="8dp"
-                android:layout_alignParentTop="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:id="@+id/swUseMyLocation"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
-                android:layout_below="@id/tvOr"
-                android:textSize="16sp"/-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +77,7 @@
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:id="@+id/ivCuisine"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="1dp"
                     android:layout_centerHorizontal="true"
                     android:background="@color/cardview_shadow_start_color" />
 

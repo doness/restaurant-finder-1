@@ -52,7 +52,7 @@ public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
                         e.printStackTrace();
 
                         if(e.getClass() == UnknownHostException.class) {
-                            tabFragment.getError("No Internet Connection");
+                            tabFragment.getError("Error: No Internet Connection");
                         }
 
                         else {

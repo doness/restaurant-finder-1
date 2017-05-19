@@ -59,14 +59,11 @@ public class MapsActivityTest {
 
         onView(withText("Meryem")).check(matches(isDisplayed()));
         Thread.sleep(1000);
-        UiObject button2 = device.findObject(new UiSelector().textContains("Daily Menu"));
+        UiObject button2 = device.findObject(new UiSelector().textContains("Menu"));
         button2.click();
         Thread.sleep(2000);
-        onView(withId(R.id.rvDailyMenu)).check(matches(isDisplayed()));
-        onView(withId(R.id.rvDailyMenu)).perform(scrollToPosition(2));
-        Thread.sleep(2000);
 
-        onView(withText("134\u00a0K\u010d")).check(matches(isDisplayed()));
+        onView(withId(R.id.wvMenu)).check(matches(isDisplayed()));
         Thread.sleep(1000);
 
         //onView(withId(R.id.map)).check(matches(isDisplayed()));

@@ -15,6 +15,7 @@ public class Constants {
     public static final String API_KEY = "user-key: 8b1de1b1e12c75f0cdc90defe4e359ef";
     public static final String HEADER_ACCEPT = "Accept: application/json";
     public static final String USE_MY_LOCATION = "User Location";
+    public static final String LOCATION_ERROR = "Enable Location Services";
 
     /**
      * American = 1
@@ -150,6 +151,9 @@ public class Constants {
     public static final CharSequence EN_AD_PRICE_LIST [] = {"None", "£", "££", "£££", "££££"};
     public static final CharSequence EN_AD_RATING_LIST [] = {"None", "1", "2", "3", "4", "5"};
     public static final String EN_PROGRESS_DIALOG = "Loading";
+    public static final String EN_LOCATION_DIALOG_TEXT = "Would you like to enable Location Services?";
+    public static final String EN_LOCATION_DIALOG_YES = "Yes";
+    public static final String EN_LOCATION_DIALOG_NO = "No";
 
 
     //Bulgarian strings
@@ -183,4 +187,7 @@ public class Constants {
     public static final CharSequence BG_AD_PRICE_LIST [] = {"Без значение", "£", "££", "£££", "££££"};
     public static final CharSequence BG_AD_RATING_LIST [] = {"Без значение", "1", "2", "3", "4", "5"};
     public static final String BG_PROGRESS_DIALOG = "Зареждане";
+    public static final String BG_LOCATION_DIALOG_TEXT = "Желаете ли да включите Услугата за Локация?";
+    public static final String BG_LOCATION_DIALOG_YES = "Да";
+    public static final String BG_LOCATION_DIALOG_NO = "Не";
 }

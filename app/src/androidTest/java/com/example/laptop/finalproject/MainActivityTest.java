@@ -41,12 +41,6 @@ public class MainActivityTest {
 
         onView(withId(R.id.toolbarMain)).check(matches(isDisplayed()));
         onView(withId(R.id.etPostcode)).check(matches(isDisplayed()));
-        onView(withId(R.id.tvOr)).check(matches(isDisplayed()));
-        onView(withId(R.id.swUseMyLocation)).check(matches(isDisplayed()));
-        onView(withId(R.id.btnCuisine)).check(matches(isDisplayed()));
-        onView(withId(R.id.btnCategory)).check(matches(isDisplayed()));
-        onView(withId(R.id.btnPrice)).check(matches(isDisplayed()));
-        onView(withId(R.id.btnRating)).check(matches(isDisplayed()));
         onView(withId(R.id.btnFindNearby)).check(matches(isDisplayed()));
 
     }
@@ -57,10 +51,10 @@ public class MainActivityTest {
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         onView(withText(R.string.bulgarian)).perform(click());
-        onView(withId(R.id.tvOr)).check(matches(withText(Constants.BG_OR)));
+        onView(withId(R.id.tvCuisine)).check(matches(withText(Constants.BG_CUISINE_LIST[0])));
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         onView(withText(R.string.english)).perform(click());
-        onView(withId(R.id.tvOr)).check(matches(withText(Constants.EN_OR)));
+        onView(withId(R.id.tvCuisine)).check(matches(withText(Constants.EN_CUISINE_LIST[0])));
     }
     //Test if the location checker works
     @Test
@@ -83,7 +77,7 @@ public class MainActivityTest {
 
         Thread.sleep(5000);
 
-        onView(withId(R.id.swUseMyLocation)).perform(click());
+        onView(withId(R.id.btnLocation)).perform(click());
         onView(withId(R.id.btnFindNearby)).perform(click());
         onView(withText(Constants.EN_TOAST_ONLY_ONE_INPUT)).inRoot(withDecorView(not(activityTestRule
                 .getActivity()

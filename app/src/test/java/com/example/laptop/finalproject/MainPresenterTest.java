@@ -83,6 +83,7 @@ public class MainPresenterTest {
         iMainView = mock(MainContract.IMainView.class);
 
         presenter = new MainPresenter(interacter);
+        presenter.underTest = "Yes";
         location = new Location();
         userRating = new UserRating();
         restaurant_ = new Restaurant_();

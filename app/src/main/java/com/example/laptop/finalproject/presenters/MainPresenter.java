@@ -1,10 +1,14 @@
 package com.example.laptop.finalproject.presenters;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
@@ -16,7 +20,13 @@ import com.example.laptop.finalproject.models.Restaurant;
 import com.example.laptop.finalproject.models.Restaurant_;
 import com.example.laptop.finalproject.models.Results;
 import com.example.laptop.finalproject.models.UserRating;
+import com.example.laptop.finalproject.utilities.NetworkCheck;
 import com.example.laptop.finalproject.utilities.RxUtils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -34,7 +44,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 
-public class MainPresenter implements MainContract.IMainPresenter {
+public class MainPresenter implements MainContract.IMainPresenter, ConnectionCallbacks, OnConnectionFailedListener {
 
     private MainContract.IMainView mainView;
     private MainInteracter interacter;
@@ -47,14 +57,18 @@ public class MainPresenter implements MainContract.IMainPresenter {
     public double rating_min;
     private boolean inputValidity;
     public int start_offset;
+    private GoogleApiClient googleApiClient;
     private List<Restaurant> restaurantList;
     private List<Restaurant_> filteredRestaurants;
     private List<MarkerData> markerDataList;
-    CompositeSubscription compositeSubscription;
+    private CompositeSubscription compositeSubscription;
+    private Context context;
+    private boolean data_ready_check;
+    public String underTest;
 
 
     @Inject
-    public MainPresenter (MainInteracter interacter) {
+    public MainPresenter(MainInteracter interacter) {
 
         this.interacter = interacter;
     }
@@ -69,6 +83,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
         price_max = 5;
         rating_min = 0.5;
         compositeSubscription = new CompositeSubscription();
+        data_ready_check = false;
     }
 
     @Override
@@ -81,18 +96,22 @@ public class MainPresenter implements MainContract.IMainPresenter {
     public void getUserInputs(Context context, final String location, String cuisine, String category,
                               String price, String reviews) {
 
-        ConnectivityManager cm =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        boolean isConnected;
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        if (underTest != null) {
+            isConnected = true;
+        }
+        else {
+            isConnected =  NetworkCheck.checkConnection(context);
+        }
 
-        if (!isConnected){
+        if (!isConnected) {
 
-            mainView.getError("No Internet Connection");
+            mainView.getError("Error: No Internet Connection");
             return;
         }
+
+        this.context = context;
 
         //determine the location
         if (location.equals(Constants.USE_MY_LOCATION)) {
@@ -101,17 +120,30 @@ public class MainPresenter implements MainContract.IMainPresenter {
             inputValidity = true;
             //Log.i("Debugging", "Inside presenter: Use my location true");
 
-        }
+            if (underTest != null){
 
-        else if (location.equals("")) {
+                maps_location = false;
+            }
+
+            else {
+
+                googleApiClient = new GoogleApiClient.Builder(context)
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this)
+                        .addApi(LocationServices.API)
+                        .build();
+
+                googleApiClient.connect();
+            }
+
+
+        } else if (location.equals("")) {
 
             maps_location = false;
             inputValidity = false;
             //Log.i("Debugging", "Inside presenter: Use my location false, empty postcode");
 
-        }
-
-        else {
+        } else {
 
             inputValidity = false;
             maps_location = false;
@@ -123,7 +155,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
             Matcher matcher = pattern.matcher(location);
 
-            Geocoder geoCoder = new Geocoder(context ,Locale.getDefault());
+            Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
             List<Address> address = null;
 
             //Log.i("Debugging", "Matcher is: " + String.valueOf(matcher.matches()));
@@ -144,9 +176,7 @@ public class MainPresenter implements MainContract.IMainPresenter {
                         lat = first.getLatitude();
                         lon = first.getLongitude();
                         inputValidity = true;
-                    }
-
-                    catch (IndexOutOfBoundsException e){
+                    } catch (IndexOutOfBoundsException e) {
                         e.printStackTrace();
                         inputValidity = false;
                         //Log.i("Debugging", "Inside presenter: Error parsing postcode");
@@ -160,14 +190,14 @@ public class MainPresenter implements MainContract.IMainPresenter {
         //determine the cuisine type
 
         if (cuisine.equals(Constants.EN_AD_CUISINE_LIST[0].toString()) ||
-                cuisine.equals(Constants.BG_AD_CUISINE_LIST[0].toString())){
+                cuisine.equals(Constants.BG_AD_CUISINE_LIST[0].toString())) {
             cuisine_id = Constants.CUISINE_ID_LIST[0];
         }
 
         int i;
-        for (i=1; i<Constants.CUISINE_ID_LIST.length; i++){
+        for (i = 1; i < Constants.CUISINE_ID_LIST.length; i++) {
             if (cuisine.equals(Constants.EN_AD_CUISINE_LIST[i].toString()) ||
-                    cuisine.equals(Constants.BG_AD_CUISINE_LIST[i].toString())){
+                    cuisine.equals(Constants.BG_AD_CUISINE_LIST[i].toString())) {
                 cuisine_id = Constants.CUISINE_ID_LIST[i];
                 //Log.i("Debugging", "Selected cuisine is: " + Constants.EN_CUISINE_LIST[i] +
                 //        ", id is: " + Constants.CUISINE_ID_LIST[i]);
@@ -179,13 +209,13 @@ public class MainPresenter implements MainContract.IMainPresenter {
         //determine the category type
 
         if (category.equals(Constants.EN_AD_CATEGORY_LIST[0].toString()) ||
-                category.equals(Constants.BG_AD_CATEGORY_LIST[0].toString())){
+                category.equals(Constants.BG_AD_CATEGORY_LIST[0].toString())) {
             category_id = Constants.CATEGORY_ID_LIST[0];
         }
 
-        for (i=1; i<Constants.CATEGORY_ID_LIST.length; i++){
+        for (i = 1; i < Constants.CATEGORY_ID_LIST.length; i++) {
             if (category.equals(Constants.EN_AD_CATEGORY_LIST[i].toString()) ||
-                    category.equals(Constants.BG_AD_CATEGORY_LIST[i].toString())){
+                    category.equals(Constants.BG_AD_CATEGORY_LIST[i].toString())) {
                 category_id = Constants.CATEGORY_ID_LIST[i];
                 //Log.i("Debugging", "Selected category is: " + Constants.EN_CATEGORY_LIST[i] +
                 //        ", id is: " + Constants.CATEGORY_ID_LIST[i]);
@@ -194,9 +224,9 @@ public class MainPresenter implements MainContract.IMainPresenter {
         }
 
         //determine the price range
-        for (i=0; i<Constants.EN_PRICE_LIST.length; i++){
+        for (i = 0; i < Constants.EN_PRICE_LIST.length; i++) {
             if (price.equals(Constants.EN_AD_PRICE_LIST[i].toString()) ||
-                    price.equals(Constants.BG_AD_PRICE_LIST[i].toString())){
+                    price.equals(Constants.BG_AD_PRICE_LIST[i].toString())) {
                 price_max = i;
                 //Log.i("Debugging", "Selected price is: " + Constants.EN_PRICE_LIST[i]);
                 break;
@@ -204,9 +234,9 @@ public class MainPresenter implements MainContract.IMainPresenter {
         }
 
         //determine the rating limit
-        for (i=0; i<Constants.EN_RATING_LIST.length; i++){
+        for (i = 0; i < Constants.EN_RATING_LIST.length; i++) {
             if (reviews.equals(Constants.EN_AD_RATING_LIST[i].toString()) ||
-                    reviews.equals(Constants.BG_AD_RATING_LIST[i].toString())){
+                    reviews.equals(Constants.BG_AD_RATING_LIST[i].toString())) {
                 rating_min = i;
                 //Log.i("Debugging", "Selected rating is: " + Constants.EN_RATING_LIST[i]);
                 break;
@@ -214,7 +244,16 @@ public class MainPresenter implements MainContract.IMainPresenter {
         }
 
         //let the view know if the input is valid
-        mainView.confirmData(inputValidity);
+
+        if (!maps_location) {
+
+
+            mainView.confirmData(inputValidity);
+        }
+
+        else {
+            data_ready_check = true;
+        }
     }
 
     @Override
@@ -234,11 +273,9 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
                         e.printStackTrace();
 
-                        if(e.getClass() == UnknownHostException.class) {
+                        if (e.getClass() == UnknownHostException.class) {
                             mainView.getError("No Internet Connection");
-                        }
-
-                        else {
+                        } else {
                             mainView.getError(e.getMessage());
                         }
 
@@ -263,13 +300,12 @@ public class MainPresenter implements MainContract.IMainPresenter {
             price_max = 5;
         }
 
-        for (Restaurant restaurant : restaurantList){
+        for (Restaurant restaurant : restaurantList) {
             Restaurant_ temp_restaurant = restaurant.getRestaurant();
             UserRating temp_rating = temp_restaurant.getUserRating();
             if (temp_restaurant.getPriceRange() > price_max) {
                 continue;
-            }
-            else if (temp_rating.getAggregateRating() < (rating_min - 0.5)) {
+            } else if (temp_rating.getAggregateRating() < (rating_min - 0.5)) {
                 continue;
             }
 
@@ -277,20 +313,18 @@ public class MainPresenter implements MainContract.IMainPresenter {
 
         }
 
-        if (filteredRestaurants != null){
+        if (filteredRestaurants != null) {
             prepareMarkerData(filteredRestaurants);
-        }
-
-        else{
-            mainView.getError("No valid results");
+        } else {
+            mainView.getError("Error: No valid results");
         }
     }
 
     @Override
-    public void prepareMarkerData(List<Restaurant_> restaurants){
+    public void prepareMarkerData(List<Restaurant_> restaurants) {
 
         //Log.i("Debugging", "Got the restaurants");
-        for (Restaurant_ restaurant : restaurants){
+        for (Restaurant_ restaurant : restaurants) {
             String temp_id = restaurant.getId();
             Location temp_location = restaurant.getLocation();
             double temp_lat = Double.parseDouble(temp_location.getLatitude());
@@ -310,5 +344,74 @@ public class MainPresenter implements MainContract.IMainPresenter {
         MarkerDataParcel markerDataParcel = new MarkerDataParcel(markerDataList);
 
         mainView.startMapActivity(markerDataParcel);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            mainView.getError(Constants.LOCATION_ERROR);
+            return;
+        }
+        android.location.Location lastLocation = LocationServices.FusedLocationApi
+                .getLastLocation(googleApiClient);
+
+        if (lastLocation != null){
+            lat = lastLocation.getLatitude();
+            lon = lastLocation.getLongitude();
+            boolean gotData = true;
+            boolean dataIsReady;
+            dataIsReady = data_ready_check;
+
+            if (!dataIsReady){
+
+                int i = 0;
+
+                while (!dataIsReady) {
+
+                    i++;
+                    try {
+                        wait(250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    dataIsReady = data_ready_check;
+
+                    if (i>25){
+                        gotData = false;
+                        break;
+                    }
+                }
+            }
+
+            if (gotData){
+                mainView.confirmData(inputValidity);
+            }
+            else {
+                mainView.getError("Error: Invalid Input");
+            }
+        }
+        else {
+            mainView.getError("Error: No Location Detected");
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        mainView.getError(connectionResult.getErrorMessage());
     }
 }

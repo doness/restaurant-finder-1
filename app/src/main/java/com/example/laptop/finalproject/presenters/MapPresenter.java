@@ -52,7 +52,7 @@ public class MapPresenter implements MainContract.IMapPresenter {
                         e.printStackTrace();
 
                         if(e.getClass() == UnknownHostException.class) {
-                            mapView.getError("No Internet Connection");
+                            mapView.getError("Error: No Internet Connection");
                         }
 
                         else {

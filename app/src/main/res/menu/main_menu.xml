@@ -12,4 +12,9 @@
         android:title="@string/bulgarian"
         app:showAsAction="withText|never"/>
 
+    <item android:id="@+id/btnLocation"
+        android:title="MY"
+        android:icon="@mipmap/ic_launcher"
+        app:showAsAction="always"/>
+
 </menu>
