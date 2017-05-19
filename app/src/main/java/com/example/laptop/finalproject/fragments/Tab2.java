@@ -130,14 +130,20 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
 
     //setup the swipe refresh layout
     private void setupRefresh() {
+
+        final Tab2 tab2 = this;
+
         srUserReviews.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        presenter.fetchUserReviews(Integer.parseInt(restaurant_data.getId()));
-                        srUserReviews.setRefreshing(false);
+                        //make sure the tab is still active when the refresh finishes
+                        if (tab2.isAdded()) {
+                            presenter.fetchUserReviews(Integer.parseInt(restaurant_data.getId()));
+                            srUserReviews.setRefreshing(false);
+                        }
                     }
                 }, 2500);
             }

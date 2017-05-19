@@ -105,14 +105,20 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     //setup the swipe to refresh layout
     private void setupRefresh(){
 
+        final Tab3 tab3 = this;
+
         srDailyMenu.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
-                        srDailyMenu.setRefreshing(false);
+
+                        if (tab3.isAdded()) {
+                            presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
+                            srDailyMenu.setRefreshing(false);
+                        }
+
                     }
                 }, 2500);
             }
