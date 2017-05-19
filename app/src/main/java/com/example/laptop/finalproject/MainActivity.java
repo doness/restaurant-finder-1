@@ -3,9 +3,12 @@ package com.example.laptop.finalproject;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     String target_rating;
     AlphaAnimation buttonClick;
     ProgressDialog progressDialog;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     //bind views
     @BindView(R.id.etPostcode) EditText etPostcode;
@@ -148,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         else if (item.getItemId() == R.id.btnLocation) {
             if (location_check){
                 location_check = false;
-                item.setIcon(R.mipmap.ic_launcher);
+                item.setIcon(R.mipmap.crosshair);
             }
             else{
                 location_check = true;
-                item.setIcon(R.mipmap.ic_launcher_round);
+                item.setIcon(R.mipmap.crosshair_selected);
             }
 
             return true;
@@ -349,7 +353,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
         if (error_message.equals(Constants.LOCATION_ERROR)){
 
-            String dialog_message;
+            requestLocationService();
+
+            /*String dialog_message;
             String dialog_yes;
             String dialog_no;
 
@@ -379,7 +385,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                         }
                     });
             final AlertDialog alert = builder.create();
-            alert.show();
+
+            alert.show();*/
         }
 
         else{
@@ -397,8 +404,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         presenter.unbind();
     }
 
-    //build an Alert Dialogue for filter selection
     private void displayDialogueBox(int dialogue_type) {
+        //build an Alert Dialogue for filter selection
+
         String title_0;
         String title_1;
         String title_2;
@@ -408,6 +416,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         CharSequence list_1 [];
         CharSequence list_2 [];
         CharSequence list_3 [];
+
+        String pretitle_0;
+        String pretitle_1;
+        String pretitle_2;
+        String pretitle_3;
 
 
         if (!language_type) {
@@ -420,6 +433,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             list_1 = Constants.BG_AD_CATEGORY_LIST;
             list_2 = Constants.BG_AD_PRICE_LIST;
             list_3 = Constants.BG_AD_RATING_LIST;
+
+            pretitle_0 = Constants.BG_CUISINE;
+            pretitle_1 = Constants.BG_CATEGORY;
+            pretitle_2 = Constants.BG_PRICE;
+            pretitle_3 = Constants.BG_RATING;
         }
 
         else {
@@ -432,18 +450,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             list_1 = Constants.EN_AD_CATEGORY_LIST;
             list_2 = Constants.EN_AD_PRICE_LIST;
             list_3 = Constants.EN_AD_RATING_LIST;
+
+            pretitle_0 = Constants.EN_CUISINE;
+            pretitle_1 = Constants.EN_CATEGORY;
+            pretitle_2 = Constants.EN_PRICE;
+            pretitle_3 = Constants.EN_RATING;
         }
 
         switch (dialogue_type) {
             case 0:
                 AlertDialog.Builder builder0 = new AlertDialog.Builder(this);
                 final CharSequence l0 [] = list_0;
+                final String pt_0 = pretitle_0;
                 builder0.setTitle(title_0);
                 builder0.setItems(list_0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_cuisine = l0[which].toString();
-                        tvCuisine.setText(target_cuisine);
+                        tvCuisine.setText(pt_0 + target_cuisine);
                         dialog.dismiss();
                     }
                 });
@@ -453,12 +477,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             case 1:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 final CharSequence l1 [] = list_1;
+                final String pt_1 = pretitle_1;
                 builder1.setTitle(title_1);
                 builder1.setItems(list_1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_category = l1[which].toString();
-                        tvCategory.setText(target_category);
+                        tvCategory.setText(pt_1 + target_category);
                         dialog.dismiss();
                     }
                 });
@@ -468,12 +493,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             case 2:
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
                 final CharSequence l2 [] = list_2;
+                final String pt_2 = pretitle_2;
                 builder2.setTitle(title_2);
                 builder2.setItems(list_2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_price = l2[which].toString();
-                        tvPrice.setText(target_price);
+                        tvPrice.setText(pt_2 + target_price);
                         dialog.dismiss();
                     }
                 });
@@ -483,12 +509,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             case 3:
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
                 final CharSequence l3 [] = list_3;
+                final String pt_3 = pretitle_3;
                 builder3.setTitle(title_3);
                 builder3.setItems(list_3, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target_rating = l3[which].toString();
-                        tvRating.setText(target_rating);
+                        tvRating.setText(pt_3 + target_rating);
                         dialog.dismiss();
                     }
                 });
@@ -540,5 +567,88 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         this.language_type = true;
         this.buttonClick = new AlphaAnimation(1F, 0.8F);
         progressDialog = new ProgressDialog(MainActivity.this);
+    }
+
+    private void requestLocationService(){
+
+        String dialog_message;
+        String dialog_yes;
+        String dialog_no;
+
+        if (language_type){
+            dialog_message = Constants.EN_LOCATION_DIALOG_TEXT;
+            dialog_yes = Constants.EN_LOCATION_DIALOG_YES;
+            dialog_no = Constants.EN_LOCATION_DIALOG_NO;
+        }
+
+        else{
+            dialog_message = Constants.BG_LOCATION_DIALOG_TEXT;
+            dialog_yes = Constants.BG_LOCATION_DIALOG_YES;
+            dialog_no = Constants.BG_LOCATION_DIALOG_NO;
+        }
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            // Show an explanation to the user *asynchronously* -- don't block
+            // this thread waiting for the user's response! After the user
+            // sees the explanation, try again to request the permission.
+            new AlertDialog.Builder(this)
+                    .setMessage(dialog_message)
+                    .setPositiveButton(dialog_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                    MY_PERMISSIONS_REQUEST_LOCATION );
+                        }
+                    })
+                    .setNegativeButton(dialog_no, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .create()
+                    .show();
+
+
+        } else {
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION );
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+//                        if (mGoogleApiClient == null) {
+//                            buildGoogleApiClient();
+//                        }
+                        presenter.getUserInputs(getApplicationContext(), target_location, target_cuisine, target_category,
+                                target_price, target_rating);
+                    }
+
+                }
+
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }

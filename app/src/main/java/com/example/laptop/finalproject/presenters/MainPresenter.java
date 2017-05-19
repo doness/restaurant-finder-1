@@ -93,7 +93,7 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
     }
 
     @Override
-    public void getUserInputs(Context context, final String location, String cuisine, String category,
+    public void getUserInputs(Context context, String location, String cuisine, String category,
                               String price, String reviews) {
 
         boolean isConnected;
@@ -147,6 +147,8 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
 
             inputValidity = false;
             maps_location = false;
+
+            location = location.toUpperCase();
 
 
             String regex = "^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$";
@@ -402,6 +404,47 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
         }
         else {
             mainView.getError("Error: No Location Detected");
+
+            /**
+             *test starts here
+
+            lat = 51.508530;
+            lon = -0.076132;
+            boolean gotData = true;
+            boolean dataIsReady;
+            dataIsReady = data_ready_check;
+
+            if (!dataIsReady){
+
+                int i = 0;
+
+                while (!dataIsReady) {
+
+                    i++;
+                    try {
+                        wait(250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    dataIsReady = data_ready_check;
+
+                    if (i>25){
+                        gotData = false;
+                        break;
+                    }
+                }
+            }
+
+            if (gotData){
+                mainView.confirmData(inputValidity);
+            }
+            else {
+                mainView.getError("Error: Invalid Input");
+            }
+
+            /**
+             * test ends here
+             */
         }
     }
 

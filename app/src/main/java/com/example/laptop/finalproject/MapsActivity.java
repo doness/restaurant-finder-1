@@ -127,6 +127,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
+        if (markerData.size() == 0) {
+            LatLng default_LatLng = new LatLng(51.504167, -0.076271);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(default_LatLng));
+
+            Toast.makeText(this, "No Matching Restaurants Found", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override

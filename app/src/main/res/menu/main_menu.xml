@@ -13,8 +13,8 @@
         app:showAsAction="withText|never"/>
 
     <item android:id="@+id/btnLocation"
-        android:title="MY"
-        android:icon="@mipmap/ic_launcher"
+        android:title="Use My Location"
+        android:icon="@mipmap/crosshair"
         app:showAsAction="always"/>
 
 </menu>

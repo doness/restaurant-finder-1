@@ -27,7 +27,6 @@ public class FragmentPresenter implements FragmentsContract.IFragmentPresenter{
         this.interacter = interacter;
     }
 
-
     @Override
     public void bind(FragmentsContract.ITabFragment tabFragment) {
         this.tabFragment = tabFragment;
