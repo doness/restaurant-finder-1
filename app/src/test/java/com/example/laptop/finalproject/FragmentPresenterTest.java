@@ -11,6 +11,7 @@ import com.example.laptop.finalproject.services.IRestaurantsAPI;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -129,6 +130,7 @@ public class FragmentPresenterTest {
         RxAndroidPlugins.getInstance().reset();
     }
 
+    @Ignore
     @Test
     public void testFetchesDailyMenu() throws Exception {
 

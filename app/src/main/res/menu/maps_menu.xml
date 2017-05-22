@@ -5,7 +5,7 @@
     tools:context=".MapsActivity">
 
     <item android:id="@+id/btnRestaurantList"
-        android:title="Toggle List View"
+        android:title="@string/toggle_list_view"
         app:showAsAction="withText|never"/>
 
 </menu>

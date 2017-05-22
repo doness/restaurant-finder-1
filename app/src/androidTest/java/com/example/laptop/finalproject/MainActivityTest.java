@@ -78,6 +78,7 @@ public class MainActivityTest {
         Thread.sleep(5000);
 
         onView(withId(R.id.btnLocation)).perform(click());
+        onView(withId(R.id.etPostcode)).perform(typeText("ashfbidsb"), closeSoftKeyboard());
         onView(withId(R.id.btnFindNearby)).perform(click());
         onView(withText(Constants.EN_TOAST_ONLY_ONE_INPUT)).inRoot(withDecorView(not(activityTestRule
                 .getActivity()

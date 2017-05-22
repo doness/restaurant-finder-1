@@ -1,5 +1,6 @@
 package com.example.laptop.finalproject;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -38,6 +40,21 @@ public class MapsActivityTest {
 
         Thread.sleep(5000);
 
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        onView(withText(R.string.toggle_list_view)).perform(click());
+
+        Thread.sleep(1000);
+
+        onView(withId(R.id.rvRestaurantList)).check(matches(isDisplayed()));
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        onView(withText(R.string.toggle_list_view)).perform(click());
+
+        Thread.sleep(1000);
+
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
+
+        Thread.sleep(1000);
+
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject marker = device.findObject(new UiSelector().descriptionContains("Chicken Cottage"));
 
@@ -48,7 +65,7 @@ public class MapsActivityTest {
         onView(withId(R.id.tvCostText)).check(matches(isDisplayed()));
         Thread.sleep(1000);
 
-        UiObject button1 = device.findObject(new UiSelector().textContains("User Reviews"));
+        UiObject button1 = device.findObject(new UiSelector().textContains("Reviews"));
         button1.click();
         Thread.sleep(1000);
         onView(withId(R.id.rvUserReviews)).check(matches(isDisplayed()));
