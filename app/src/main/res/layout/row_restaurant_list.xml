@@ -21,7 +21,7 @@
                 android:id="@+id/btnListViewDetails"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:text="View Details"/>
+                android:text=" View Details "/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -35,33 +35,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvListRestaurantName"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@id/btnListShowOnMap"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvListCuisines"
-                android:textSize="12sp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/tvListRestaurantName"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvListPrice"
-                android:textSize="12sp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/tvListCuisines"/>
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:attr/ratingBarStyleSmall"
                 android:id="@+id/rbListRating"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/tvListPrice" />
+                android:layout_below="@id/tvListRestaurantName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvListCuisines"
+                android:textSize="16sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/rbListRating"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvListPrice"
+                android:textSize="16sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/tvListCuisines"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
