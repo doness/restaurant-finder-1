@@ -396,7 +396,7 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
             }
         }
         else {
-            mainView.getError("Error: No Location Detected");
+            mainView.getError(Constants.LOCATION_SERVICE_ERROR);
 
             /**
              *test starts here

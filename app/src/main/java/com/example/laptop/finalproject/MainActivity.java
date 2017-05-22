@@ -153,10 +153,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             if (location_check){
                 location_check = false;
                 item.setIcon(R.mipmap.crosshair);
+                etPostcode.setText("");
             }
             else{
                 location_check = true;
                 item.setIcon(R.mipmap.crosshair_selected);
+                if (!language_type){
+                    etPostcode.setText(Constants.BG_USE_LOCATION);
+                }
+                else{
+                    etPostcode.setText(Constants.EN_USE_LOCATION);
+                }
             }
 
             return true;
@@ -242,7 +249,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 
         if (location_check) {
 
-            if ((etPostcode.getText().toString()).equals("")) {
+            if (((etPostcode.getText().toString()).equals("")) ||
+                    ((etPostcode.getText().toString()).equals(Constants.EN_USE_LOCATION)) ||
+                    ((etPostcode.getText().toString()).equals(Constants.BG_USE_LOCATION))) {
 
                 this.input_validity = true;
                 this.target_location = Constants.USE_MY_LOCATION;
@@ -354,39 +363,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         if (error_message.equals(Constants.LOCATION_ERROR)){
 
             requestLocationService();
+        }
 
-            /*String dialog_message;
-            String dialog_yes;
-            String dialog_no;
+        else if (error_message.equals(Constants.LOCATION_SERVICE_ERROR)) {
 
-            if (language_type){
-                dialog_message = Constants.EN_LOCATION_DIALOG_TEXT;
-                dialog_yes = Constants.EN_LOCATION_DIALOG_YES;
-                dialog_no = Constants.EN_LOCATION_DIALOG_NO;
-            }
-
-            else{
-                dialog_message = Constants.BG_LOCATION_DIALOG_TEXT;
-                dialog_yes = Constants.BG_LOCATION_DIALOG_YES;
-                dialog_no = Constants.BG_LOCATION_DIALOG_NO;
-            }
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(dialog_message)
-                    .setCancelable(false)
-                    .setPositiveButton(dialog_yes, new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        }
-                    })
-                    .setNegativeButton(dialog_no, new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            dialog.cancel();
-                        }
-                    });
-            final AlertDialog alert = builder.create();
-
-            alert.show();*/
+            checkLocationServiceEnabled();
         }
 
         else{
@@ -618,6 +599,42 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION );
         }
+    }
+
+    private void checkLocationServiceEnabled() {
+
+        String dialog_message;
+        String dialog_yes;
+        String dialog_no;
+
+        if (language_type){
+            dialog_message = Constants.EN_LOCATION_SERVICE_DIALOG_TEXT;
+            dialog_yes = Constants.EN_LOCATION_DIALOG_OK;
+            dialog_no = Constants.EN_LOCATION_DIALOG_CANCEL;
+        }
+
+        else{
+            dialog_message = Constants.BG_LOCATION_SERVICE_DIALOG_TEXT;
+            dialog_yes = Constants.BG_LOCATION_DIALOG_OK;
+            dialog_no = Constants.BG_LOCATION_DIALOG_CANCEL;
+        }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(dialog_message)
+                .setCancelable(false)
+                .setPositiveButton(dialog_yes, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton(dialog_no, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+
+        alert.show();
     }
 
     @Override

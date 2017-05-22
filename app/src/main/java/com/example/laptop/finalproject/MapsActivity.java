@@ -2,15 +2,19 @@ package com.example.laptop.finalproject;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.fragments.MainFragment;
+import com.example.laptop.finalproject.fragments.RestaurantListView;
 import com.example.laptop.finalproject.injection.MyApp;
 import com.example.laptop.finalproject.models.MarkerData;
 import com.example.laptop.finalproject.models.MarkerDataParcel;
@@ -24,30 +28,42 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 //This will be the main activity that controls and communicates with all the fragments
 //It is called from the MainActivity after the user has defined what types of restaurants
 //should be displayed
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         MainContract.IMapView, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private List<MarkerData> markerData;
     ProgressDialog progressDialog;
+    private List<Marker> markerList;
 
     @Inject MapPresenter presenter;
 
+    Unbinder unbinder;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     SupportMapFragment mapFragment;
     MainFragment mainFragment;
+    RestaurantListView restaurantListView;
     Restaurant_ restaurant_data;
     int click_counter;
+    boolean map_view;
+    boolean list_view;
     String id_counter;
+
+    @BindView(R.id.toolbarMaps) Toolbar toolbarMaps;
 
 
 
@@ -56,13 +72,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        //inject and bind presenter
+        //inject and bind presenter and butterknife
         ((MyApp)getApplication()).getRestaurants_component().inject(this);
         presenter.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         //counters to ensure double clicking a marker takes you to the MainFragment
         click_counter = 0;
         id_counter = "";
+        map_view = true;
+        list_view = false;
+        markerList = new ArrayList<>();
+
+        //setup toolbar
+        setupToolbar();
 
         //fetch data to display the markers
         MarkerDataParcel markerDataParcel = getIntent().getParcelableExtra("markerData");
@@ -101,6 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onDestroy();
         //unbind butterknife and presenter from the view
         presenter.unbind();
+        unbinder.unbind();
         mMap.clear();
     }
 
@@ -108,7 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //generates markers with onClickListeners attached to them
         //and displays them on the map
         //marker data comes from user inputs in MainActivity
-        mMap.setMinZoomPreference(17);
+        //mMap.setMinZoomPreference(17);
         for (int i = 0; i < markerData.size(); i++) {
 
             LatLng mapLatLng = new LatLng(markerData.get(i).restaurant_lat,
@@ -116,20 +140,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mMap.setOnInfoWindowClickListener(this);
             mMap.setOnMarkerClickListener(this);
-            mMap.addMarker(new MarkerOptions()
+            Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(mapLatLng)
                     .title(String.valueOf(markerData.get(i).restaurant_name))
                     .snippet("Offers: " + markerData.get(i).restaurant_cuisines + "; Price: "  +
                             Constants.EN_PRICE_LIST[(markerData.get(i).restaurant_price)]
-                            + ", User Rating: " + String.valueOf(markerData.get(i).restaurant_rating) ));
+                            + ", Rating: " + String.valueOf(markerData.get(i).restaurant_rating) ));
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mapLatLng));
+            markerList.add(marker);
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapLatLng, 17));
 
         }
 
         if (markerData.size() == 0) {
             LatLng default_LatLng = new LatLng(51.504167, -0.076271);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(default_LatLng));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(default_LatLng, 17));
 
             Toast.makeText(this, "No Matching Restaurants Found", Toast.LENGTH_LONG).show();
         }
@@ -151,6 +177,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .replaceAll("m", ""))).restaurant_id);
 
         presenter.fetchRestaurant(restaurant_id);
+    }
+
+    public void getDataFromList(Integer restaurant_id) {
+
+        progressDialog = new ProgressDialog(MapsActivity.this);
+        progressDialog.setMessage(Constants.EN_PROGRESS_DIALOG);
+        progressDialog.show();
+
+        presenter.fetchRestaurant(restaurant_id);
+
+    }
+
+    public void showMarkerFromList(int position){
+
+        double lat = markerData.get(position).restaurant_lat;
+        double lon = markerData.get(position).restaurant_lon;
+        Marker marker = markerList.get(position);
+
+        map_view = true;
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.hide(restaurantListView);
+        fragmentTransaction.show(mapFragment);
+        fragmentTransaction.commit();
+        LatLng mapLatLng = new LatLng(lat, lon);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapLatLng, 17));
+        marker.showInfoWindow();
     }
 
     @Override
@@ -195,13 +247,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fragmentTransaction = fragmentManager.beginTransaction();
 
         this.mainFragment = new MainFragment();
-        fragmentTransaction.hide(mapFragment);
+        if (map_view) {
+            fragmentTransaction.hide(mapFragment);
+        }
+
+        else {
+            fragmentTransaction.hide(restaurantListView);
+        }
         fragmentTransaction.add(R.id.fragment_container, mainFragment, "MAIN_FRAGMENT");
         fragmentTransaction.addToBackStack("MAP FRAGMENT");
         fragmentTransaction.commit();
 
         mainFragment.receiveRestaurantData(restaurant_data);
-
+        getSupportActionBar().hide();
         progressDialog.dismiss();
 
     }
@@ -213,4 +271,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         progressDialog.dismiss();
     }
 
+    private void setupToolbar(){
+
+        setSupportActionBar(toolbarMaps);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setTitle("Restaurant Finder");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.maps_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.btnRestaurantList){
+
+            if (map_view) {
+
+                map_view = false;
+                Log.i("Debugging", "Show List selected");
+
+                if (list_view) {
+
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.hide(mapFragment);
+                    fragmentTransaction.show(restaurantListView);
+                    fragmentTransaction.commit();
+
+                    return true;
+                }
+
+                else {
+
+                    fragmentTransaction = fragmentManager.beginTransaction();
+
+                    restaurantListView = new RestaurantListView();
+                    fragmentTransaction.hide(mapFragment);
+                    fragmentTransaction.add(R.id.fragment_container, restaurantListView, "RESTAURANT_LIST");
+                    fragmentTransaction.commit();
+
+                    MapsActivity parentActivity = this;
+
+                    restaurantListView.receiveListData(markerData, parentActivity);
+
+                    return true;
+                }
+            }
+
+            else {
+
+                map_view = true;
+                list_view = true;
+
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.hide(restaurantListView);
+                fragmentTransaction.show(mapFragment);
+                fragmentTransaction.commit();
+
+
+                return true;
+            }
+        }
+
+        else{
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getSupportActionBar().show();
+    }
 }

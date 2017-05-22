@@ -7,7 +7,7 @@ package com.example.laptop.finalproject.constants;
 public class Constants {
 
     //Tab layout
-    public static final CharSequence TAB_TITLES[]={"Overview", "Menu", "User Reviews"};
+    public static final CharSequence TAB_TITLES[]={"Overview", "Menu", "Reviews"};
     public static final int NUMBER_OF_TABS = 3;
 
     //API data
@@ -15,7 +15,9 @@ public class Constants {
     public static final String API_KEY = "user-key: 8b1de1b1e12c75f0cdc90defe4e359ef";
     public static final String HEADER_ACCEPT = "Accept: application/json";
     public static final String USE_MY_LOCATION = "User Location";
-    public static final String LOCATION_ERROR = "Enable Location Services";
+    public static final String LOCATION_ERROR = "Error: Enable Location Permission";
+    public static final String LOCATION_SERVICE_ERROR = "Error: No Location Detected";
+
 
     /**
      * American = 1
@@ -123,7 +125,7 @@ public class Constants {
     //English strings
     public static final String EN_POSTCODE_HINT = "Enter postcode";
     public static final String EN_OR = "OR";
-    public static final String EN_USE_LOCATION = "Use my location";
+    public static final String EN_USE_LOCATION = "Use My Location";
     public static final String EN_CUISINE = "Cuisine: ";
     public static final String EN_CATEGORY = "Category: ";
     public static final String EN_PRICE = "Maximum price: ";
@@ -151,7 +153,10 @@ public class Constants {
     public static final CharSequence EN_AD_PRICE_LIST [] = {"None", "£", "££", "£££", "££££"};
     public static final CharSequence EN_AD_RATING_LIST [] = {"None", "1", "2", "3", "4", "5"};
     public static final String EN_PROGRESS_DIALOG = "Loading";
-    public static final String EN_LOCATION_DIALOG_TEXT = "Would you like to enable Location Services?";
+    public static final String EN_LOCATION_DIALOG_TEXT = "Would you like to enable Location Services for this app?";
+    public static final String EN_LOCATION_SERVICE_DIALOG_TEXT = "Please, check if your Location Services are enabled";
+    public static final String EN_LOCATION_DIALOG_OK = "OK";
+    public static final String EN_LOCATION_DIALOG_CANCEL = "Cancel";
     public static final String EN_LOCATION_DIALOG_YES = "Yes";
     public static final String EN_LOCATION_DIALOG_NO = "No";
 
@@ -159,7 +164,7 @@ public class Constants {
     //Bulgarian strings
     public static final String BG_POSTCODE_HINT = "Въведете пощенски код";
     public static final String BG_OR = "ИЛИ";
-    public static final String BG_USE_LOCATION = "Използвай моето местоположение";
+    public static final String BG_USE_LOCATION = "Използвай Моето Местоположение";
     public static final String BG_CUISINE = "Вид на кухнята: ";
     public static final String BG_CATEGORY = "Категория: ";
     public static final String BG_PRICE = "Максимална цена: ";
@@ -187,7 +192,10 @@ public class Constants {
     public static final CharSequence BG_AD_PRICE_LIST [] = {"Без значение", "£", "££", "£££", "££££"};
     public static final CharSequence BG_AD_RATING_LIST [] = {"Без значение", "1", "2", "3", "4", "5"};
     public static final String BG_PROGRESS_DIALOG = "Зареждане";
-    public static final String BG_LOCATION_DIALOG_TEXT = "Желаете ли да включите Услугата за Локация?";
+    public static final String BG_LOCATION_DIALOG_TEXT = "Желаете ли да включите Услугата за Локация за тази апликация?";
+    public static final String BG_LOCATION_SERVICE_DIALOG_TEXT = "Моля, проверете дали Услугата за Локация е включена";
+    public static final String BG_LOCATION_DIALOG_OK = "Добре";
+    public static final String BG_LOCATION_DIALOG_CANCEL = "Откажи";
     public static final String BG_LOCATION_DIALOG_YES = "Да";
     public static final String BG_LOCATION_DIALOG_NO = "Не";
 }

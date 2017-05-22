@@ -2,6 +2,8 @@ package com.example.laptop.finalproject.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -139,6 +141,18 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
         wvMenu.loadUrl(restaurant_data.getMenuUrl());
         wvMenu.setHorizontalScrollBarEnabled(true);
         wvMenu.setVerticalScrollBarEnabled(true);
+
+        wvMenu.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Uri uri = Uri.parse(restaurant_data.getMenuUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
+                return false;
+            }
+        });
     }
 
     //method called i nthe page adapter that passes the restaurant data from the MainFragment to the tab

@@ -16,6 +16,7 @@
         android:id="@+id/toolbarMain"
         android:background="@color/colorPrimaryDark"
         app:titleMarginStart="20dp"
+        android:elevation="4dp"
         app:titleTextColor="@color/colorBackground"
         android:layout_alignParentTop="true">
 
@@ -37,7 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/svMainScrollView"
-        android:layout_below="@id/toolbarMain"
         android:fillViewport="true">
 
         <RelativeLayout
@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
                     android:id="@+id/btnFindNearby"
+                    android:layout_marginTop="?attr/actionBarSize"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:shadowColor="#000000"
