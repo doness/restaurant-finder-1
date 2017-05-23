@@ -1,7 +1,10 @@
 package com.example.laptop.finalproject;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +52,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     ProgressDialog progressDialog;
     private List<Marker> markerList;
 
-    @Inject MapPresenter presenter;
+    @Inject
+    MapPresenter presenter;
 
     Unbinder unbinder;
     FragmentManager fragmentManager;
@@ -63,8 +67,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     boolean list_view;
     String id_counter;
 
-    @BindView(R.id.toolbarMaps) Toolbar toolbarMaps;
-
+    @BindView(R.id.toolbarMaps)
+    Toolbar toolbarMaps;
 
 
     @Override
@@ -73,7 +77,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         //inject and bind presenter and butterknife
-        ((MyApp)getApplication()).getRestaurants_component().inject(this);
+        ((MyApp) getApplication()).getRestaurants_component().inject(this);
         presenter.bind(this);
         unbinder = ButterKnife.bind(this);
 
@@ -113,6 +117,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        if ((markerData.get(0).location_check) == 1) {
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+            mMap.setMyLocationEnabled(true);
+        }
 
         //Calls a method which populates the map based on user input passed from MainActivity
         //and data retrieved from the API.

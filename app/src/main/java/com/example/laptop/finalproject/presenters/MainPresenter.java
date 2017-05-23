@@ -336,9 +336,13 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
             UserRating temp_userRating = restaurant.getUserRating();
             double temp_rating = temp_userRating.getAggregateRating();
             String temp_cuisines = restaurant.getCuisines();
+            Integer temp_location_check = 0;
+            if (maps_location){
+                temp_location_check = 1;
+            }
 
             MarkerData temp_markerData = new MarkerData(temp_id, temp_lat, temp_lon, temp_name,
-                    temp_price, temp_rating, temp_cuisines);
+                    temp_price, temp_rating, temp_cuisines, temp_location_check);
 
             markerDataList.add(temp_markerData);
 
