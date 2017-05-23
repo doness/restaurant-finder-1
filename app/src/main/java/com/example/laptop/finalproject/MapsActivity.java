@@ -197,6 +197,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         map_view = true;
         fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.card_flip_left_in, R.anim.card_flip_left_out,
+                R.anim.card_flip_right_in, R.anim.card_flip_right_out);
         fragmentTransaction.hide(restaurantListView);
         fragmentTransaction.show(mapFragment);
         fragmentTransaction.commit();
@@ -297,6 +299,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (list_view) {
 
                     fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.card_flip_right_in, R.anim.card_flip_right_out,
+                            R.anim.card_flip_left_in, R.anim.card_flip_left_out);
                     fragmentTransaction.hide(mapFragment);
                     fragmentTransaction.show(restaurantListView);
                     fragmentTransaction.commit();
@@ -309,6 +313,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     fragmentTransaction = fragmentManager.beginTransaction();
 
                     restaurantListView = new RestaurantListView();
+                    fragmentTransaction.setCustomAnimations(R.anim.card_flip_right_in, R.anim.card_flip_right_out,
+                            R.anim.card_flip_left_in, R.anim.card_flip_left_out);
                     fragmentTransaction.hide(mapFragment);
                     fragmentTransaction.add(R.id.fragment_container, restaurantListView, "RESTAURANT_LIST");
                     fragmentTransaction.commit();
@@ -327,6 +333,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 list_view = true;
 
                 fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.card_flip_left_in, R.anim.card_flip_left_out,
+                        R.anim.card_flip_right_in, R.anim.card_flip_right_out);
                 fragmentTransaction.hide(restaurantListView);
                 fragmentTransaction.show(mapFragment);
                 fragmentTransaction.commit();

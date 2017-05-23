@@ -187,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             tvPrice.setText(Constants.EN_PRICE_LIST[0]);
             tvRating.setText(Constants.EN_RATING_LIST[0]);
             progressDialog.setMessage(Constants.EN_PROGRESS_DIALOG);
+            if (location_check) {
+                etPostcode.setText(Constants.EN_USE_LOCATION);
+            }
         }
         else {
 
@@ -197,6 +200,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             tvPrice.setText(Constants.BG_PRICE_LIST[0]);
             tvRating.setText(Constants.BG_RATING_LIST[0]);
             progressDialog.setMessage(Constants.BG_PROGRESS_DIALOG);
+            if (location_check) {
+                etPostcode.setText(Constants.BG_USE_LOCATION);
+            }
         }
     }
 
