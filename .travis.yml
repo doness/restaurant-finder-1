@@ -16,7 +16,7 @@ notifications:
 # So, each commit you push to the repository will start two separate builds and test prepossess. You can see this in Travis dashboard like below.
 env:
     matrix:
-        - ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
+        - ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
     global:
         - ADB_INSTALL_TIMEOUT=10    #Time out to 10 mins
 
@@ -46,7 +46,7 @@ android:
         - extra-android-m2repository
 
         #system images
-        - sys-img-armeabi-v7a-android-19
+        - sys-img-armeabi-v7a-android-24
 
 licenses:
     - 'android-sdk-preview-license-52d11cd2'
