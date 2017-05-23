@@ -24,14 +24,14 @@ env:
 #Travis can cache directories that you need to speed up the subsequent builds by caching the Gradle dependency folders.
 #To enable the caching, you have to specify which directories you want to cache under the cache section.
 #Here, I am caching some of the .gradle folders.
-#before_cache:
-#    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-#
-#cache:
-#  directories:      #Cache all dirs under .gradle folder
-#    - $HOME/.gradle/daemon      #Cache daemon logs
-#    - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
-#    - $HOME/.gradle/wrapper     #Cache the gradle
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:      #Cache all dirs under .gradle folder
+    - $HOME/.gradle/daemon      #Cache daemon logs
+    - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
+    - $HOME/.gradle/wrapper     #Cache the gradle
 
 android:
     update_sdk: true
