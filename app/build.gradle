@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.kt3k.coveralls'
 
 android {
     compileSdkVersion 25
@@ -75,6 +76,16 @@ dependencies {
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
     //FIREBASE
     compile 'com.google.firebase:firebase-messaging:10.2.1'
+
+    coveralls {
+        sourceDirs = files('library/src/main/java').flatten()
+        jacocoReportPath = "${buildDir}/reports/coverage/debug/report.xml"
+    }
+
+    tasks.coveralls {
+        dependsOn 'connectedAndroidTest'
+        onlyIf { System.env.'CI' }
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
