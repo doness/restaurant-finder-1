@@ -11,7 +11,6 @@ import com.example.laptop.finalproject.services.IRestaurantsAPI;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -130,8 +129,8 @@ public class FragmentPresenterTest {
         RxAndroidPlugins.getInstance().reset();
     }
 
-    @Ignore
-    @Test
+
+    /*@Test
     public void testFetchesDailyMenu() throws Exception {
 
         when(interacter2.getDailyMenuUseCase(0))
@@ -143,5 +142,5 @@ public class FragmentPresenterTest {
         Mockito.verify(iTabFragment2).receiveDailyMenu(dailyMenus);
 
         presenter2.unbind();
-    }
+    }*/
 }
