@@ -38,9 +38,11 @@ public class MapsActivityTest {
         onView(withId(R.id.etPostcode)).perform(typeText("SE1 3QX"), closeSoftKeyboard());
         onView(withId(R.id.btnFindNearby)).perform(click());
 
-        Thread.sleep(5000);
+        Thread.sleep(8000);
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        closeSoftKeyboard();
+        Thread.sleep(1000);
         onView(withText(R.string.toggle_list_view)).perform(click());
 
         Thread.sleep(1000);

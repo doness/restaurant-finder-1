@@ -50,9 +50,13 @@ public class MainActivityTest {
     public void testToolbar() throws Exception {
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        closeSoftKeyboard();
+        Thread.sleep(1000);
         onView(withText(R.string.bulgarian)).perform(click());
         onView(withId(R.id.tvCuisine)).check(matches(withText(Constants.BG_CUISINE_LIST[0])));
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        closeSoftKeyboard();
+        Thread.sleep(1000);
         onView(withText(R.string.english)).perform(click());
         onView(withId(R.id.tvCuisine)).check(matches(withText(Constants.EN_CUISINE_LIST[0])));
     }
@@ -94,7 +98,8 @@ public class MainActivityTest {
         onView(withId(R.id.etPostcode)).perform(typeText("BR1 5AE"), closeSoftKeyboard());
         onView(withId(R.id.btnFindNearby)).perform(click());
 
-        Thread.sleep(1000);
+        Thread.sleep(5000);
+        closeSoftKeyboard();
 
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
