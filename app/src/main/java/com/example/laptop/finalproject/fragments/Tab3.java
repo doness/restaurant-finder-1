@@ -117,7 +117,8 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
                     public void run() {
 
                         if (tab3.isAdded()) {
-                            presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
+                            //presenter.fetchDailyMenu(Integer.parseInt(restaurant_data.getId()));
+                            setupRecyclerView();
                             srDailyMenu.setRefreshing(false);
                         }
 

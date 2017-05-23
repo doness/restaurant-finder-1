@@ -278,6 +278,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setSupportActionBar(toolbarMaps);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         getSupportActionBar().setTitle("Restaurant Finder");
+        toolbarMaps.setTitleTextColor(getResources().getColor(R.color.colorWhite));
     }
 
     @Override

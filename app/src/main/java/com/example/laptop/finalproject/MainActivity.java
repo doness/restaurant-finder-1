@@ -661,8 +661,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
 //                        if (mGoogleApiClient == null) {
 //                            buildGoogleApiClient();
 //                        }
-                        presenter.getUserInputs(getApplicationContext(), target_location, target_cuisine, target_category,
-                                target_price, target_rating);
+                        presenter.getUserInputs(getApplicationContext(), target_location,
+                                target_cuisine, target_category, target_price, target_rating);
                     }
 
                 }

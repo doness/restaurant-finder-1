@@ -351,8 +351,10 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
 
             mainView.getError(Constants.LOCATION_ERROR);
             return;
@@ -397,47 +399,6 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
         }
         else {
             mainView.getError(Constants.LOCATION_SERVICE_ERROR);
-
-            /**
-             *test starts here
-
-            lat = 51.508530;
-            lon = -0.076132;
-            boolean gotData = true;
-            boolean dataIsReady;
-            dataIsReady = data_ready_check;
-
-            if (!dataIsReady){
-
-                int i = 0;
-
-                while (!dataIsReady) {
-
-                    i++;
-                    try {
-                        wait(250);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    dataIsReady = data_ready_check;
-
-                    if (i>25){
-                        gotData = false;
-                        break;
-                    }
-                }
-            }
-
-            if (gotData){
-                mainView.confirmData(inputValidity);
-            }
-            else {
-                mainView.getError("Error: Invalid Input");
-            }
-
-            /**
-             * test ends here
-             */
         }
     }
 
