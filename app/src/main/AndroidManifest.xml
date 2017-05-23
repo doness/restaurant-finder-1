@@ -44,6 +44,18 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:configChanges="screenSize|orientation|keyboardHidden"></activity>
+
+        <service
+            android:name=".push_notif.MyFirebaseMessagingService">
+
+        </service>
+        <service
+            android:name=".push_notif.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

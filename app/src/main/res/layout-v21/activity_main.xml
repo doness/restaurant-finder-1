@@ -55,7 +55,7 @@
                     android:id="@+id/btnFindNearby"
                     android:layout_marginTop="?attr/actionBarSize"
                     android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:textSize="24sp"
                     android:shadowColor="#000000"
                     android:shadowDx="1.5"
                     android:shadowDy="1.3"
@@ -94,7 +94,7 @@
                     android:shadowDy="1.3"
                     android:shadowRadius="1.6"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"/>
+                    android:textSize="24sp"/>
 
                 </RelativeLayout>
 
@@ -125,7 +125,7 @@
                     android:shadowDy="1.3"
                     android:shadowRadius="1.6"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"/>
+                    android:textSize="24sp"/>
 
             </RelativeLayout>
 
@@ -156,7 +156,7 @@
                     android:shadowDy="1.3"
                     android:shadowRadius="1.6"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"/>
+                    android:textSize="24sp"/>
 
             </RelativeLayout>
 
@@ -187,7 +187,7 @@
                     android:shadowDy="1.3"
                     android:shadowRadius="1.6"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"/>
+                    android:textSize="24sp"/>
 
             </RelativeLayout>
 

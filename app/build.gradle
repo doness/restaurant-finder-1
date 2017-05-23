@@ -73,4 +73,8 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.2'
     androidTestCompile 'com.android.support.test:rules:0.2'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    //FIREBASE
+    compile 'com.google.firebase:firebase-messaging:10.2.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
