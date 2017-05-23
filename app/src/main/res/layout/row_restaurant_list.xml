@@ -21,7 +21,9 @@
                 android:id="@+id/btnListViewDetails"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:text=" View Details "/>
+                android:text=" View Details "
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorAccent"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -29,7 +31,9 @@
                 android:id="@+id/btnListShowOnMap"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/btnListViewDetails"
-                android:text="Show on Map"/>
+                android:text="Show on Map"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorAccent"/>
 
             <TextView
                 android:layout_width="wrap_content"
