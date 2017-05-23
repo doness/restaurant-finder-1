@@ -21,16 +21,16 @@ import butterknife.ButterKnife;
 
 public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
 
-    List<MarkerData> listData;
-    int row_restaurant_list;
-    Context applicationContext;
-    MapsActivity parentActivity;
+    private List<MarkerData> listData;
+    private int row_restaurant_list;
+    private Context applicationContext;
+    private MapsActivity parentActivity;
 
     public RestaurantListAdapter(MapsActivity parentActivity, List<MarkerData> listData, int row_restaurant_list, Context applicationContext) {
 
         this.listData = listData;
         this.row_restaurant_list = row_restaurant_list;
-        this. applicationContext = applicationContext;
+        this.applicationContext = applicationContext;
         this.parentActivity = parentActivity;
     }
 

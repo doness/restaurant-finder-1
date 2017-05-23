@@ -15,15 +15,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by laptop on 15/05/2017.
- */
-
 public class DailyMenuAdapter extends RecyclerView.Adapter<DailyMenuAdapter.DailyMenuViewHolder> {
 
-    List<DailyMenu> dailyMenus;
-    int row_daily_menu;
-    Context applicationContext;
+    private List<DailyMenu> dailyMenus;
+    private int row_daily_menu;
+    private Context applicationContext;
 
     public DailyMenuAdapter(List<DailyMenu> dailyMenu_data, int row_daily_menu, Context applicationContext) {
 

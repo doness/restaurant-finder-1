@@ -11,9 +11,9 @@ import com.example.laptop.finalproject.models.Restaurant_;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
-    int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-    Restaurant_ restaurant;
+    private CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
+    private int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    private Restaurant_ restaurant;
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class

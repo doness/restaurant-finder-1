@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder>{
 
-    List<UserReviewWrapper> userReviews;
-    int row_user_reviews;
-    Context applicationContext;
+    private List<UserReviewWrapper> userReviews;
+    private int row_user_reviews;
+    private Context applicationContext;
 
     public ReviewsAdapter(List<UserReviewWrapper> userReviews_data, int row_user_reviews, Context applicationContext) {
         this.userReviews = userReviews_data;
