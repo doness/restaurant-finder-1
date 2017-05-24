@@ -114,7 +114,7 @@ public class MainActivityTest {
         onView(withId(R.id.etPostcode)).perform(typeText("BR1 5AE"), closeSoftKeyboard());
         onView(withId(R.id.btnFindNearby)).perform(click());
 
-        Thread.sleep(5000);
+        Thread.sleep(20000);
         closeSoftKeyboard();
 
         onView(withId(R.id.map)).check(matches(isDisplayed()));
