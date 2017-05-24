@@ -209,7 +209,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     private void setupToolbar() {
 
         setSupportActionBar(toolbarMain);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        try {
+            getSupportActionBar().setIcon(R.mipmap.rf_icon);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     private void setupButton() {

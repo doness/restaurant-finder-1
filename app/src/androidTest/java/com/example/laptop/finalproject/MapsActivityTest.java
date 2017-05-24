@@ -1,6 +1,5 @@
 package com.example.laptop.finalproject;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -16,7 +15,6 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -53,18 +51,16 @@ public class MapsActivityTest {
         onView(withId(R.id.etPostcode)).perform(typeText("SE1 3QX"), closeSoftKeyboard());
         onView(withId(R.id.btnFindNearby)).perform(click());
 
-        Thread.sleep(20000);
+        Thread.sleep(5000);
 
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         closeSoftKeyboard();
         Thread.sleep(1000);
-        onView(withText(R.string.toggle_list_view)).perform(click());
+        onView(withId(R.id.btnRestaurantList)).perform(click());
 
         Thread.sleep(1000);
 
         onView(withId(R.id.rvRestaurantList)).check(matches(isDisplayed()));
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-        onView(withText(R.string.toggle_list_view)).perform(click());
+        onView(withId(R.id.btnRestaurantList)).perform(click());
 
         Thread.sleep(1000);
 

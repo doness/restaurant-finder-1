@@ -5,7 +5,8 @@
     <color name="colorAccent">#42a5f5</color>
     <color name="colorBackground">#a7a7a7</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorButtonBg">#7e000d</color>
+    <color name="colorButtonBg">#830300</color>
+    <color name="colorBurgundy">#7e000d</color>
     <color name="colorButtonBgBackup">#cf000e</color>
     <color name="colorHighlightBackup">#b8d7ff</color>
 </resources>

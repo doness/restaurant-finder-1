@@ -51,7 +51,6 @@ public class RestaurantListView extends Fragment {
 
         initialiseRecyclerView(view.getContext());
         setupRecyclerView();
-
     }
 
     @Override
@@ -78,5 +77,4 @@ public class RestaurantListView extends Fragment {
         this.listData = listData;
         this.parentActivity = parentActivity;
     }
-
 }

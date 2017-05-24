@@ -51,6 +51,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<MarkerData> markerData;
     ProgressDialog progressDialog;
     private List<Marker> markerList;
+    private MenuItem btnListView;
 
     @Inject
     MapPresenter presenter;
@@ -208,6 +209,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         double lat = markerData.get(position).restaurant_lat;
         double lon = markerData.get(position).restaurant_lon;
         Marker marker = markerList.get(position);
+        btnListView.setIcon(R.mipmap.ic_list);
 
         map_view = true;
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -290,7 +292,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setupToolbar(){
 
         setSupportActionBar(toolbarMaps);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        try{
+            getSupportActionBar().setIcon(R.mipmap.rf_icon);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
         getSupportActionBar().setTitle("Restaurant Finder");
         toolbarMaps.setTitleTextColor(getResources().getColor(R.color.colorWhite));
     }
@@ -306,10 +313,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.btnRestaurantList){
 
+            btnListView = item;
+
             if (map_view) {
 
                 map_view = false;
                 Log.i("Debugging", "Show List selected");
+                item.setIcon(R.mipmap.ic_list_selected);
 
                 if (list_view) {
 
@@ -344,6 +354,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             else {
 
+                item.setIcon(R.mipmap.ic_list);
                 map_view = true;
                 list_view = true;
 
