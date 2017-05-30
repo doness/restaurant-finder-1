@@ -15,10 +15,11 @@ public class MarkerData implements Parcelable {
     public double restaurant_rating;
     public String restaurant_cuisines;
     public Integer location_check;
+    public double restaurant_distance;
 
     public MarkerData(String restaurant_id, double restaurant_lat, double restaurant_lon,
                       String restaurant_name, Integer restaurant_price, double restaurant_rating,
-                      String restaurant_cuisines, Integer location_check) {
+                      String restaurant_cuisines, Integer location_check, double restaurant_distance) {
         this.restaurant_id = restaurant_id;
         this.restaurant_lat = restaurant_lat;
         this.restaurant_lon = restaurant_lon;
@@ -27,6 +28,7 @@ public class MarkerData implements Parcelable {
         this.restaurant_rating = restaurant_rating;
         this.restaurant_cuisines = restaurant_cuisines;
         this.location_check = location_check;
+        this.restaurant_distance = restaurant_distance;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MarkerData implements Parcelable {
         dest.writeDouble(this.restaurant_rating);
         dest.writeString(this.restaurant_cuisines);
         dest.writeInt(this.location_check);
-
+        dest.writeDouble(this.restaurant_distance);
     }
 
     protected MarkerData (Parcel in) {
@@ -57,7 +59,7 @@ public class MarkerData implements Parcelable {
         this.restaurant_rating = in.readDouble();
         this.restaurant_cuisines = in.readString();
         this.location_check = in.readInt();
-
+        this.restaurant_distance = in.readDouble();
     }
 
     public static final Creator<MarkerData> CREATOR = new Creator<MarkerData>() {

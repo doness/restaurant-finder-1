@@ -342,12 +342,19 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
             double temp_rating = temp_userRating.getAggregateRating();
             String temp_cuisines = restaurant.getCuisines();
             Integer temp_location_check = 0;
+            android.location.Location tempStart = new android.location.Location("tempStart");
+            tempStart.setLatitude(lat);
+            tempStart.setLongitude(lon);
+            android.location.Location tempEnd = new android.location.Location("tempEnd");
+            tempEnd.setLatitude(Double.parseDouble(temp_location.getLatitude()));
+            tempEnd.setLongitude(Double.parseDouble(temp_location.getLongitude()));
+            double temp_distance = tempStart.distanceTo(tempEnd);
             if (maps_location){
                 temp_location_check = 1;
             }
 
             MarkerData temp_markerData = new MarkerData(temp_id, temp_lat, temp_lon, temp_name,
-                    temp_price, temp_rating, temp_cuisines, temp_location_check);
+                    temp_price, temp_rating, temp_cuisines, temp_location_check, temp_distance);
 
             markerDataList.add(temp_markerData);
 

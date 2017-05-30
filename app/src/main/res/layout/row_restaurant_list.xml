@@ -45,6 +45,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@id/btnListShowOnMap"/>
 
+
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,10 +58,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvListCuisines"
+                android:id="@+id/tvListRestaurantDistance"
                 android:textSize="16sp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/rbListRating"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvListCuisines"
+                android:textSize="16sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/tvListRestaurantDistance"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -14,6 +14,8 @@ import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.models.MarkerData;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,8 +50,14 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
 
         int temp_position = listData.get(position).restaurant_price;
         String temp_price = Constants.EN_PRICE_LIST[temp_position];
+        double temp_distance = listData.get(position).restaurant_distance;
+        temp_distance = BigDecimal.valueOf(temp_distance)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
 
         holder.tvListRestaurantName.setText(listData.get(position).restaurant_name);
+        holder.tvListRestaurantDistance.setText("Distance: " +
+                String.valueOf(temp_distance) + " m");
         holder.tvListCuisines.setText(listData.get(position).restaurant_cuisines);
         holder.tvListPrice.setText(temp_price);
         holder.rbListRating.setRating((float)(listData.get(position).restaurant_rating));
@@ -77,6 +85,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.tvListRestaurantName) TextView tvListRestaurantName;
+        @BindView(R.id.tvListRestaurantDistance) TextView tvListRestaurantDistance;
         @BindView(R.id.tvListCuisines) TextView tvListCuisines;
         @BindView(R.id.tvListPrice) TextView tvListPrice;
         @BindView(R.id.rbListRating) RatingBar rbListRating;
