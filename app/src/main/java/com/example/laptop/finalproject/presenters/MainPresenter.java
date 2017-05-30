@@ -298,6 +298,11 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
 
         restaurantList = results.getRestaurants();
 
+        if (results.getResultsFound() == 0){
+            mainView.getError("Error: No valid results");
+            return;
+        }
+
         if (price_max == 0) {
             price_max = 5;
         }
