@@ -111,7 +111,7 @@ public class MainPresenterTest {
 
         results.setRestaurants(restaurants);
 
-        MarkerData markerData = new MarkerData("id_data", 12.0, 12.0, "restaurant name", 2, 4.5, "Fast Food", 0);
+        MarkerData markerData = new MarkerData("id_data", 12.0, 12.0, "restaurant name", 2, 4.5, "Fast Food", 0, 0);
 
         List<MarkerData> markerDataList = new ArrayList<>();
         markerDataList.add(markerData);
