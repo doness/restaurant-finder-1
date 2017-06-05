@@ -2,6 +2,7 @@ package com.example.laptop.finalproject;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -67,6 +68,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     boolean map_view;
     boolean list_view;
     String id_counter;
+    /**
+     * TODO: boolean added
+     */
+    boolean position_check;
 
     @BindView(R.id.toolbarMaps)
     Toolbar toolbarMaps;
@@ -88,6 +93,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         map_view = true;
         list_view = false;
         markerList = new ArrayList<>();
+        position_check = true;
 
         //setup toolbar
         setupToolbar();
@@ -263,8 +269,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.restaurant_data = restaurant;
 
         fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
         this.mainFragment = new MainFragment();
+        /**
+         * TODO: Hidden List view icon and position check
+         */
+        btnListView.setEnabled(false);
+        btnListView.setVisible(false);
+        position_check = false;
         if (map_view) {
             fragmentTransaction.hide(mapFragment);
         }
@@ -273,11 +286,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             fragmentTransaction.hide(restaurantListView);
         }
         fragmentTransaction.add(R.id.fragment_container, mainFragment, "MAIN_FRAGMENT");
-        fragmentTransaction.addToBackStack("MAP FRAGMENT");
+        /**
+         * TODO: 2 Uncomments
+         */
+        //fragmentTransaction.addToBackStack("MAP FRAGMENT");
         fragmentTransaction.commit();
 
         mainFragment.receiveRestaurantData(restaurant_data);
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle(restaurant_data.getName());
+        //getSupportActionBar().hide();
+
         progressDialog.dismiss();
 
     }
@@ -292,20 +310,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setupToolbar(){
 
         setSupportActionBar(toolbarMaps);
-        try{
+        /*try{
             getSupportActionBar().setIcon(R.mipmap.rf_icon);
         }
         catch (NullPointerException e){
             e.printStackTrace();
-        }
+        }*/
         getSupportActionBar().setTitle("Restaurant Finder");
         toolbarMaps.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        /**
+         * TODO: Added back button
+         */
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.maps_menu, menu);
+        btnListView = menu.findItem(R.id.btnRestaurantList);
         return true;
     }
 
@@ -313,7 +336,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.btnRestaurantList){
 
-            btnListView = item;
+            //btnListView = item;
 
             if (map_view) {
 
@@ -370,6 +393,43 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
 
+        /**
+         * TODO: Added else if
+         */
+
+        else if (item.getItemId() == android.R.id.home) {
+
+            Log.i("Debugging", "Back Button pressed");
+
+            if (position_check){
+
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                finish();
+            }
+
+            else{
+                position_check = true;
+                getSupportActionBar().setTitle("Restaurant Finder");
+                btnListView.setVisible(true);
+                btnListView.setEnabled(true);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                fragmentTransaction.hide(mainFragment);
+                fragmentTransaction.remove(mainFragment);
+                if (map_view) {
+                    fragmentTransaction.show(mapFragment);
+                }
+                else{
+                    fragmentTransaction.show(restaurantListView);
+                }
+                fragmentTransaction.commit();
+            }
+
+            return true;
+        }
+
         else{
             return super.onOptionsItemSelected(item);
         }
@@ -378,6 +438,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        getSupportActionBar().show();
+        /**
+         * TODO: Uncomment
+         */
+        //getSupportActionBar().show();
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        finish();
     }
 }

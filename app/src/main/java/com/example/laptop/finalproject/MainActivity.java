@@ -390,10 +390,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     public void startMapActivity(MarkerDataParcel markerDataParcel) {
         //pass the required data to the map activity and start it
         Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+        /**
+         * TODO: Added flag and finish
+         */
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra("markerData", markerDataParcel);
         startActivity(intent);
         progressDialog.dismiss();
-        presenter.unbind();
+        finish();
     }
 
     private void displayDialogueBox(int dialogue_type) {

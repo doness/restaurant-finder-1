@@ -126,6 +126,9 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
                 getActivity().getApplicationContext()));
 
         progressDialog.dismiss();
+        if (srUserReviews.isRefreshing()){
+            srUserReviews.setRefreshing(false);
+        }
     }
 
     //setup the swipe refresh layout
@@ -136,16 +139,17 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
         srUserReviews.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
+                new Handler().post(new Runnable() {
                     @Override
                     public void run() {
                         //make sure the tab is still active when the refresh finishes
                         if (tab2.isAdded()) {
+                            srUserReviews.setRefreshing(true);
                             presenter.fetchUserReviews(Integer.parseInt(restaurant_data.getId()));
-                            srUserReviews.setRefreshing(false);
+
                         }
                     }
-                }, 2500);
+                });
             }
         });
     }

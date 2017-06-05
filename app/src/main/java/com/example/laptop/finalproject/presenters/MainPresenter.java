@@ -276,7 +276,7 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
                         e.printStackTrace();
 
                         if (e.getClass() == UnknownHostException.class) {
-                            mainView.getError("No Internet Connection");
+                            mainView.getError("Error: No Internet Connection");
                         } else {
                             mainView.getError(e.getMessage());
                         }

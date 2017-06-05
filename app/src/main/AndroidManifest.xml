@@ -43,7 +43,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
-            android:configChanges="screenSize|orientation|keyboardHidden"></activity>
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
 
         <service
             android:name=".push_notif.MyFirebaseMessagingService">
