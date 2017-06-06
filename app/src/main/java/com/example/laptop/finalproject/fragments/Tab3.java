@@ -87,6 +87,7 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
         //unbind presenter/butterknife
         presenter.unbind();
         unbinder.unbind();
+        view = null;
     }
 
     //method called in the presenter, sends the daily menu data to the fragment

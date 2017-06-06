@@ -54,10 +54,11 @@ public class RestaurantListView extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
 
         unbinder.unbind();
+        parentActivity = null;
     }
 
     private void initialiseRecyclerView(Context context){

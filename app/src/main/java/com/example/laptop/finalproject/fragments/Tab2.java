@@ -95,6 +95,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
         //unbind butterknife and the presenter
         unbinder.unbind();
         presenter.unbind();
+        view = null;
     }
 
     //method called in the presenter that returns the User reviews to the fragment
