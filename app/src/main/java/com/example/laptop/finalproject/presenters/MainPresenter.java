@@ -65,6 +65,7 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
     private CompositeSubscription compositeSubscription;
     private Context context;
     private boolean data_ready_check;
+    private int loop_counter;
     public String underTest;
 
 
@@ -81,6 +82,7 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
         filteredRestaurants = new ArrayList<>();
         markerDataList = new ArrayList<>();
         start_offset = 0;
+        loop_counter = 0;
         price_max = 5;
         rating_min = 0.5;
         compositeSubscription = new CompositeSubscription();
@@ -334,10 +336,36 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
 
         }
 
-        if (filteredRestaurants != null) {
+        if (filteredRestaurants.size() >= 20) {
             prepareMarkerData(filteredRestaurants);
-        } else {
-            mainView.getError("Error: No valid results");
+        }
+
+        else {
+            loop_counter +=1;
+            start_offset = (loop_counter * 20);
+
+            Log.i("Debugging", "Inside loop" + String.valueOf(loop_counter));
+
+            if (loop_counter < 10){
+                fetchMarkerData();
+            }
+
+            else{
+
+                if (filteredRestaurants.size() > 0) {
+                    loop_counter = 0;
+                    start_offset = 0;
+                    prepareMarkerData(filteredRestaurants);
+                }
+
+                else {
+                    loop_counter = 0;
+                    start_offset = 0;
+
+                    filteredRestaurants.clear();
+                    mainView.getError("Error: No valid results");
+                }
+            }
         }
     }
 
@@ -373,9 +401,11 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
             markerDataList.add(temp_markerData);
 
         }
+
         MarkerDataParcel markerDataParcel = new MarkerDataParcel(markerDataList);
 
         mainView.startMapActivity(markerDataParcel);
+
     }
 
     @Override
