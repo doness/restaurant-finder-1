@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.injection.MyApp;
+import com.example.laptop.finalproject.models.MAStateParcel;
 import com.example.laptop.finalproject.models.MarkerDataParcel;
 import com.example.laptop.finalproject.presenters.MainPresenter;
 import com.squareup.picasso.Picasso;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     String target_rating;
     AlphaAnimation buttonClick;
     ProgressDialog progressDialog;
+    MenuItem location_btn;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     //bind views
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         //sets default values to global variables related to user inputs
         initDefaultInputValues();
         //initialise the toolbar
+        checkIntent();
         setupToolbar();
         //setup the image buttons
         setupImages();
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         setupListeners();
         //assign the button
         setupButton();
+
     }
 
     //Clean up after the Activity ends
@@ -112,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        location_btn = menu.findItem(R.id.btnLocation);
+        if (location_check){
+            location_btn.setIcon(R.mipmap.crosshair_selected);
+        }
 
         return true;
     }
@@ -389,12 +398,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
     @Override
     public void startMapActivity(MarkerDataParcel markerDataParcel) {
         //pass the required data to the map activity and start it
+        Integer temp_loc = 0;
+        if (location_check) {
+            temp_loc = 1;
+        }
+        Integer temp_lang = 1;
+        if (!language_type){
+            temp_lang = 0;
+        }
+        MAStateParcel maStateParcel = new MAStateParcel(temp_lang, temp_loc, (etPostcode.getText()).toString());
         Intent intent = new Intent(getBaseContext(), MapsActivity.class);
         /**
          * TODO: Added flag and finish
          */
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra("markerData", markerDataParcel);
+        intent.putExtra("maState", maStateParcel);
         startActivity(intent);
         progressDialog.dismiss();
         finish();
@@ -650,6 +669,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         final AlertDialog alert = builder.create();
 
         alert.show();
+    }
+
+    private void checkIntent(){
+        MAStateParcel maStateParcel = getIntent().getParcelableExtra("maState");
+        if (maStateParcel == null){
+            return;
+        }
+
+        if (maStateParcel.language == 0){
+            language_type = false;
+        }
+
+        if (maStateParcel.location_check == 1){
+            location_check = true;
+            return;
+        }
+        etPostcode.setText(maStateParcel.location_text);
+
     }
 
     @Override

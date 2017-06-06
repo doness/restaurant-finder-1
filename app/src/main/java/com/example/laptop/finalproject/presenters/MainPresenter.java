@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.MainContract;
@@ -84,12 +85,16 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
         rating_min = 0.5;
         compositeSubscription = new CompositeSubscription();
         data_ready_check = false;
+        maps_location = false;
     }
 
     @Override
     public void unbind() {
         this.mainView = null;
         RxUtils.unsubscribeIfNotNull(compositeSubscription);
+        if (maps_location) {
+            googleApiClient.disconnect();
+        }
     }
 
     @Override
@@ -148,8 +153,17 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
             inputValidity = false;
             maps_location = false;
 
-            location = location.toUpperCase();
 
+            int str_index = location.length();
+            str_index -= 4;
+            Log.i("Debugging", String.valueOf(location.charAt(str_index)));
+            if (!(String.valueOf(location.charAt(str_index))).equals(" ")) {
+                location = new StringBuilder(location).insert(str_index + 1, " ").toString();
+            }
+
+            Log.i("Debugging", location);
+
+            location = location.toUpperCase();
 
             String regex = "^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$";
 

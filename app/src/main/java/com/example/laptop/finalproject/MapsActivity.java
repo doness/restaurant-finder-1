@@ -20,6 +20,7 @@ import com.example.laptop.finalproject.contracts.MainContract;
 import com.example.laptop.finalproject.fragments.MainFragment;
 import com.example.laptop.finalproject.fragments.RestaurantListView;
 import com.example.laptop.finalproject.injection.MyApp;
+import com.example.laptop.finalproject.models.MAStateParcel;
 import com.example.laptop.finalproject.models.MarkerData;
 import com.example.laptop.finalproject.models.MarkerDataParcel;
 import com.example.laptop.finalproject.models.Restaurant_;
@@ -72,6 +73,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * TODO: boolean added
      */
     boolean position_check;
+    MAStateParcel maStateParcel;
 
     @BindView(R.id.toolbarMaps)
     Toolbar toolbarMaps;
@@ -100,6 +102,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //fetch data to display the markers
         MarkerDataParcel markerDataParcel = getIntent().getParcelableExtra("markerData");
+        maStateParcel = getIntent().getParcelableExtra("maState");
         markerData = markerDataParcel.markerDataList;
 
         //set up the fragment manager and transaction
@@ -141,12 +144,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         //unbind butterknife and presenter from the view
         presenter.unbind();
         unbinder.unbind();
         mMap.clear();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(false);
     }
 
     private void populateMap() {
@@ -405,15 +412,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.putExtra("maState", maStateParcel);
                 startActivity(intent);
                 finish();
             }
 
             else{
                 position_check = true;
-                getSupportActionBar().setTitle("Restaurant Finder");
-                btnListView.setVisible(true);
-                btnListView.setEnabled(true);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 fragmentTransaction.hide(mainFragment);
@@ -425,6 +430,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     fragmentTransaction.show(restaurantListView);
                 }
                 fragmentTransaction.commit();
+                getSupportActionBar().setTitle("Restaurant Finder");
+                btnListView.setVisible(true);
+                btnListView.setEnabled(true);
             }
 
             return true;
@@ -444,6 +452,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //getSupportActionBar().show();
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.putExtra("maState", maStateParcel);
         startActivity(intent);
         finish();
     }
