@@ -344,8 +344,6 @@ public class MainPresenter implements MainContract.IMainPresenter, ConnectionCal
             loop_counter +=1;
             start_offset = (loop_counter * 20);
 
-            Log.i("Debugging", "Inside loop" + String.valueOf(loop_counter));
-
             if (loop_counter < 10){
                 fetchMarkerData();
             }

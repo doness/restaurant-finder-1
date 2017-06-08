@@ -225,6 +225,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnListView.setIcon(R.mipmap.ic_list);
 
         map_view = true;
+        list_view = true;
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.card_flip_left_in, R.anim.card_flip_left_out,
                 R.anim.card_flip_right_in, R.anim.card_flip_right_out);

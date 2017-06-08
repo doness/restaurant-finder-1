@@ -39,7 +39,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
             return tab1;
         }
-        else if (position == 2)
+        else if (position == 1)
         {
             Tab2 tab2 = new Tab2();
 

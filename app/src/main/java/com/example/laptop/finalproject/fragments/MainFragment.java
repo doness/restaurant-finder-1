@@ -43,12 +43,13 @@ public class MainFragment extends Fragment implements FragmentsContract.IMainFra
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles for the Tabs, Number Of Tabs
         //and the data to be displayed
-        adapter =  new ViewPagerAdapter(getActivity().getSupportFragmentManager(), Constants.TAB_TITLES,
+        adapter =  new ViewPagerAdapter(getChildFragmentManager(), Constants.TAB_TITLES,
                 Constants.NUMBER_OF_TABS, restaurant_data);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) view.findViewById(R.id.pager);
         pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(2);
 
         // Assigning the Sliding Tab Layout View
         tabs = (SlidingTabLayout) view.findViewById(R.id.tabs);

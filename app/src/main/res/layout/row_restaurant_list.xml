@@ -53,7 +53,8 @@
                 android:id="@+id/rbListRating"
                 android:layout_alignParentStart="true"
                 android:numStars="5"
-                android:layout_below="@id/tvListRestaurantName" />
+                android:layout_below="@id/tvListRestaurantName"
+                android:progressBackgroundTint="@color/colorAccent"/>
 
             <TextView
                 android:layout_width="wrap_content"

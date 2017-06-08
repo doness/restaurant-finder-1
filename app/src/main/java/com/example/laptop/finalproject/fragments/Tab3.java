@@ -143,6 +143,7 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
         wvMenu.loadUrl(restaurant_data.getMenuUrl());
         wvMenu.setHorizontalScrollBarEnabled(true);
         wvMenu.setVerticalScrollBarEnabled(true);
+        wvMenu.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         wvMenu.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -176,4 +177,6 @@ public class Tab3 extends Fragment implements FragmentsContract.ITabFragment {
     public void getError(String error_message) {
 
     }
+
+
 }

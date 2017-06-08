@@ -437,6 +437,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
         String pretitle_2;
         String pretitle_3;
 
+        String btn_cancel;
+
 
         if (!language_type) {
             title_0 = Constants.BG_CUISINE_LIST[0];
@@ -453,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             pretitle_1 = Constants.BG_CATEGORY;
             pretitle_2 = Constants.BG_PRICE;
             pretitle_3 = Constants.BG_RATING;
+
+            btn_cancel = Constants.BG_LOCATION_DIALOG_CANCEL;
         }
 
         else {
@@ -470,6 +474,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             pretitle_1 = Constants.EN_CATEGORY;
             pretitle_2 = Constants.EN_PRICE;
             pretitle_3 = Constants.EN_RATING;
+
+            btn_cancel = Constants.EN_LOCATION_DIALOG_CANCEL;
         }
 
         switch (dialogue_type) {
@@ -478,6 +484,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 final CharSequence l0 [] = list_0;
                 final String pt_0 = pretitle_0;
                 builder0.setTitle(title_0);
+                builder0.setNegativeButton(btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder0.setItems(list_0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -494,6 +506,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 final CharSequence l1 [] = list_1;
                 final String pt_1 = pretitle_1;
                 builder1.setTitle(title_1);
+                builder1.setNegativeButton(btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder1.setItems(list_1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -510,6 +528,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 final CharSequence l2 [] = list_2;
                 final String pt_2 = pretitle_2;
                 builder2.setTitle(title_2);
+                builder2.setNegativeButton(btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder2.setItems(list_2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -526,6 +550,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
                 final CharSequence l3 [] = list_3;
                 final String pt_3 = pretitle_3;
                 builder3.setTitle(title_3);
+                builder3.setNegativeButton(btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder3.setItems(list_3, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

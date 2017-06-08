@@ -1,7 +1,6 @@
 package com.example.laptop.finalproject.fragments;
 
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.laptop.finalproject.R;
 import com.example.laptop.finalproject.adapters.ReviewsAdapter;
-import com.example.laptop.finalproject.constants.Constants;
 import com.example.laptop.finalproject.contracts.FragmentsContract;
 import com.example.laptop.finalproject.injection.MyApp;
 import com.example.laptop.finalproject.models.DailyMenu;
@@ -51,7 +49,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
     Restaurant_ restaurant_data;
     List<UserReviewWrapper> userReviews_data;
     View view;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
 
     public Tab2() {
         // Required empty public constructor
@@ -76,9 +74,9 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
         presenter.bind(this);
         unbinder = ButterKnife.bind(this, view);
 
-        progressDialog = new ProgressDialog(getActivity());
+        /*progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage(Constants.EN_PROGRESS_DIALOG);
-        progressDialog.show();
+        progressDialog.show();*/
         //set default value to the text view that is displayed if no user reviews are available
         tvNoReviews.setText("No Reviews Available");
         //initialise the Recycler View
@@ -126,7 +124,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
         rvUserReviews.setAdapter(new ReviewsAdapter(userReviews_data, R.layout.row_user_reviews,
                 getActivity().getApplicationContext()));
 
-        progressDialog.dismiss();
+        //progressDialog.dismiss();
         if (srUserReviews.isRefreshing()){
             srUserReviews.setRefreshing(false);
         }
@@ -164,7 +162,7 @@ public class Tab2 extends Fragment implements FragmentsContract.ITabFragment {
     public void getError(String error_message) {
 
         Toast.makeText(getContext(), error_message, Toast.LENGTH_LONG).show();
-        progressDialog.dismiss();
+        //progressDialog.dismiss();
     }
 
     //unused method
